@@ -219,13 +219,13 @@ class flopGenerator {
     /*
     {
         holeCards: ['Ac', 'Qc'],
-        flop: ['10c', '9s', '2c'],
+        flopCards: ['10c', '9s', '2c'],
         name: 'Inside Straight Flush Draw',
         noOfOuts: 12
     }
 
     */
-    let suits = ["a", "d", "s", "c"];
+    let suits = ["h", "d", "s", "c"];
     let remainingNumberSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     let hole1Converted;
     let hole2Converted;
@@ -383,22 +383,92 @@ class flopGenerator {
 
     //console.log(remainingNumberSet);
     //Inserting random value from remainingNumberSet into flopArr
-    
+
+    thirdFlopNumber = remainingNumberSet[Math.floor(Math.random() * remainingNumberSet.length)];
+    flopArr.push(thirdFlopNumber);
     
 
-    this.moveElement(
-      Math.floor(Math.random() * remainingNumberSet.length),
-      remainingNumberSet,
-      flopArr
-    );
-
+    //Converts the numbers back into the card values they represent
     flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
+
+    //Attaches randomly selected suit values to the flop cards
     flopArr = flopArr.map((flopCard) =>
       flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
     );
+
+    //Creates array of the flop cards and the hole cards
+    let flopAndHoleCardArr = [hole1, hole2];
+    flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
+
+    console.log(flopAndHoleCardArr);
+
+
+
+    let suitArray = [];
+
+    //Extracts just the suit values from each card
+    flopAndHoleCardArr.forEach(card => {
+        suitArray.push(card[card.length - 1]);
+    })
+        
+    console.log(suitArray)
+
+    let isFlushDraw = false;
+
+    var count = {};
+    suitArray.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+    console.log(count);
+
+    //Decides if the cards are a flush draw
+    if(count['d'] >= 4 || count['h'] >= 4 || count['s'] >= 4 || count['c'] >= 4) {
+        isFlushDraw = true
+        console.log("set flush draw to true")
+    }
+
+    if(isFlushDraw) {
+        if(thirdFlopNumber === gutshotNum) {
+            completeFlopInformation['outs'] = 15;
+            completeFlopInformation['holeCards'] = [hole1, hole2];
+            completeFlopInformation['flopCards'] = flopArr;
+            completeFlopInformation['name'] = 'Double Gutshot Flush Draw';
+        }
+
+        if(thirdFlopNumber === openStraightNum) {
+            completeFlopInformation['outs'] = 15;
+            completeFlopInformation['holeCards'] = [hole1, hole2];
+            completeFlopInformation['flopCards'] = flopArr;
+            completeFlopInformation['name'] = 'Open Straight Flush Draw';
+        } else {
+            completeFlopInformation['outs'] = 12;
+            completeFlopInformation['holeCards'] = [hole1, hole2];
+            completeFlopInformation['flopCards'] = flopArr;
+            completeFlopInformation['name'] = 'Inside Straight Flush Draw';
+        }
+    } else {
+        if(thirdFlopNumber === gutshotNum) {
+            completeFlopInformation['outs'] = 8;
+            completeFlopInformation['holeCards'] = [hole1, hole2];
+            completeFlopInformation['flopCards'] = flopArr;
+            completeFlopInformation['name'] = 'Double Gutshot Draw';
+        }
+
+        if(thirdFlopNumber === openStraightNum) {
+            completeFlopInformation['outs'] = 8;
+            completeFlopInformation['holeCards'] = [hole1, hole2];
+            completeFlopInformation['flopCards'] = flopArr;
+            completeFlopInformation['name'] = 'Open Straight Draw';
+        } else {
+            completeFlopInformation['outs'] = 4;
+            completeFlopInformation['holeCards'] = [hole1, hole2];
+            completeFlopInformation['flopCards'] = flopArr;
+            completeFlopInformation['name'] = 'Inside Straight Draw';
+        }
+    }
+    
     console.log("Hole cards: " + hole1 + " " + hole2);
     console.log("Flop set: " + flopArr);
     console.log("Outs: 4");
+    console.log(completeFlopInformation)
     //Now start building the flop array
     //if(/* hole cards seperated by 3 clicks */) {
     //Select & remove 1 number from internalArr
@@ -457,10 +527,12 @@ flopGen.generateInsideStraight("Ac", "Kd");
 console.log("----");
 flopGen.generateInsideStraight("Kc", "Jd");
 console.log("----");
-flopGen.generateInsideStraight("Ac", "10d");
+flopGen.generateInsideStraight("Ac", "10c");
 console.log("----");
-flopGen.generateInsideStraight("Qc", "10d");
+flopGen.generateInsideStraight("Qh", "10h");
 console.log("----");
-flopGen.generateInsideStraight("5s", "6d");
+flopGen.generateInsideStraight("5d", "6d");
 console.log("----");
-flopGen.generateInsideStraight("8c", "5d");
+flopGen.generateInsideStraight("8c", "5c");
+
+//todo write a class to generate hole cards 
