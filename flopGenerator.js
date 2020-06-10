@@ -8,9 +8,11 @@ class flopGenerator {
         fromArray.splice(index, 1);
       }
 
+    generateInsideStraight(hole1, hole2) {
+
 
     //Assumes 2 different cards, within 3 clicks
-    generateInsideStraight(hole1, hole2) { 
+    generateInsideStraightWithTwoCards(hole1, hole2) { 
         //Populate sets of internal, external, outermost cards
         let suits = ['a', 'd', 's', 'c'];
         let remainingNumberSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
@@ -258,6 +260,7 @@ class flopGenerator {
         //Present flopArray
         
     }
+
 }
 
 let flopGen = new flopGenerator();
@@ -279,3 +282,11 @@ console.log("----")
 flopGen.generateInsideStraight('Kc', 'Jd');
 console.log("----")
 flopGen.generateInsideStraight('Ac', '10d');
+console.log("----")
+flopGen.generateInsideStraight('Qc', '10d');
+console.log("----")
+flopGen.generateInsideStraight('5s', '6d');
+console.log("----")
+flopGen.generateInsideStraight('8c', '5d');
+
+
