@@ -1,6 +1,12 @@
 const Convertor = require("./convertor.js");
 
+//TODO: Convert methods to use the methods utilities.js to reduce
+//Code repitition
+
+//TODO: Make comments more readable, comment variables aswell
+
 class flopGenerator {
+
   moveElement(index, fromArray, toArray) {
     toArray.push(fromArray[index]);
     fromArray.splice(index, 1);
@@ -105,7 +111,7 @@ class flopGenerator {
   /** Randomly picks the first 2 cards to insert into the flop array
    *  based on seperation between hole cards. At the end of this method,
    *  the flopArr will have 2 cards that are going to combine with the
-   *  hole cards to make a straight
+   *  hole cards to make a inside straight draw, or variations of it 
    *
    * @param {*} hole1Converted
    * @param {*} hole2Converted
@@ -208,18 +214,18 @@ class flopGenerator {
     }
   }
 
-  //THIS FUNCTION IS A PIECE OF SHIT WITH PIECE OF SHIT
-  //ERROR CHECKING
-  //DONT TRUST
-  //REWRITE AFTER DRAWING OUT FUNCTIONALITY
-  //IT KEEPS INSERTING 0 OR 14 INTO THE FLOP ARRAY DUE TO LOOSE ERROR
-  //CHECKING CAUSED BY MATH.RANDOM() JUST HIDING FUCKING ERRORS
-  //AHHHH
-
-  //SCRATCH YOUR CURRENT APPROACH AND MAKE ANOTHER ARRAY THAT POPULATES THE
-  //AN ARRAY WITH CARDS ADJACENT TO THE HOLE CARDS INSTEAD OF HARDCODING
-  //OUTERMOST ARRAY IS USELESS HERE
-  //AND MAKE A METHOD THAT DOES LEFT AND RIGHT BRANCHES TOO
+  /** Randomly picks the first 2 cards to insert into the flop array
+   *  based on seperation between hole cards. At the end of this method,
+   *  the flopArr will have 2 cards that are going to combine with the
+   *  hole cards to make a open straight draw, or variations of it 
+   * 
+   * @param {*} hole1Converted 
+   * @param {*} hole2Converted 
+   * @param {*} flopArr 
+   * @param {*} leftBranchArr 
+   * @param {*} internalArr 
+   * @param {*} rightBranchArr 
+   */
   buildOpenFlopArr(
     hole1Converted,
     hole2Converted,
@@ -436,7 +442,7 @@ class flopGenerator {
     return [openStraightNum, doubleGutshotNum];
   }
 
-  detectFlush(flopAndHoleCardArr) {
+  detectFlushDraw(flopAndHoleCardArr) {
     let suitArray = [];
     var count = {};
     let isFlushDraw = false;
@@ -517,9 +523,9 @@ class flopGenerator {
     this.populateExternalArr(hole1Converted, hole2Converted, externalArr);
   
 
-    console.log("left branch:" + leftBranchArr);
-    console.log("right branch:" + rightBranchArr);
-    console.log("internalArr:" + internalArr);
+    //console.log("left branch:" + leftBranchArr);
+    //console.log("right branch:" + rightBranchArr);
+    //console.log("internalArr:" + internalArr);
 
     this.removeOverlappingElements(
       hole1Converted,
@@ -566,7 +572,7 @@ class flopGenerator {
     let flopAndHoleCardArr = [hole1, hole2];
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
-    let isFlushDraw = this.detectFlush(flopAndHoleCardArr);
+    let isFlushDraw = this.detectFlushDraw(flopAndHoleCardArr);
 
     //Populates completeFlopInformation with information to be displayed
     if (isFlushDraw) {
@@ -734,7 +740,7 @@ class flopGenerator {
     let flopAndHoleCardArr = [hole1, hole2];
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
-    let isFlushDraw = this.detectFlush(flopAndHoleCardArr);
+    let isFlushDraw = this.detectFlushDraw(flopAndHoleCardArr);
 
     //TODO: Insert overcard detection, and account for it below
 
@@ -770,49 +776,7 @@ class flopGenerator {
 
 let flopGen = new flopGenerator();
 
-//IDEA
-//instead of trying to detect inside straight while generating, just focus
-//on an efficient generating algorithm and then detect is there's a
-//1 or a 13 in the flopAndHore Array. Since all the cards are
-//bunched up together, this should tell you the number of outs.
-
-flopGen.generateOpenStraight("Ac", "4d");
-console.log("----");
-flopGen.generateOpenStraight("Ac", "4d");
-console.log("----");
-flopGen.generateOpenStraight("Ac", "4d");
-console.log("----");
-flopGen.generateOpenStraight("Ac", "Qd");
-console.log("----");
-flopGen.generateOpenStraight("Ac", "Qd");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "7d");
-console.log("----");
-flopGen.generateOpenStraight("Ac", "Qd");
-console.log("----");
-flopGen.generateOpenStraight("Ac", "Jd");
-console.log("----");
-flopGen.generateOpenStraight("Kc", "10d");
-console.log("----");
-flopGen.generateOpenStraight("Kc", "9d");
-console.log("----");
-flopGen.generateOpenStraight("3c", "2d");
-console.log("----");
-flopGen.generateOpenStraight("5c", "3d");
-console.log("----");
-flopGen.generateOpenStraight("2c", "4d");
+flopGen.generateOpenStraight("Ac", "Qc");
 console.log("----");
 
 //todo write a class to generate hole cards
