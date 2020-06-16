@@ -35,30 +35,30 @@ function decideConversionScheme(hole1, hole2) {
 }
 
 
-function populateUnderNumArr(holeConverted, holeUnderNumArr) {
+function populateUnderNumArr(availableNumberArr, holeConverted, holeUnderNumArr) {
     for(let i = 0, a = holeConverted - 1; i < 4; i++, a--) {
-        if(a > 0) {
+        if(a > 0 && availableNumberArr.includes(a)) {
             holeUnderNumArr.push(a);
         }
     }
     //console.log(holeUnderNumArr);
 }
 
-function populateOverNumArr(holeConverted, holeOverNumArr) {
+function populateOverNumArr(availableNumberArr, holeConverted, holeOverNumArr) {
     for(let i = 0, a = holeConverted + 1; i < 4; i++, a++) {
-        if(a < 14) {
+        if(a < 14 && availableNumberArr.includes(a)) {
             holeOverNumArr.push(a)
         }
     }
 } 
 
-function populateAcrossNumArr(holeConverted, holeAcrossNumArr) {
+function populateAcrossNumArr(availableNumberArr, holeConverted, holeAcrossNumArr) {
     for(let i = 0, a = 1; i < 2; i++, a++) {
-        if(holeConverted - a > 0) {
+        if(holeConverted - a > 0 && availableNumberArr.includes(holeConverted - a)) {
             holeAcrossNumArr.push(holeConverted - a)
         }
 
-        if(holeConverted + a < 14) {
+        if(holeConverted + a < 14 && availableNumberArr.includes(holeConverted + a)) {
             holeAcrossNumArr.push(holeConverted + a)
         }
     }
@@ -194,6 +194,7 @@ function generateOneOvercardDraw(hole1, hole2) {
     availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
     availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
+    console.log(availableNumberArr)
     // //Remove numbers higher than intended overcard
     // remainingNumberArray = remainingNumberArray.filter((number) => {
     //     return number < hole2Converted;
@@ -205,37 +206,22 @@ function generateOneOvercardDraw(hole1, hole2) {
     console.log(`hole2: ${hole2Converted}`);
 
     //Populate hole1 arrays
-    populateUnderNumArr(hole1Converted, hole1UnderNumArr);
-    populateOverNumArr(hole1Converted, hole1OverNumArr);
-    populateAcrossNumArr(hole1Converted, hole1AcrossNumArr);
+    populateUnderNumArr(availableNumberArr, hole1Converted, hole1UnderNumArr);
+    populateOverNumArr(availableNumberArr, hole1Converted, hole1OverNumArr);
+    populateAcrossNumArr(availableNumberArr, hole1Converted, hole1AcrossNumArr);
     console.log(`hole1UnderNumArr: ${hole1UnderNumArr}`);
     console.log(`hole1OverNumArr: ${hole1OverNumArr}`);
     console.log(`hole1AcrossNumArr: ${hole1AcrossNumArr}`);
 
     //Populate hole2 arrays
-    populateUnderNumArr(hole2Converted, hole2UnderNumArr);
-    populateOverNumArr(hole2Converted, hole2OverNumArr);
-    populateAcrossNumArr(hole2Converted, hole2AcrossNumArr);
+    populateUnderNumArr(availableNumberArr, hole2Converted, hole2UnderNumArr);
+    populateOverNumArr(availableNumberArr, hole2Converted, hole2OverNumArr);
+    populateAcrossNumArr(availableNumberArr, hole2Converted, hole2AcrossNumArr);
     console.log(`hole2UnderNumArr: ${hole2UnderNumArr}`);
     console.log(`hole2OverNumArr: ${hole2OverNumArr}`);
     console.log(`hole2AcrossNumArr: ${hole2AcrossNumArr}`);
 
-
-    depopulateUntil2Elements(removedNumberArr, hole1AcrossNumArr, hole1UnderNumArr, hole1OverNumArr, hole2AcrossNumArr, hole2UnderNumArr, hole2OverNumArr);
-    depopulateUntil2Elements(removedNumberArr, hole2AcrossNumArr, hole1UnderNumArr, hole1OverNumArr, hole1AcrossNumArr, hole2UnderNumArr, hole2OverNumArr);
-    depopulateUntil2Elements(removedNumberArr, hole1UnderNumArr, hole1AcrossNumArr, hole1OverNumArr, hole2AcrossNumArr, hole2UnderNumArr, hole2OverNumArr);
-    depopulateUntil2Elements(removedNumberArr, hole1OverNumArr, hole1UnderNumArr, hole1AcrossNumArr, hole2AcrossNumArr, hole2UnderNumArr, hole2OverNumArr);
-    depopulateUntil2Elements(removedNumberArr, hole2UnderNumArr, hole1UnderNumArr, hole1OverNumArr, hole2AcrossNumArr, hole1AcrossNumArr, hole2OverNumArr);
-    depopulateUntil2Elements(removedNumberArr, hole2OverNumArr, hole1UnderNumArr, hole1OverNumArr, hole2AcrossNumArr, hole2UnderNumArr, hole1AcrossNumArr);
-
-    console.log(`removedNumberArr: ${removedNumberArr}`);
-    console.log(`hole1UnderNumArr: ${hole1UnderNumArr}`);
-    console.log(`hole1OverNumArr: ${hole1OverNumArr}`);
-    console.log(`hole1AcrossNumArr: ${hole1AcrossNumArr}`);
-    console.log(`hole2UnderNumArr: ${hole2UnderNumArr}`);
-    console.log(`hole2OverNumArr: ${hole2OverNumArr}`);
-    console.log(`hole2AcrossNumArr: ${hole2AcrossNumArr}`);
-
+    availableNumberArr.filter
     
     // console.log(hole1AcrossNumArr.length);
     // console.log(hole1UnderNumArr.length);
@@ -250,3 +236,7 @@ function generateOneOvercardDraw(hole1, hole2) {
 }
 
 generateOneOvercardDraw('Ac', 'Kd');
+generateOneOvercardDraw('Qc', 'Kd');
+generateOneOvercardDraw('5c', '7d');
+generateOneOvercardDraw('Ac', '2d');
+generateOneOvercardDraw('Ac', '4d');
