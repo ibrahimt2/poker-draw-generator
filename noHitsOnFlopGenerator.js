@@ -193,6 +193,7 @@ function generateOneOvercardDraw(hole1, hole2) {
     let hole2zone2arr = [];
     let hole2zone3arr = [];
     let hole2zone4arr = [];
+    let completeFlopInformation = {};
     
     
 
@@ -292,10 +293,14 @@ function generateOneOvercardDraw(hole1, hole2) {
     flopArr.push(availableNumberArr.splice(Math.floor(Math.random()*availableNumberArr.length), 1))
     flopArr.push(availableNumberArr.splice(Math.floor(Math.random()*availableNumberArr.length), 1))
 
+    let flopArrNums = flopArr;
+
     //Converts the numbers back into the card values they represent
     flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
     let flopAndHoleCardArr = [hole1, hole2];
 
+
+    //Assigns suits to flopCards, and redoes it if a flush draw is generated
     do {
 
         flopArr = flopArr.map((flopCard) =>
@@ -305,6 +310,32 @@ function generateOneOvercardDraw(hole1, hole2) {
         flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
     } while (Utilities.detectFlushDraw(flopAndHoleCardArr))
+
+    if(hole1Converted === hole2Converted) {
+        //Pocket pair to trips
+        completeFlopInformation["outs"] = 2;
+        completeFlopInformation["holeCards"] = [hole1, hole2];
+        completeFlopInformation["flopCards"] = flopArr;
+        completeFlopInformation["name"] = "Pocket pair to trips";
+    } else if (flopArrNums.every(el => el < hole1Converted) && flopArrNums.every(el => el < hole2Converted))  {
+        //Two overcards to overpair
+        completeFlopInformation["outs"] = 6;
+        completeFlopInformation["holeCards"] = [hole1, hole2];
+        completeFlopInformation["flopCards"] = flopArr;
+        completeFlopInformation["name"] = "Two overcards to overpair";
+    } else if (flopArrNums.every(el => el < hole1Converted) || flopArrNums.every(el => el < hole2Converted)) {
+        //One overcard to overpair
+        completeFlopInformation["outs"] = 3;
+        completeFlopInformation["holeCards"] = [hole1, hole2];
+        completeFlopInformation["flopCards"] = flopArr;
+        completeFlopInformation["name"] = "One overcard to overpair";
+    } else {
+        //No pair to pair
+        completeFlopInformation["outs"] = 6;
+        completeFlopInformation["holeCards"] = [hole1, hole2];
+        completeFlopInformation["flopCards"] = flopArr;
+        completeFlopInformation["name"] = "No pair to pair";
+    }
 
 
 
@@ -326,9 +357,10 @@ function generateOneOvercardDraw(hole1, hole2) {
     // console.log('hole2:'+ hole2Converted)
     // console.log('availabeNumberArr' + availableNumberArr);
 
-    console.log('hole1:'+ hole1)
-    console.log('hole2:'+ hole2)
-    console.log('flop: ' + flopArr)
+    // console.log('hole1:'+ hole1)
+    // console.log('hole2:'+ hole2)
+    // console.log('flop: ' + flopArr)
+    console.log(completeFlopInformation);
 
 
     

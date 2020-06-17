@@ -577,15 +577,15 @@ class flopGenerator {
     //Populates completeFlopInformation with information to be displayed
     if (isFlushDraw) {
       if (thirdFlopNumber === doubleGutshotNum) {
-        completeFlopInformation["outs"] = 15;
-        completeFlopInformation["holeCards"] = [hole1, hole2];
-        completeFlopInformation["flopCards"] = flopArr;
-        completeFlopInformation["name"] = "Double Gutshot Flush Draw";
+        
       }
 
       if (thirdFlopNumber === openStraightNum) {
         completeFlopInformation["outs"] = 15;
+completeFlopInformation["outs"] = 15;
         completeFlopInformation["holeCards"] = [hole1, hole2];
+        completeFlopInformation["flopCards"] = flopArr;
+        completeFlopInformation["name"] = "Double Gutshot Flush Draw";        completeFlopInformation["holeCards"] = [hole1, hole2];
         completeFlopInformation["flopCards"] = flopArr;
         completeFlopInformation["name"] = "Open Straight Flush Draw";
       } else {
