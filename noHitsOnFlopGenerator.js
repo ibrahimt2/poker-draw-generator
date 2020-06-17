@@ -8,6 +8,8 @@ let Convertor = require('./convertor.js');
 //Modify conversion scheme decider to make it so that
 //Having an A automatically makes it use high card scheme
 
+
+
 function decideConversionScheme(hole1, hole2) {
     
     let convertor = Convertor.putCardGetNumAceLow;
@@ -35,35 +37,53 @@ function decideConversionScheme(hole1, hole2) {
 }
 
 
-function populateUnderNumArr(availableNumberArr, holeConverted, holeUnderNumArr) {
-    for(let i = 0, a = holeConverted - 1; i < 4; i++, a--) {
-        if(a > 0 && availableNumberArr.includes(a)) {
-            holeUnderNumArr.push(a);
-        }
+function populateZone1(availableNumberArr, holeConverted, holeZone1Arr) {
+    
+    if(holeConverted - 4 > 0 && availableNumberArr.includes(holeConverted - 4)) {
+        holeZone1Arr.push(holeConverted - 4);
     }
-    //console.log(holeUnderNumArr);
+
+    if(holeConverted - 3 > 0 && availableNumberArr.includes(holeConverted - 3)) {
+        holeZone1Arr.push(holeConverted - 3);
+    }
+
 }
 
-function populateOverNumArr(availableNumberArr, holeConverted, holeOverNumArr) {
-    for(let i = 0, a = holeConverted + 1; i < 4; i++, a++) {
-        if(a < 14 && availableNumberArr.includes(a)) {
-            holeOverNumArr.push(a)
-        }
+function populateZone2(availableNumberArr, holeConverted, holeZone2Arr) {
+    
+    if(holeConverted - 2 > 0 && availableNumberArr.includes(holeConverted - 2)) {
+        holeZone2Arr.push(holeConverted - 2);
     }
-} 
 
-function populateAcrossNumArr(availableNumberArr, holeConverted, holeAcrossNumArr) {
-    for(let i = 0, a = 1; i < 2; i++, a++) {
-        if(holeConverted - a > 0 && availableNumberArr.includes(holeConverted - a)) {
-            holeAcrossNumArr.push(holeConverted - a)
-        }
-
-        if(holeConverted + a < 14 && availableNumberArr.includes(holeConverted + a)) {
-            holeAcrossNumArr.push(holeConverted + a)
-        }
+    if(holeConverted - 1 > 0 && availableNumberArr.includes(holeConverted - 1)) {
+        holeZone2Arr.push(holeConverted - 1);
     }
+
 }
 
+function populateZone3(availableNumberArr, holeConverted, holeZone3Arr) {
+    
+    if(holeConverted + 1 < 14 && availableNumberArr.includes(holeConverted + 1)) {
+        holeZone3Arr.push(holeConverted + 1);
+    }
+
+    if(holeConverted + 2 < 14 && availableNumberArr.includes(holeConverted + 2)) {
+        holeZone3Arr.push(holeConverted + 2);
+    }
+
+}
+
+function populateZone4(availableNumberArr, holeConverted, holeZone4Arr) {
+    
+    if(holeConverted + 3 < 14 && availableNumberArr.includes(holeConverted + 3)) {
+        holeZone4Arr.push(holeConverted + 3);
+    }
+
+    if(holeConverted + 4 < 14 && availableNumberArr.includes(holeConverted + 4)) {
+        holeZone4Arr.push(holeConverted + 4);
+    }
+
+}
 
 
 //THIS DOESN'T WORK, ESSENTIALLY YOU WANT IT SO THAT WHENEVER THIS IS CALLED,
@@ -159,17 +179,22 @@ function depopulateUntil2Elements(removedNumberArr, primaryArray, secondaryArray
 
 
 function generateOneOvercardDraw(hole1, hole2) {
-    let flopArr;
+    let flopArr = [];
+    let suits = ["h", "d", "s", "c"];
     let availableNumberArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     let removedNumberArr = []
     let convertor = Convertor.putCardGetNumAceHigh;
     let backConvertor = Convertor.putNumGetCardValueAceHigh;
-    hole1UnderNumArr = [];
-    hole1OverNumArr = [];
-    hole1AcrossNumArr = [];
-    hole2UnderNumArr = [];
-    hole2OverNumArr = [];
-    hole2AcrossNumArr = [];
+    let hole1zone1arr = [];
+    let hole1zone2arr = [];
+    let hole1zone3arr = [];
+    let hole1zone4arr = [];
+    let hole2zone1arr = [];
+    let hole2zone2arr = [];
+    let hole2zone3arr = [];
+    let hole2zone4arr = [];
+    
+    
 
     //Converts cards using decided conversion scheme
     hole1Converted = convertor[hole1];
@@ -202,27 +227,115 @@ function generateOneOvercardDraw(hole1, hole2) {
 
     //Implement straight generation protection
 
-    console.log(`hole1: ${hole1Converted}`);
-    console.log(`hole2: ${hole2Converted}`);
+    //console.log(`hole1: ${hole1Converted}`);
+    //console.log(`hole2: ${hole2Converted}`);
 
-    //Populate hole1 arrays
-    populateUnderNumArr(availableNumberArr, hole1Converted, hole1UnderNumArr);
-    populateOverNumArr(availableNumberArr, hole1Converted, hole1OverNumArr);
-    populateAcrossNumArr(availableNumberArr, hole1Converted, hole1AcrossNumArr);
-    console.log(`hole1UnderNumArr: ${hole1UnderNumArr}`);
-    console.log(`hole1OverNumArr: ${hole1OverNumArr}`);
-    console.log(`hole1AcrossNumArr: ${hole1AcrossNumArr}`);
+    populateZone1(availableNumberArr, hole1Converted, hole1zone1arr)
+    populateZone2(availableNumberArr, hole1Converted, hole1zone2arr)
+    populateZone3(availableNumberArr, hole1Converted, hole1zone3arr)
+    populateZone4(availableNumberArr, hole1Converted, hole1zone4arr)
+
+    //Form an array of zone
+    let hole1ZonesArr = [hole1zone1arr, hole1zone2arr, hole1zone3arr, hole1zone4arr];
+
+    //Filters out zone arrays who's elements were already removed by the round of removals on hole1ZoneArrays
+    hole1ZonesArr = hole1ZonesArr.filter(zoneArray => {
+        return zoneArray.length > 1
+    });
+
+    console.log(hole1ZonesArr);
+
+    while(hole1ZonesArr.length > 1) {
+
+    //Select a zone, select a number from the zone, remove selected number from availableNumberArr (3 times)
+    let pickedHole1ZoneArr = hole1ZonesArr.splice(Math.floor(Math.random()*hole1ZonesArr.length), 1)            //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
+    // console.log('pickedHole1ZoneArr: ' + pickedHole1ZoneArr)
+    // console.log('hole1ZonesAr' + hole1ZonesArr)
+    let pickedHole1ZoneArrNum = pickedHole1ZoneArr[0][Math.floor(Math.random() * pickedHole1ZoneArr.length)];   //The necessity of the 0 here is quite interesting
+    // console.log('pickedHole1ZoneArrNum' + pickedHole1ZoneArrNum)
+    availableNumberArr.splice(availableNumberArr.indexOf(pickedHole1ZoneArrNum), 1);
+
+    }
+
+    
+
+    //Populate hole2 zone arrays
+    populateZone1(availableNumberArr, hole2Converted, hole2zone1arr)
+    populateZone2(availableNumberArr, hole2Converted, hole2zone2arr)
+    populateZone3(availableNumberArr, hole2Converted, hole2zone3arr)
+    populateZone4(availableNumberArr, hole2Converted, hole2zone4arr)
+
+    //Form an array of zone
+    let hole2ZonesArr = [hole2zone1arr, hole2zone2arr, hole2zone3arr, hole2zone4arr];
+
+    //Filters out zone arrays who's elements were already removed by the round of removals on hole1ZoneArrays
+    hole2ZonesArr = hole2ZonesArr.filter(zoneArray => {
+        return zoneArray.length > 1
+    });
+
+    while(hole2ZonesArr.length > 1) {
+
+    //Select a zone, select a number from the zone, remove selected number from availableNumberArr (3 times)
+    let pickedHole2ZoneArr = hole2ZonesArr.splice(Math.floor(Math.random()*hole2ZonesArr.length), 1)
+    let pickedHole2ZoneArrNum = pickedHole2ZoneArr[0][Math.floor(Math.random() * pickedHole2ZoneArr.length)];
+    availableNumberArr.splice(availableNumberArr.indexOf(pickedHole2ZoneArrNum), 1);
+
+    }
+
+    //At this point, you can select any number from availableNumberArr without fear of causing a straight
+
+    //Move 3 items from availableNumberArr into flopArr
+
+   
+
+    flopArr.push(availableNumberArr.splice(Math.floor(Math.random()*availableNumberArr.length), 1))
+    flopArr.push(availableNumberArr.splice(Math.floor(Math.random()*availableNumberArr.length), 1))
+    flopArr.push(availableNumberArr.splice(Math.floor(Math.random()*availableNumberArr.length), 1))
+
+    //Converts the numbers back into the card values they represent
+    flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
+    let flopAndHoleCardArr = [hole1, hole2];
+
+    do {
+
+        flopArr = flopArr.map((flopCard) =>
+            flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
+        );
+
+        flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
+
+    } while (Utilities.detectFlushDraw(flopAndHoleCardArr))
+
+
+
+    //At this point your availableNumberArr should pass the 3/4 zones inactive test, but verify further
+
+
+    // console.log('hole1: ' + hole1Converted)
+    // console.log('hole2: ' + hole2Converted)
+    // console.log('hole1zone1arr: ' + hole1zone1arr)
+    // console.log('hole1zone2arr: ' + hole1zone2arr)
+    // console.log('hole1zone3arr: ' + hole1zone3arr)
+    // console.log('hole1zone4arr: ' + hole1zone4arr)
+    // console.log('hole2zone1arr: ' + hole2zone1arr)
+    // console.log('hole2zone2arr: ' + hole2zone2arr)
+    // console.log('hole2zone3arr: ' + hole2zone3arr)
+    // console.log('hole2zone4arr: ' + hole2zone4arr)
+    
+    // console.log('hole1:'+ hole1Converted)
+    // console.log('hole2:'+ hole2Converted)
+    // console.log('availabeNumberArr' + availableNumberArr);
+
+    console.log('hole1:'+ hole1)
+    console.log('hole2:'+ hole2)
+    console.log('flop: ' + flopArr)
+
+
+    
+    
 
     //Populate hole2 arrays
-    populateUnderNumArr(availableNumberArr, hole2Converted, hole2UnderNumArr);
-    populateOverNumArr(availableNumberArr, hole2Converted, hole2OverNumArr);
-    populateAcrossNumArr(availableNumberArr, hole2Converted, hole2AcrossNumArr);
-    console.log(`hole2UnderNumArr: ${hole2UnderNumArr}`);
-    console.log(`hole2OverNumArr: ${hole2OverNumArr}`);
-    console.log(`hole2AcrossNumArr: ${hole2AcrossNumArr}`);
-
-    availableNumberArr.filter
-    
+  
     // console.log(hole1AcrossNumArr.length);
     // console.log(hole1UnderNumArr.length);
     // console.log(hole1OverNumArr.length);
@@ -235,8 +348,16 @@ function generateOneOvercardDraw(hole1, hole2) {
 
 }
 
-generateOneOvercardDraw('Ac', 'Kd');
-generateOneOvercardDraw('Qc', 'Kd');
+
 generateOneOvercardDraw('5c', '7d');
+generateOneOvercardDraw('6c', '7d');
+generateOneOvercardDraw('3c', '7d');
+generateOneOvercardDraw('Ac', '7d');
+generateOneOvercardDraw('Ac', 'Kd');
+generateOneOvercardDraw('10c', 'Qd');
+generateOneOvercardDraw('9c', 'Qd');
 generateOneOvercardDraw('Ac', '2d');
-generateOneOvercardDraw('Ac', '4d');
+generateOneOvercardDraw('Ac', '3d');
+generateOneOvercardDraw('Jc', '8d');
+
+
