@@ -523,7 +523,7 @@ function generateNoHitsFlop(hole1, hole2) {
   } while (Utilities.isNotFlushDraw(flopAndHoleCardArr) && !hasDuplicates(flopAndHoleCardArr));
 
 
-  populateNoHitsFlopInformation(hole1Converted, hole2Converted, hole1, hole2, flopArr, flopArr, completeFlopInformation);
+  populateNoHitsFlopInformation(hole1Converted, hole2Converted, hole1, hole2, flopArr, flopArrNums, completeFlopInformation);
 
   console.log(completeFlopInformation);
 }
