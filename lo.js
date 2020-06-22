@@ -1,16 +1,8 @@
-depopulateAvailableNumArrUsingZoneArr(holeZonesArr, availableNumberArr) {
-    while (holeZonesArr.length > 1) {
-        let pickedZoneArr = holeZonesArr.splice(
-          Math.floor(Math.random() * holeZonesArr.length),
-          1
-        ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
-        let pickedZoneArrNum =
-          pickedZoneArr[0][
-            Math.floor(Math.random() * pickedZoneArr.length)
-          ]; //The necessity of the 0 here is quite interesting
-        availableNumberArr.splice(
-          availableNumberArr.indexOf(pickedZoneArrNum),
-          1
-        );
-      }
-}
+let flopArr = ['2']
+let tripsHole1Suits = ['a', 'h', 'd'];
+
+
+suittripsHole1Suits.splicetripsHole1Suits[Math.floor(Math.random() * tripsHole1Suits.length)]);
+console.log(flopArr)
+console.log(tripsHole1Suits);
+
