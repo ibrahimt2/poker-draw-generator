@@ -181,18 +181,13 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
   let onePairHole1Suits = ["h", "d", "s", "c"];
   let onePairHole2Suits = ["h", "d", "s", "c"];
   let availableNumberArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-  let removedNumberArr = [];
   let convertor = Convertor.putCardGetNumAceHigh;
   let backConvertor = Convertor.putNumGetCardValueAceHigh;
-  let hole1zone1arr = [];
-  let hole1zone2arr = [];
-  let hole1zone3arr = [];
-  let hole1zone4arr = [];
-  let hole2zone1arr = [];
-  let hole2zone2arr = [];
-  let hole2zone3arr = [];
-  let hole2zone4arr = [];
+  let hole1ZonesArr = [];
+  let hole2ZonesArr = [];
   let completeFlopInformation = {};
+  let flopAndHoleCardArr;
+  let flopArrNums;
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -216,7 +211,7 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   //Ensure that when you are assigning suits to flop two
-  //pair matches, you don't put the flop card into the flop
+  //pair matches, you don't put a hole card into the flop
   onePairHole1Suits.splice(
     onePairHole1Suits.indexOf(hole1.charAt(hole1.length - 1)),
     1
@@ -226,6 +221,7 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     1
   );
 
+  //Insert card with the same value as one of the hole cards & assign suit into flopArr
   if (Math.random() < 0.5) {
     flopArr.push(hole1Converted);
     flopArr[0] = backConvertor[flopArr[0]];
@@ -240,109 +236,42 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     );
   }
 
-  //Implementing straight generation protection || ALERT: This is the straight generation protection originally for
-  //noHitsOnFlopGenerator and might be too restrictive. It should work for now but might eliminate possibilities
-  //that should be allows, as there are only 2 cards being picked instead of 3. Work it out on paper and revisit the
-  //algorithm below!
+  //Implementing straight generation protection
 
-  //Populate zones 1 - 4 for hole1Converted
-  populateZone1(availableNumberArr, hole1Converted, hole1zone1arr);
-  populateZone2(availableNumberArr, hole1Converted, hole1zone2arr);
-  populateZone3(availableNumberArr, hole1Converted, hole1zone3arr);
-  populateZone4(availableNumberArr, hole1Converted, hole1zone4arr);
-
-  //Form an array of zones
-  let hole1ZonesArr = [
-    hole1zone1arr,
-    hole1zone2arr,
-    hole1zone3arr,
-    hole1zone4arr,
-  ];
+  populateZoneArr(hole1ZonesArr, availableNumberArr);
 
   //Filters out zone arrays who don't have more than 1 element
   hole1ZonesArr = hole1ZonesArr.filter((zoneArray) => {
     return zoneArray.length > 1;
   });
 
-  //Select a zone, select a number from the zone, remove selected number from
-  //availableNumberArr until there is only 1 zone with a length greater than 1
-  while (hole1ZonesArr.length > 1) {
-    let pickedHole1ZoneArr = hole1ZonesArr.splice(
-      Math.floor(Math.random() * hole1ZonesArr.length),
-      1
-    ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
-    let pickedHole1ZoneArrNum =
-      pickedHole1ZoneArr[0][
-        Math.floor(Math.random() * pickedHole1ZoneArr.length)
-      ]; //The necessity of the 0 here is quite interesting
-    availableNumberArr.splice(
-      availableNumberArr.indexOf(pickedHole1ZoneArrNum),
-      1
-    );
-  }
-
-  //Populate zones 1 - 4 for hole2Converted
-  populateZone1(availableNumberArr, hole2Converted, hole2zone1arr);
-  populateZone2(availableNumberArr, hole2Converted, hole2zone2arr);
-  populateZone3(availableNumberArr, hole2Converted, hole2zone3arr);
-  populateZone4(availableNumberArr, hole2Converted, hole2zone4arr);
-
-  //Form an array of zone
-  let hole2ZonesArr = [
-    hole2zone1arr,
-    hole2zone2arr,
-    hole2zone3arr,
-    hole2zone4arr,
-  ];
+  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
+  populateZoneArr(hole2ZonesArr, availableNumberArr);
 
   //Filters out zone arrays who don't have more than 1 element
   hole2ZonesArr = hole2ZonesArr.filter((zoneArray) => {
     return zoneArray.length > 1;
   });
 
-  //Select a zone, select a number from the zone, remove selected number from
-  //availableNumberArr until there is only 1 zone with a length greater than 1
-  while (hole2ZonesArr.length > 1) {
-    let pickedHole2ZoneArr = hole2ZonesArr.splice(
-      Math.floor(Math.random() * hole2ZonesArr.length),
-      1
-    );
-    let pickedHole2ZoneArrNum =
-      pickedHole2ZoneArr[0][
-        Math.floor(Math.random() * pickedHole2ZoneArr.length)
-      ];
-    availableNumberArr.splice(
-      availableNumberArr.indexOf(pickedHole2ZoneArrNum),
-      1
-    );
-  }
+  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
 
-  //At this point, you can select any number from availableNumberArr without fear of causing a straight
+  //Insert 2 numbers from availableNumberArr into flopArr 
+  flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+  flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
 
-  //Move 2 items from availableNumberArr into flopArr || Think of simply selecting instead of moving to allow for double and trips on the table
-  //Instead of one instance of each card value
-  flopArr.push(
-    availableNumberArr.splice(
-      Math.floor(Math.random() * availableNumberArr.length),
-      1
-    )
-  );
-  flopArr.push(
-    availableNumberArr.splice(
-      Math.floor(Math.random() * availableNumberArr.length),
-      1
-    )
-  );
-
-  let flopArrNums = flopArr;
+  //Preserve flopArrNums incase a second attempt is needed when assigning flop suits
+  flopArrNums = flopArr;
 
   //Converts the numbers back into the card values they represent
-  flopArr[1] = backConvertor[flopArr[1]];
-  flopArr[2] = backConvertor[flopArr[2]];
-  let flopAndHoleCardArr = [hole1, hole2];
+  flopArr[1] = backConvertor[flopArrNums[1]];
+  flopArr[2] = backConvertor[flopArrNums[2]];
+
+  //Partially populates flopAndHoleCardArr
+  flopAndHoleCardArr = [hole1, hole2];
 
   //Assigns suits to flopCards, and redoes it if a flush draw is generated
   do {
+    console.log(flopArr[1]);
     flopArr[1] = flopArr[1].concat(
       suits[Math.floor(Math.random() * suits.length)]
     );
@@ -351,7 +280,14 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     );
 
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
-  } while (Utilities.detectFlushDraw(flopAndHoleCardArr));
+
+    if(Utilities.isFlushDraw(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr)) {
+        flopArr[1] = backConvertor[flopArrNums[1]];
+        flopArr[2] = backConvertor[flopArrNums[2]];
+        flopAndHoleCardArr = [hole1, hole2];
+    }
+
+  } while (Utilities.isFlushDraw(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr));
 
   //Populate completeFlopInformation with information about the flop
   completeFlopInformation["outs"] = 5;
@@ -534,19 +470,315 @@ function generateNoHitsFlop(hole1, hole2) {
   console.log(completeFlopInformation);
 }
 
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// generateNoHitsFlop('4c', '7c');
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
 
-generateNoHitsFlop("5c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("9c", "8d");
-generateNoHitsFlop("10c", "9d");
-generateNoHitsFlop("10c", "Qd");
-generateNoHitsFlop("9c", "Qd");
+
+
+// generateNoHitsFlop("5c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("9c", "8d");
+// generateNoHitsFlop("10c", "9d");
+// generateNoHitsFlop("10c", "Qd");
+// generateNoHitsFlop("9c", "Qd");
 
 console.log('end')
