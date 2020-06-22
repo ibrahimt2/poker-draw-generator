@@ -577,15 +577,14 @@ class flopGenerator {
     //Populates completeFlopInformation with information to be displayed
     if (isFlushDraw) {
       if (thirdFlopNumber === doubleGutshotNum) {
-        
-      }
-
-      if (thirdFlopNumber === openStraightNum) {
         completeFlopInformation["outs"] = 15;
-completeFlopInformation["outs"] = 15;
         completeFlopInformation["holeCards"] = [hole1, hole2];
         completeFlopInformation["flopCards"] = flopArr;
-        completeFlopInformation["name"] = "Double Gutshot Flush Draw";        completeFlopInformation["holeCards"] = [hole1, hole2];
+        completeFlopInformation["name"] = "Double Gutshot Flush Draw";
+        
+      } else if (thirdFlopNumber === openStraightNum) {
+        completeFlopInformation["outs"] = 15;
+        completeFlopInformation["holeCards"] = [hole1, hole2];
         completeFlopInformation["flopCards"] = flopArr;
         completeFlopInformation["name"] = "Open Straight Flush Draw";
       } else {
@@ -600,9 +599,7 @@ completeFlopInformation["outs"] = 15;
         completeFlopInformation["holeCards"] = [hole1, hole2];
         completeFlopInformation["flopCards"] = flopArr;
         completeFlopInformation["name"] = "Double Gutshot Draw";
-      }
-
-      if (thirdFlopNumber === openStraightNum) {
+      } else if (thirdFlopNumber === openStraightNum) {
         completeFlopInformation["outs"] = 8;
         completeFlopInformation["holeCards"] = [hole1, hole2];
         completeFlopInformation["flopCards"] = flopArr;
@@ -615,9 +612,9 @@ completeFlopInformation["outs"] = 15;
       }
     }
 
-    console.log("Hole cards: " + hole1 + " " + hole2);
-    console.log("Flop set: " + flopArr);
-    console.log("Outs: 4");
+    //console.log("Hole cards: " + hole1 + " " + hole2);
+    //console.log("Flop set: " + flopArr);
+    //console.log("Outs: 4");
     console.log(completeFlopInformation);
   }
 
@@ -776,7 +773,9 @@ completeFlopInformation["outs"] = 15;
 
 let flopGen = new flopGenerator();
 
-flopGen.generateOpenStraight("Ac", "Qc");
-console.log("----");
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c");
+console.log("----")
 
 //todo write a class to generate hole cards

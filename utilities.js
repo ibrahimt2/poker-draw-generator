@@ -23,7 +23,7 @@ function decideConversionScheme(hole1, hole2) {
     return [convertor, backConvertor];
   }
 
-function detectFlushDraw(flopAndHoleCardArr) {
+function isNotFlushDraw(flopAndHoleCardArr) {
     let suitArray = [];
     var count = {};
     let isFlushDraw = false;
@@ -56,5 +56,5 @@ function detectFlushDraw(flopAndHoleCardArr) {
 
   module.exports = {
       decideConversionScheme: decideConversionScheme,
-      detectFlushDraw: detectFlushDraw
+      isNotFlushDraw: isNotFlushDraw
   }
