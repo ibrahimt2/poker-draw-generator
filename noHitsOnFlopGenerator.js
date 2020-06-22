@@ -45,6 +45,15 @@ function hasDuplicates(array) {
     return false;
 }
 
+/** Select a zone, select a number from the zone,
+ *  remove selected number from availableNumberArr 
+ *  until there is only 1 zone with a length greater than 1
+ *
+ * 
+ * @param {*} holeZonesArr 
+ * @param {*} availableNumberArr 
+ */
+
 function depopulateAvailableNumArrUsingZoneArr(holeZonesArr, availableNumberArr) {
     while (holeZonesArr.length > 1) {
         let pickedZoneArr = holeZonesArr.splice(
@@ -448,6 +457,7 @@ function generateNoHitsFlop(hole1, hole2) {
   let hole2ZonesArr = [];
   let completeFlopInformation = {};
   let flopArrNums;
+  let flopArrCards; 
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -460,7 +470,7 @@ function generateNoHitsFlop(hole1, hole2) {
     hole2Converted = temp;
   }
 
-  //Just remove numbers corresponding to hole cards from available pool
+  //Removes numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
@@ -472,26 +482,8 @@ function generateNoHitsFlop(hole1, hole2) {
   hole1ZonesArr = hole1ZonesArr.filter((zoneArray) => {
     return zoneArray.length > 1;
   });
-
-  //Select a zone, select a number from the zone, remove selected number from
-  //availableNumberArr until there is only 1 zone with a length greater than 1
-
+ 
   depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
-
-//   while (hole1ZonesArr.length > 1) {
-//     let pickedHole1ZoneArr = hole1ZonesArr.splice(
-//       Math.floor(Math.random() * hole1ZonesArr.length),
-//       1
-//     ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
-//     let pickedHole1ZoneArrNum =
-//       pickedHole1ZoneArr[0][
-//         Math.floor(Math.random() * pickedHole1ZoneArr.length)
-//       ]; //The necessity of the 0 here is quite interesting
-//     availableNumberArr.splice(
-//       availableNumberArr.indexOf(pickedHole1ZoneArrNum),
-//       1
-//     );
-//   }
 
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
@@ -502,23 +494,6 @@ function generateNoHitsFlop(hole1, hole2) {
 
   depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
 
-  //Select a zone, select a number from the zone, remove selected number from
-  //availableNumberArr until there is only 1 zone with a length greater than 1
-//   while (hole2ZonesArr.length > 1) {
-//     let pickedHole2ZoneArr = hole2ZonesArr.splice(
-//       Math.floor(Math.random() * hole2ZonesArr.length),
-//       1
-//     );
-//     let pickedHole2ZoneArrNum =
-//       pickedHole2ZoneArr[0][
-//         Math.floor(Math.random() * pickedHole2ZoneArr.length)
-//       ];
-//     availableNumberArr.splice(
-//       availableNumberArr.indexOf(pickedHole2ZoneArrNum),
-//       1
-//     );
-//   }
-
   //At this point, you can select any number from availableNumberArr without fear of causing a straight
 
   //Pick 3 numbers from availableNumberArr
@@ -526,12 +501,16 @@ function generateNoHitsFlop(hole1, hole2) {
   flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
   flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
 
+  //Preserve information in flopArr for completeFlopInformation methods
   flopArrNums = flopArr;
-  let flopArrCards; 
 
   //Converts the numbers back into the card values they represent
   flopArrCards = flopArr.map((flopNum) => backConvertor[flopNum]);
+
+  //Creates and partially populates flopAndHoleCardArr
   let flopAndHoleCardArr = [hole1, hole2];
+
+  //Preserves information in case a reset is needed below due to flushDraw or duplicates
   flopArr = flopArrCards
 
   //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
@@ -549,7 +528,6 @@ function generateNoHitsFlop(hole1, hole2) {
     }
 
   } while (Utilities.isFlushDraw(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr));
-
 
   populateNoHitsFlopInformation(hole1Converted, hole2Converted, hole1, hole2, flopArr, flopArrNums, completeFlopInformation);
 
