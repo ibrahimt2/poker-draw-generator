@@ -167,16 +167,143 @@ function populateZoneArr(holeZonesArr, availableNumberArr, holeConverted) {
   let holeZone4Arr = [];
 
   populateZone1(availableNumberArr, holeConverted, holeZone1Arr);
-  populateZone2(availableNumberArr, holeZone2Arr, holeConverted);
-  populateZone3(availableNumberArr, holeZone3Arr, holeConverted);
-  populateZone4(availableNumberArr, holeZone4Arr, holeConverted);
+  populateZone2(availableNumberArr, holeConverted, holeZone2Arr);
+  populateZone3(availableNumberArr, holeConverted, holeZone3Arr);
+  populateZone4(availableNumberArr, holeConverted, holeZone4Arr);
 
-  holeZonesArr = [holeZone1Arr, holeZone2Arr, holeZone3Arr, holeZone4Arr];
+  holeZonesArr.push(holeZone1Arr)
+  holeZonesArr.push(holeZone2Arr)
+  holeZonesArr.push(holeZone3Arr)
+  holeZonesArr.push(holeZone4Arr)
 
-  return holeZonesArr;
 }
 
-function generateTrips(hole1, hole2) {
+function moveElement(index, fromArray, toArray) {
+    toArray.push(fromArray[index]);
+    fromArray.splice(index, 1);
+  }
+
+function generateFlushDraw(hole1, hole2) {
+  let flopArr = [];
+  let suits = ["h", "d", "s", "c"];
+  let availableNumberArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  let convertor = Convertor.putCardGetNumAceHigh;
+  let backConvertor = Convertor.putNumGetCardValueAceHigh;
+  let hole1ZonesArr = [];
+  let hole2ZonesArr = [];
+  let completeFlopInformation = {};
+  let flopArrNums;
+  let flopArrCards;
+  let hole1Suit;
+  let hole2Suit;
+  let flushSuit;
+  let holeCardsAreSuited = false;
+  let nonFlushSuitsArr = ["h", "d", "s", "c"];
+
+
+  //Converts cards using decided conversion scheme
+  hole1Converted = convertor[hole1];
+  hole2Converted = convertor[hole2];
+
+  //Ensures hole1Converted < hole2Converted
+  if (hole1Converted > hole2Converted) {
+    let temp = hole1Converted;
+    hole1Converted = hole2Converted;
+    hole2Converted = temp;
+  }
+
+  //Removes numbers corresponding to hole cards from available pool
+  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
+
+  //Extract holeSuits
+  hole1Suit = hole1.charAt(hole1.length - 1);
+  hole2Suit = hole2.charAt(hole2.length - 1);
+
+  //Check is hole cards are suited
+  if (hole1Suit === hole2Suit) {
+      holeCardsAreSuited = true;
+  }
+
+  //Select which hole card the flush will be created with
+  if (Math.random() < 0.5) {
+      flushSuit = hole1Suit;
+  } else {
+      flushSuit = hole2Suit;
+  }
+
+  //Remove flushSuit from the nonFlushSuitsArr
+  nonFlushSuitsArr.splice(nonFlushSuitsArr.indexOf(flushSuit), 1);
+
+  //Implementing straight generation protection
+
+  populateZoneArr(hole1ZonesArr, availableNumberArr);
+
+  //Filters out zone arrays who don't have more than 1 element
+  hole1ZonesArr = hole1ZonesArr.filter((zoneArray) => {
+    return zoneArray.length > 1;
+  });
+
+  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
+  populateZoneArr(hole2ZonesArr, availableNumberArr);
+
+  //Filters out zone arrays who don't have more than 1 element
+  hole2ZonesArr = hole2ZonesArr.filter((zoneArray) => {
+    return zoneArray.length > 1;
+  });
+
+  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
+
+  console.log(availableNumberArr);
+
+  //Pick 3 numbers from availableNumberArr
+  moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
+
+  if(holeCardsAreSuited) {
+    moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
+    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+  } else {
+    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+    
+  }
+
+
+  //Preserve information in flopArr for completeFlopInformation methods
+  flopArrNums = flopArr;
+
+  //Converts the numbers back into the card values they represent
+  flopArrCards = flopArr.map((flopNum) => backConvertor[flopNum]);
+
+
+   //Creates and partially populates flopAndHoleCardArr
+  let flopAndHoleCardArr = [hole1, hole2];
+
+   //Preserves information in case a reset is needed below due to flushDraw or duplicates
+  flopArr = flopArrCards;
+
+  
+   
+   
+  flopArr[0] = flopArr[0].concat(flushSuit);
+  flopArr[1] = flopArr[1].concat(flushSuit);
+
+  if(holeCardsAreSuited) {
+    flopArr[2] = flopArr[2].concat(nonFlushSuitsArr[Math.floor(Math.random() * nonFlushSuitsArr .length)]);
+  } else {
+    flopArr[2] = flopArr[2].concat(flushSuit);
+  }
+
+  completeFlopInformation["outs"] = 9;
+  completeFlopInformation["holeCards"] = [hole1, hole2];
+  completeFlopInformation["flopCards"] = flopArr;
+  completeFlopInformation["name"] = "Flush Draw";
+  
+  console.log(completeFlopInformation);
+
+}
+
+function generateTripsToFullhouseOrQuads(hole1, hole2) {
   let flopArr = [];
   let suits = ["h", "d", "s", "c"];
   let tripsHole1Suits = ["h", "d", "s", "c"];
@@ -374,13 +501,6 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     return;
   }
 
-  //Ensures hole1Converted < hole2Converted
-  if (hole1Converted > hole2Converted) {
-    let temp = hole1Converted;
-    hole1Converted = hole2Converted;
-    hole2Converted = temp;
-  }
-
   //Just remove numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
@@ -413,15 +533,15 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
 
   //Implementing straight generation protection
 
-  populateZoneArr(hole1ZonesArr, availableNumberArr);
+  populateZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
 
   //Filters out zone arrays who don't have more than 1 element
   hole1ZonesArr = hole1ZonesArr.filter((zoneArray) => {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
-  populateZoneArr(hole2ZonesArr, availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
+  populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
   hole2ZonesArr = hole2ZonesArr.filter((zoneArray) => {
@@ -429,6 +549,8 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
   });
 
   depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
+
+  console.log('availableNumberArr: ' + availableNumberArr)
 
   //Insert 2 numbers from availableNumberArr into flopArr
   flopArr.push(
@@ -439,7 +561,7 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
   );
 
   //Preserve flopArrNums incase a second attempt is needed when assigning flop suits
-  flopArrNums = flopArr;
+  flopArrNums = flopArr.slice(0);
 
   //Converts the numbers back into the card values they represent
   flopArr[1] = backConvertor[flopArrNums[1]];
@@ -447,10 +569,22 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
 
   //Partially populates flopAndHoleCardArr
   flopAndHoleCardArr = [hole1, hole2];
+  resetVariables = false;
 
   //Assigns suits to flopCards, and redoes it if a flush draw is generated
   do {
-    console.log(flopArr[1]);
+    
+    if(resetVariables) {
+    //   console.log('problem flopArr[1]:' + flopArr[1])
+    //   console.log('problem flopArr[2]:' + flopArr[2])
+      flopArr[1] = backConvertor[flopArrNums[1]];
+      flopArr[2] = backConvertor[flopArrNums[2]];
+    //   console.log('reattempt flopArr[1]:' + flopArr[1])
+    //   console.log('reattempt flopArr[2]:' + flopArr[2])
+      flopAndHoleCardArr = [hole1, hole2];
+      resetVariables = false;
+    }
+    // console.log(flopArr[1]);
     flopArr[1] = flopArr[1].concat(
       suits[Math.floor(Math.random() * suits.length)]
     );
@@ -464,9 +598,12 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
       Utilities.isFlushDraw(flopAndHoleCardArr) ||
       hasDuplicates(flopAndHoleCardArr)
     ) {
-      flopArr[1] = backConvertor[flopArrNums[1]];
-      flopArr[2] = backConvertor[flopArrNums[2]];
-      flopAndHoleCardArr = [hole1, hole2];
+    //   console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!')
+    //   console.log('!!!!!!!!!!!!!!!!!!!!')
+    //   console.log('!!!!!!!!!!!!!!!!!!!!')
+      
+      resetVariables = true;
+      
     }
   } while (
     Utilities.isFlushDraw(flopAndHoleCardArr) ||
@@ -666,106 +803,45 @@ function generateNoHitsFlop(hole1, hole2) {
 }
 
 
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
-generateTrips("5c", "7d")
-generateTrips("6c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "Ad")
-generateTrips("7c", "7d")
-generateTrips("3c", "7d")
-generateTrips("Ac", "2d")
 
+//TODO: The straight draw prevention algorithm doesn't work all the time, just 
+//some of the time
+//There are a lot of special cases where 
+
+//TODO: I think you broke the straight prevention algorithm when you were sectoring it away into a method
+//It doesn't seem to be working in any of it's current incarnations, always only removes just 2 elements
+
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
+// generateFlushDraw("5c", "7c");
+// generateFlushDraw("3c", "7c");
+// generateFlushDraw("Ac", "2c");
+// generateFlushDraw("5d", "7d");
+// generateFlushDraw("3d", "7d");
+// generateFlushDraw("Ad", "2d");
+// generateFlushDraw("5d", "7d");
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
+// generateFlushDraw("5c", "7c");
+// generateFlushDraw("3c", "7c");
+
+
+
+// generateTripsToFullhouseOrQuads("Ac", "Ad")
+// generateTripsToFullhouseOrQuads("7c", "7d")
+// generateTripsToFullhouseOrQuads("3c", "7d")
+// generateTripsToFullhouseOrQuads("Ac", "2d")
+// generateTripsToFullhouseOrQuads("5c", "7d")
 
 
 // generateTwoPairToFullhouse("5c", "7d");
@@ -778,6 +854,126 @@ generateTrips("Ac", "2d")
 // generateTwoPairToFullhouse("3c", "7d");
 
 
+OnePairToTwoPairOrTrips('6c', '7d')
+
+
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
+// OnePairToTwoPairOrTrips('5c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('3c', '7d')
+// OnePairToTwoPairOrTrips('Ac', '2d')
+// OnePairToTwoPairOrTrips('9c', 'Qd')
 // OnePairToTwoPairOrTrips('5c', '7d')
 // OnePairToTwoPairOrTrips('6c', '7d')
 // OnePairToTwoPairOrTrips('3c', '7d')
