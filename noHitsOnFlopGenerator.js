@@ -237,7 +237,7 @@ function generateFlushDraw(hole1, hole2) {
 
   //Implementing straight generation protection
 
-  populateZoneArr(hole1ZonesArr, availableNumberArr);
+  populateZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
 
   //Filters out zone arrays who don't have more than 1 element
   hole1ZonesArr = hole1ZonesArr.filter((zoneArray) => {
@@ -245,7 +245,7 @@ function generateFlushDraw(hole1, hole2) {
   });
 
   depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
-  populateZoneArr(hole2ZonesArr, availableNumberArr);
+  populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
   hole2ZonesArr = hole2ZonesArr.filter((zoneArray) => {
@@ -259,11 +259,16 @@ function generateFlushDraw(hole1, hole2) {
   //Pick 3 numbers from availableNumberArr
   moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
 
+
+  //If hole cards are suited, then the suit of the last card won't be flopSuit, so it can have the same value as secondlast flopArrCard without risking duplication, as they're bound 
+  //to have different suits
+
+  //This is not the case when hole cards are not suited
   if(holeCardsAreSuited) {
-    moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
+    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
     flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
   } else {
-    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+    moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
     flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
     
   }
@@ -809,31 +814,43 @@ function generateNoHitsFlop(hole1, hole2) {
 //There are a lot of special cases where 
 
 //TODO: I think you broke the straight prevention algorithm when you were sectoring it away into a method
-//It doesn't seem to be working in any of it's current incarnations, always only removes just 2 elements
+//It doesn't seem to be working in any of it's current incarnations, always only removes just 2 elements.
 
-// generateFlushDraw("Ac", "Ad");
-// generateFlushDraw("7c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
-// generateFlushDraw("5c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
-// generateFlushDraw("5c", "7c");
-// generateFlushDraw("3c", "7c");
-// generateFlushDraw("Ac", "2c");
-// generateFlushDraw("5d", "7d");
-// generateFlushDraw("3d", "7d");
-// generateFlushDraw("Ad", "2d");
-// generateFlushDraw("5d", "7d");
-// generateFlushDraw("Ac", "Ad");
-// generateFlushDraw("7c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
-// generateFlushDraw("5c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
-// generateFlushDraw("5c", "7c");
-// generateFlushDraw("3c", "7c");
+//UPDATE: Straight draw prevention algorithm fixed in generateNoHitsFlop
+//Straight draw prevention algorithm not used in generateTwoPairToFullhouse
+//Straight draw  prevention algorithm fixed in generate OnePairToTwoPairOrTrips
+//Straight draw  prevention algorithm not used in generateTripsToFullhouseOrQuads
+//Straight draw prevention algorithm fixed in generateFlush
+
+//Note that the current straight straight draw prevention algorithm skill OCCASIONALLY
+//results in a flush, thus your theoritical basis for the algorithm is wrong and needs
+//more work. However, a majority of the time it works so we can use a stopgap measure
+//of some sort to detect and weed out straight draw or account for them in the out
+//counting stage maybe
+
+generateFlushDraw("Ac", "Ad");
+generateFlushDraw("7c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
+generateFlushDraw("5c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
+generateFlushDraw("5c", "7c");
+generateFlushDraw("3c", "7c");
+generateFlushDraw("Ac", "2c");
+generateFlushDraw("5d", "7d");
+generateFlushDraw("3d", "7d");
+generateFlushDraw("Ad", "2d");
+generateFlushDraw("5d", "7d");
+generateFlushDraw("Ac", "Ad");
+generateFlushDraw("7c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
+generateFlushDraw("5c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
+generateFlushDraw("5c", "7c");
+generateFlushDraw("3c", "7c");
 
 
 
@@ -854,7 +871,34 @@ function generateNoHitsFlop(hole1, hole2) {
 // generateTwoPairToFullhouse("3c", "7d");
 
 
-OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
+// OnePairToTwoPairOrTrips('6c', '7d')
 
 
 // OnePairToTwoPairOrTrips('5c', '7d')
