@@ -733,6 +733,8 @@ function generateNoHitsFlop(hole1, hole2) {
 
   populateZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
 
+  //console.log(hole1ZonesArr + hole1ZonesArr)
+
   //Filters out zone arrays who don't have more than 1 element
   hole1ZonesArr = hole1ZonesArr.filter((zoneArray) => {
     return zoneArray.length > 1;
@@ -750,6 +752,8 @@ function generateNoHitsFlop(hole1, hole2) {
   depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
 
   //At this point, you can select any number from availableNumberArr without fear of causing a straight
+
+  console.log('availableNumberArr: ' + availableNumberArr);
 
   //Pick 3 numbers from availableNumberArr
   flopArr.push(
@@ -770,12 +774,21 @@ function generateNoHitsFlop(hole1, hole2) {
 
   //Creates and partially populates flopAndHoleCardArr
   let flopAndHoleCardArr = [hole1, hole2];
+  resetVariables = false;
 
   //Preserves information in case a reset is needed below due to flushDraw or duplicates
   flopArr = flopArrCards;
 
   //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
   do {
+
+    if (
+      resetVariables
+    ) {
+      flopArr = flopArrCards;
+      flopAndHoleCardArr = [hole1, hole2];
+    }
+
     flopArr = flopArr.map((flopCard) =>
       flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
     );
@@ -786,9 +799,16 @@ function generateNoHitsFlop(hole1, hole2) {
       Utilities.isFlushDraw(flopAndHoleCardArr) ||
       hasDuplicates(flopAndHoleCardArr)
     ) {
-      flopArr = flopArrCards;
-      flopAndHoleCardArr = [hole1, hole2];
+      console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!')
+      console.log('!!!!!!!!!!!!!!!!!!!!')
+      console.log('!!!!!!!!!!!!!!!!!!!!')
+      
+      resetVariables = true;
+      
     }
+
+
+    
   } while (
     Utilities.isFlushDraw(flopAndHoleCardArr) ||
     hasDuplicates(flopAndHoleCardArr)
@@ -828,13 +848,13 @@ function generateNoHitsFlop(hole1, hole2) {
 //of some sort to detect and weed out straight draw or account for them in the out
 //counting stage maybe
 
-generateFlushDraw("Ac", "Ad");
-generateFlushDraw("7c", "7d");
-generateFlushDraw("3c", "7c");
-generateFlushDraw("Ad", "2d");
-generateFlushDraw("5c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7c");
+// generateFlushDraw("Ad", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
 
 // generateTripsToFullhouseOrQuads("Ac", "Ad")
 // generateTripsToFullhouseOrQuads("7c", "7d")
@@ -877,4 +897,37 @@ generateFlushDraw("Ac", "2d");
 // generateNoHitsFlop("10c", "Qd");
 // generateNoHitsFlop("9c", "Qd");
 
+
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
 console.log("end");
