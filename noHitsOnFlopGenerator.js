@@ -56,16 +56,24 @@ function hasDuplicates(array) {
 
 function depopulateAvailableNumArrUsingZoneArr(
   holeZonesArr,
-  availableNumberArr
+  availableNumberArr,
+  hole1Converted,
+  hole2Converted
 ) {
-  while (holeZonesArr.length > 1) {
+  while (holeZonesArr.length > 0) {
     let pickedZoneArr = holeZonesArr.splice(
       Math.floor(Math.random() * holeZonesArr.length),
       1
     ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
     let pickedZoneArrNum =
       pickedZoneArr[0][Math.floor(Math.random() * pickedZoneArr.length)]; //The necessity of the 0 here is quite interesting
-    availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
+
+    if(pickedZoneArrNum === hole1Converted || pickedZoneArrNum === hole2Converted) {
+      holeZonesArr.push(pickedZoneArr);
+    } else {
+      availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
+    }
+
   }
 }
 
@@ -175,6 +183,13 @@ function populateZoneArr(holeZonesArr, availableNumberArr, holeConverted) {
   holeZonesArr.push(holeZone2Arr)
   holeZonesArr.push(holeZone3Arr)
   holeZonesArr.push(holeZone4Arr)
+
+  console.log('holeZone1Arr: ' + holeZone1Arr)
+  console.log('holeZone2Arr: ' + holeZone2Arr)
+  console.log('holeZone3Arr: ' + holeZone3Arr)
+  console.log('holeZone4Arr: ' + holeZone4Arr)
+
+
 
 }
 
@@ -725,12 +740,13 @@ function generateNoHitsFlop(hole1, hole2) {
     hole2Converted = temp;
   }
 
-  //Removes numbers corresponding to hole cards from available pool
-  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
-  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
+  // //Removes numbers corresponding to hole cards from available pool
+  // availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  // availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   //Implementing straight generation protection
 
+  console.log('hole1Zones');
   populateZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
 
   //console.log(hole1ZonesArr + hole1ZonesArr)
@@ -740,8 +756,11 @@ function generateNoHitsFlop(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+  console.log('availableNumberArr after hole1Depop: ' + availableNumberArr);
 
+
+  console.log('hole2Zones');
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
@@ -749,10 +768,17 @@ function generateNoHitsFlop(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+  console.log('availableNumberArr after hole2Depop: ' + availableNumberArr);
+
 
   //At this point, you can select any number from availableNumberArr without fear of causing a straight
 
+  //Removes numbers corresponding to hole cards from available pool
+  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
+  console.log('hole1Converted: ' + hole1Converted)
+  console.log('hole2Converted: ' + hole2Converted)
   console.log('availableNumberArr: ' + availableNumberArr);
 
   //Pick 3 numbers from availableNumberArr
