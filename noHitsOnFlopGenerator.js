@@ -47,7 +47,7 @@ function hasDuplicates(array) {
 
 /** Select a zone, select a number from the zone,
  *  remove selected number from availableNumberArr
- *  until there is only 1 zone with a length greater than 1
+ *  unti
  *
  *
  * @param {*} holeZonesArr
@@ -75,6 +75,21 @@ function depopulateAvailableNumArrUsingZoneArr(
     }
 
   }
+}
+
+function looseDepopulateAvailableNumArrUsingZoneArr(
+  holeZonesArr,
+  availableNumberArr,
+) {
+  while (holeZonesArr.length > 1) {
+    let pickedZoneArr = holeZonesArr.splice(
+      Math.floor(Math.random() * holeZonesArr.length),
+      1
+    ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
+    let pickedZoneArrNum =
+      pickedZoneArr[0][Math.floor(Math.random() * pickedZoneArr.length)]; //The necessity of the 0 here is quite interesting
+      availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
+    }
 }
 
 function populateNoHitsFlopInformation(
@@ -227,9 +242,9 @@ function generateFlushDraw(hole1, hole2) {
     hole2Converted = temp;
   }
 
-  //Removes numbers corresponding to hole cards from available pool
-  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
-  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
+  // //Removes numbers corresponding to hole cards from available pool
+  // availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  // availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   //Extract holeSuits
   hole1Suit = hole1.charAt(hole1.length - 1);
@@ -259,7 +274,7 @@ function generateFlushDraw(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
@@ -267,7 +282,11 @@ function generateFlushDraw(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+
+  //Removes numbers corresponding to hole cards from available pool
+  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   console.log(availableNumberArr);
 
@@ -521,9 +540,9 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     return;
   }
 
-  //Just remove numbers corresponding to hole cards from available pool
-  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
-  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
+  // //Just remove numbers corresponding to hole cards from available pool
+  // availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  // availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   //Ensure that when you are assigning suits to flop two
   //pair matches, you don't put a hole card into the flop
@@ -560,7 +579,7 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
+  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
@@ -568,7 +587,11 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+
+  //Just remove numbers corresponding to hole cards from available pool
+  availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
+  availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   console.log('availableNumberArr: ' + availableNumberArr)
 
@@ -874,13 +897,13 @@ function generateNoHitsFlop(hole1, hole2) {
 //of some sort to detect and weed out straight draw or account for them in the out
 //counting stage maybe
 
-// generateFlushDraw("Ac", "Ad");
-// generateFlushDraw("7c", "7d");
-// generateFlushDraw("3c", "7c");
-// generateFlushDraw("Ad", "2d");
-// generateFlushDraw("5c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
+generateFlushDraw("Ac", "Ad");
+generateFlushDraw("7c", "7d");
+generateFlushDraw("3c", "7c");
+generateFlushDraw("Ad", "2d");
+generateFlushDraw("5c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
 
 // generateTripsToFullhouseOrQuads("Ac", "Ad")
 // generateTripsToFullhouseOrQuads("7c", "7d")
@@ -924,36 +947,36 @@ function generateNoHitsFlop(hole1, hole2) {
 // generateNoHitsFlop("9c", "Qd");
 
 
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
 console.log("end");
