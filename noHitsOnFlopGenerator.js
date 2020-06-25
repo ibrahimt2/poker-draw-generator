@@ -830,36 +830,17 @@ function generateNoHitsFlop(hole1, hole2) {
 
 generateFlushDraw("Ac", "Ad");
 generateFlushDraw("7c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
-generateFlushDraw("5c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
-generateFlushDraw("5c", "7c");
 generateFlushDraw("3c", "7c");
-generateFlushDraw("Ac", "2c");
-generateFlushDraw("5d", "7d");
-generateFlushDraw("3d", "7d");
 generateFlushDraw("Ad", "2d");
-generateFlushDraw("5d", "7d");
-generateFlushDraw("Ac", "Ad");
-generateFlushDraw("7c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
 generateFlushDraw("5c", "7d");
 generateFlushDraw("3c", "7d");
 generateFlushDraw("Ac", "2d");
-generateFlushDraw("5c", "7c");
-generateFlushDraw("3c", "7c");
-
-
 
 // generateTripsToFullhouseOrQuads("Ac", "Ad")
 // generateTripsToFullhouseOrQuads("7c", "7d")
 // generateTripsToFullhouseOrQuads("3c", "7d")
 // generateTripsToFullhouseOrQuads("Ac", "2d")
 // generateTripsToFullhouseOrQuads("5c", "7d")
-
 
 // generateTwoPairToFullhouse("5c", "7d");
 // generateTwoPairToFullhouse("6c", "7d");
@@ -870,27 +851,6 @@ generateFlushDraw("3c", "7c");
 // generateTwoPairToFullhouse("6c", "7d");
 // generateTwoPairToFullhouse("3c", "7d");
 
-
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
 // OnePairToTwoPairOrTrips('6c', '7d')
 // OnePairToTwoPairOrTrips('6c', '7d')
 // OnePairToTwoPairOrTrips('6c', '7d')
@@ -900,121 +860,6 @@ generateFlushDraw("3c", "7c");
 // OnePairToTwoPairOrTrips('6c', '7d')
 // OnePairToTwoPairOrTrips('6c', '7d')
 
-
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
 // OnePairToTwoPairOrTrips('3c', '7d')
 // OnePairToTwoPairOrTrips('Ac', '2d')
 // OnePairToTwoPairOrTrips('9c', 'Qd')
