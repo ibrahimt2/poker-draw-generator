@@ -878,32 +878,23 @@ function generateNoHitsFlop(hole1, hole2) {
 
 
 
-//TODO: The straight draw prevention algorithm doesn't work all the time, just 
-//some of the time
-//There are a lot of special cases where 
+//TODO: Implement overcard detection and handling in generateFlushDraw and wherever else it is needed
 
-//TODO: I think you broke the straight prevention algorithm when you were sectoring it away into a method
-//It doesn't seem to be working in any of it's current incarnations, always only removes just 2 elements.
 
-//UPDATE: Straight draw prevention algorithm fixed in generateNoHitsFlop
-//Straight draw prevention algorithm not used in generateTwoPairToFullhouse
-//Straight draw  prevention algorithm fixed in generate OnePairToTwoPairOrTrips
-//Straight draw  prevention algorithm not used in generateTripsToFullhouseOrQuads
-//Straight draw prevention algorithm fixed in generateFlush
-
-//Note that the current straight straight draw prevention algorithm skill OCCASIONALLY
-//results in a flush, thus your theoritical basis for the algorithm is wrong and needs
-//more work. However, a majority of the time it works so we can use a stopgap measure
-//of some sort to detect and weed out straight draw or account for them in the out
-//counting stage maybe
-
-generateFlushDraw("Ac", "Ad");
-generateFlushDraw("7c", "7d");
-generateFlushDraw("3c", "7c");
-generateFlushDraw("Ad", "2d");
-generateFlushDraw("5c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7c");
+// generateFlushDraw("Ad", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7c");
+// generateFlushDraw("Ad", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
 
 // generateTripsToFullhouseOrQuads("Ac", "Ad")
 // generateTripsToFullhouseOrQuads("7c", "7d")
@@ -947,12 +938,12 @@ generateFlushDraw("Ac", "2d");
 // generateNoHitsFlop("9c", "Qd");
 
 
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("Ac", "Kd");
+generateNoHitsFlop("Ac", "2d");
+generateNoHitsFlop("2c", "2d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
 // generateNoHitsFlop("6c", "7d");
 // generateNoHitsFlop("8c", "7d");
 // generateNoHitsFlop("6c", "7d");
