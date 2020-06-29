@@ -393,6 +393,9 @@ class flopGenerator {
       return flopAndHoleArr.indexOf(val) == -1;
     });
 
+    //console.log('inside function remNumset' + remainingNumberSet);
+    
+
     // Check the relationship between flopAndHoleArr[1] and flopAndHoleArr[2], adjacent means 3 numbers in flopAndHoleArr are adjacent
     // This makes it possible to end up with a Double Gutshot Draw or a Open Straight Draw that uses only 1 hole car
     if (flopAndHoleArr[1] + 1 === flopAndHoleArr[2]) {
@@ -442,7 +445,7 @@ class flopGenerator {
       );
     }
 
-    return [openStraightNum, doubleGutshotNum];
+    return [openStraightNum, doubleGutshotNum, remainingNumberSet];
   }
 
   detectFlushDraw(flopAndHoleCardArr) {
@@ -538,11 +541,11 @@ class flopGenerator {
       externalArr
     );
 
-    console.log(hole1Converted)
-    console.log(hole2Converted)
-    console.log('outermostArr:' + outermostArr);
-    console.log('internalArr:' + internalArr);
-    console.log('externalArr:' + externalArr);
+    //console.log(hole1Converted)
+    //console.log(hole2Converted)
+    //console.log('outermostArr:' + outermostArr);
+    //console.log('internalArr:' + internalArr);
+    //console.log('externalArr:' + externalArr);
 
 
     this.buildInsideFlopArr(
@@ -557,6 +560,8 @@ class flopGenerator {
     //Makes an array out of hole and flop cards, sort in ascending order
     let flopAndHoleArr = [hole1Converted, hole2Converted];
     flopAndHoleArr = flopAndHoleArr.concat(flopArr);
+
+    //Important to sort in ascending fasion for logic in detectNotInsideStraightAndPreventStraight
     flopAndHoleArr.sort((a, b) => a - b);
 
     //Detects numbers that make the flop something other than an inside straight, and prevents flop straights
@@ -564,10 +569,12 @@ class flopGenerator {
       .detectNotInsideStraightAndPreventStraight(flopAndHoleArr, remainingNumberSet);
     openStraightNum = notInsideStraightCausers[0];
     doubleGutshotNum = notInsideStraightCausers[1];
+    remainingNumberSet = notInsideStraightCausers[2];
 
+    console.log(remainingNumberSet);
     console.log(openStraightNum);
     console.log(doubleGutshotNum);
-    console.log(remainingNumberSet);
+
 
     //Inserts random value from remainingNumberSet into flopArr
     thirdFlopNumber =
