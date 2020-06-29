@@ -581,17 +581,76 @@ class flopGenerator {
       remainingNumberSet[Math.floor(Math.random() * remainingNumberSet.length)];
     flopArr.push(thirdFlopNumber);
 
-    //Converts the numbers back into the card values they represent
-    flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
+        /*********Start of new suit assigner */
 
-    //Attaches randomly selected suit values to the flop cards
+    //Preserve information in flopArr for completeFlopInformation methods
+    let flopArrNums = flopArr;
+
+    //Converts the numbers back into the card values they represent
+    let flopArrCards = flopArr.map((flopNum) => backConvertor[flopNum]);
+
+  //Creates and partially populates flopAndHoleCardArr
+    let flopAndHoleCardArr = [hole1, hole2];
+    let resetVariables = false;
+
+  //Preserves information in case a reset is needed below due to flushDraw or duplicates
+  flopArr = flopArrCards;
+
+  //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
+  do {
+
+    if (
+      resetVariables
+    ) {
+      flopArr = flopArrCards;
+      flopAndHoleCardArr = [hole1, hole2];
+    }
+
+    
+
     flopArr = flopArr.map((flopCard) =>
+      
       flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
     );
 
-    //Creates array of the flop cards and the hole cards
-    let flopAndHoleCardArr = [hole1, hole2];
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
+
+    if (
+      Utilities.isFlush(flopAndHoleCardArr) ||
+      Utilities.hasDuplicates(flopAndHoleCardArr)
+    ) {
+      console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+      console.log('!!!!!!!!!!!!!!!!!!!!')
+      console.log('!!!!!!!!!!!!!!!!!!!!')
+      
+      resetVariables = true;
+      
+    }
+
+
+    
+  } while (
+    Utilities.isFlush(flopAndHoleCardArr) ||
+    Utilities.hasDuplicates(flopAndHoleCardArr)
+  );
+
+    /*********End of new suit assigner */
+
+    // /** Start of old suit assigner */
+
+    // //Converts the numbers back into the card values they represent
+    // flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
+
+    // //Attaches randomly selected suit values to the flop cards
+    // flopArr = flopArr.map((flopCard) =>
+    //   flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
+    // );
+
+    // //Creates array of the flop cards and the hole cards
+    // let flopAndHoleCardArr = [hole1, hole2];
+    // flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
+
+    // /** End of old suit assigner */
 
     let isFlushDraw = this.detectFlushDraw(flopAndHoleCardArr);
 
@@ -864,8 +923,128 @@ let flopGen = new flopGenerator();
 
 
 flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
 flopGen.generateInsideStraight("4c", "5c");
 flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "6c")
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
 flopGen.generateInsideStraight("4c", "8c");
 
 // flopGen.generateOpenStraight("4c", "6c");

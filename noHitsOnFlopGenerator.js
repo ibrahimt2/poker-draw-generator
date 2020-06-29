@@ -33,6 +33,7 @@ function decideConversionScheme(hole1, hole2) {
   return [convertor, backConvertor];
 }
 
+
 function hasDuplicates(array) {
   var valuesSoFar = Object.create(null);
   for (var i = 0; i < array.length; ++i) {
@@ -971,3 +972,8 @@ generateNoHitsFlop("8c", "7d");
 generateNoHitsFlop("6c", "7d");
 generateNoHitsFlop("8c", "7d");
 console.log("end");
+
+
+
+//TODO find all the methods that have the same code to handle suit
+//assignment and made one method to use everywhere
