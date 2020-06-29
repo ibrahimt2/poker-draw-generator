@@ -54,7 +54,52 @@ function isFlushDraw(flopAndHoleCardArr) {
     return isFlushDraw;
   }
 
+  function isFlush(flopAndHoleCardArr) {
+    let suitArray = [];
+    var count = {};
+    let isFlush = false;
+
+    //Extracts just the suit values from each card
+    flopAndHoleCardArr.forEach((card) => {
+      suitArray.push(card[card.length - 1]);
+    });
+
+    //console.log(suitArray)
+
+    suitArray.forEach(function (i) {
+      count[i] = (count[i] || 0) + 1;
+    });
+    //console.log(count);
+
+    //Decides if the cards are a flush draw
+    if (
+      count["d"] >= 5 ||
+      count["h"] >= 5 ||
+      count["s"] >= 5 ||
+      count["c"] >= 5
+    ) {
+      isFlush = true;
+      //console.log("set flush draw to true")
+    }
+
+    return isFlush;
+  }
+
+  function hasDuplicates(array) {
+    var valuesSoFar = Object.create(null);
+    for (var i = 0; i < array.length; ++i) {
+      var value = array[i];
+      if (value in valuesSoFar) {
+        return true;
+      }
+      valuesSoFar[value] = true;
+    }
+    return false;
+  }
+
   module.exports = {
       decideConversionScheme: decideConversionScheme,
-      isFlushDraw: isFlushDraw
+      isFlushDraw: isFlushDraw,
+      isFlush: isFlush,
+      hasDuplicates: hasDuplicates
   }

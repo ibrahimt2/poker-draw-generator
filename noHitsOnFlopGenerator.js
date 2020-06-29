@@ -823,7 +823,7 @@ function generateNoHitsFlop(hole1, hole2) {
 
   //Creates and partially populates flopAndHoleCardArr
   let flopAndHoleCardArr = [hole1, hole2];
-  resetVariables = false;
+  let resetVariables = false;
 
   //Preserves information in case a reset is needed below due to flushDraw or duplicates
   flopArr = flopArrCards;
@@ -881,61 +881,61 @@ function generateNoHitsFlop(hole1, hole2) {
 //TODO: Implement overcard detection and handling in generateFlushDraw and wherever else it is needed
 
 
-// generateFlushDraw("Ac", "Ad");
-// generateFlushDraw("7c", "7d");
-// generateFlushDraw("3c", "7c");
-// generateFlushDraw("Ad", "2d");
-// generateFlushDraw("5c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
-// generateFlushDraw("Ac", "Ad");
-// generateFlushDraw("7c", "7d");
-// generateFlushDraw("3c", "7c");
-// generateFlushDraw("Ad", "2d");
-// generateFlushDraw("5c", "7d");
-// generateFlushDraw("3c", "7d");
-// generateFlushDraw("Ac", "2d");
+generateFlushDraw("Ac", "Ad");
+generateFlushDraw("7c", "7d");
+generateFlushDraw("3c", "7c");
+generateFlushDraw("Ad", "2d");
+generateFlushDraw("5c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
+generateFlushDraw("Ac", "Ad");
+generateFlushDraw("7c", "7d");
+generateFlushDraw("3c", "7c");
+generateFlushDraw("Ad", "2d");
+generateFlushDraw("5c", "7d");
+generateFlushDraw("3c", "7d");
+generateFlushDraw("Ac", "2d");
 
-// generateTripsToFullhouseOrQuads("Ac", "Ad")
-// generateTripsToFullhouseOrQuads("7c", "7d")
-// generateTripsToFullhouseOrQuads("3c", "7d")
-// generateTripsToFullhouseOrQuads("Ac", "2d")
-// generateTripsToFullhouseOrQuads("5c", "7d")
+generateTripsToFullhouseOrQuads("Ac", "Ad")
+generateTripsToFullhouseOrQuads("7c", "7d")
+generateTripsToFullhouseOrQuads("3c", "7d")
+generateTripsToFullhouseOrQuads("Ac", "2d")
+generateTripsToFullhouseOrQuads("5c", "7d")
 
-// generateTwoPairToFullhouse("5c", "7d");
-// generateTwoPairToFullhouse("6c", "7d");
-// generateTwoPairToFullhouse("3c", "7d");
-// generateTwoPairToFullhouse("Ac", "2d");
-// generateTwoPairToFullhouse("9c", "Qd");
-// generateTwoPairToFullhouse("5c", "7d");
-// generateTwoPairToFullhouse("6c", "7d");
-// generateTwoPairToFullhouse("3c", "7d");
+generateTwoPairToFullhouse("5c", "7d");
+generateTwoPairToFullhouse("6c", "7d");
+generateTwoPairToFullhouse("3c", "7d");
+generateTwoPairToFullhouse("Ac", "2d");
+generateTwoPairToFullhouse("9c", "Qd");
+generateTwoPairToFullhouse("5c", "7d");
+generateTwoPairToFullhouse("6c", "7d");
+generateTwoPairToFullhouse("3c", "7d");
 
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
 
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
-// OnePairToTwoPairOrTrips('5c', '7d')
-// OnePairToTwoPairOrTrips('6c', '7d')
-// OnePairToTwoPairOrTrips('3c', '7d')
-// OnePairToTwoPairOrTrips('Ac', '2d')
-// OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips('5c', '7d')
+OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips('3c', '7d')
+OnePairToTwoPairOrTrips('Ac', '2d')
+OnePairToTwoPairOrTrips('9c', 'Qd')
 
-// generateNoHitsFlop("5c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("9c", "8d");
-// generateNoHitsFlop("10c", "9d");
-// generateNoHitsFlop("10c", "Qd");
-// generateNoHitsFlop("9c", "Qd");
+generateNoHitsFlop("5c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("9c", "8d");
+generateNoHitsFlop("10c", "9d");
+generateNoHitsFlop("10c", "Qd");
+generateNoHitsFlop("9c", "Qd");
 
 
 generateNoHitsFlop("Ac", "Kd");
@@ -944,30 +944,30 @@ generateNoHitsFlop("2c", "2d");
 generateNoHitsFlop("8c", "7d");
 generateNoHitsFlop("6c", "7d");
 generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
-// generateNoHitsFlop("6c", "7d");
-// generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
+generateNoHitsFlop("6c", "7d");
+generateNoHitsFlop("8c", "7d");
 console.log("end");
