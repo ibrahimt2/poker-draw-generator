@@ -62,7 +62,7 @@ class flopGenerator {
    */
 
   populateExternalArr(hole1Converted, hole2Converted, externalArr) {
-    for (let i = hole1Converted + 1; i < hole2Converted + 4; i++) {
+    for (let i = hole1Converted + 1; i < hole1Converted + 4; i++) {
       if (i <= 13) {
         externalArr.unshift(i);
       }
@@ -87,7 +87,7 @@ class flopGenerator {
    * @param {*} externalArr
    */
 
-  removeOverlappingElements(
+  removeOverlappingElementsFromExternalArr(
     hole1Converted,
     hole2Converted,
     outermostArr,
@@ -107,6 +107,8 @@ class flopGenerator {
     //Remove hole cards
     externalArr.splice(externalArr.indexOf(hole1Converted), 1);
     externalArr.splice(externalArr.indexOf(hole2Converted), 1);
+
+    return externalArr
   }
 
   /** Randomly picks the first 2 cards to insert into the flop array
@@ -522,19 +524,26 @@ class flopGenerator {
     this.populateOutermostArr(hole1Converted, hole2Converted, outermostArr);
     this.populateInternalArr(hole1Converted, hole2Converted, internalArr);
     this.populateExternalArr(hole1Converted, hole2Converted, externalArr);
-  
-
+    
+   
     //console.log("left branch:" + leftBranchArr);
     //console.log("right branch:" + rightBranchArr);
     //console.log("internalArr:" + internalArr);
 
-    this.removeOverlappingElements(
+    externalArr = this.removeOverlappingElementsFromExternalArr(
       hole1Converted,
       hole2Converted,
       outermostArr,
       internalArr,
       externalArr
     );
+
+    console.log(hole1Converted)
+    console.log(hole2Converted)
+    console.log('outermostArr:' + outermostArr);
+    console.log('internalArr:' + internalArr);
+    console.log('externalArr:' + externalArr);
+
 
     this.buildInsideFlopArr(
       hole1Converted,
@@ -552,9 +561,13 @@ class flopGenerator {
 
     //Detects numbers that make the flop something other than an inside straight, and prevents flop straights
     let notInsideStraightCausers = this
-      .detectNotInsideStraightAndPreventStraight;
+      .detectNotInsideStraightAndPreventStraight(flopAndHoleArr, remainingNumberSet);
     openStraightNum = notInsideStraightCausers[0];
     doubleGutshotNum = notInsideStraightCausers[1];
+
+    console.log(openStraightNum);
+    console.log(doubleGutshotNum);
+    console.log(remainingNumberSet);
 
     //Inserts random value from remainingNumberSet into flopArr
     thirdFlopNumber =
@@ -843,196 +856,23 @@ let flopGen = new flopGenerator();
 
 
 
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
-// flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "6c");
+flopGen.generateInsideStraight("4c", "5c");
+flopGen.generateInsideStraight("4c", "7c");
+flopGen.generateInsideStraight("4c", "8c");
 
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
-flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+// flopGen.generateOpenStraight("4c", "6c");
+
+
 
 console.log("----")
 
