@@ -1046,6 +1046,7 @@ flopGen.generateInsideStraight("4c", "8c");
 flopGen.generateInsideStraight("4c", "8c");
 flopGen.generateInsideStraight("4c", "8c");
 flopGen.generateInsideStraight("4c", "8c");
+flopGen.generateInsideStraight("4c", "8c");
 
 // flopGen.generateOpenStraight("4c", "6c");
 // flopGen.generateOpenStraight("4c", "6c");
