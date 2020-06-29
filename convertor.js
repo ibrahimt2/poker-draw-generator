@@ -1,4 +1,3 @@
-
 /*
 
 // An array into which you can input put deck-of-cards HTML5 numbers and get the associated cards
@@ -284,7 +283,7 @@ export let putStrCardGetNumCard = {
 */
 
 let putCardGetNumAceLow = {
-  "Ac": 1,
+  Ac: 1,
   "2c": 2,
   "3c": 3,
   "4c": 4,
@@ -294,10 +293,10 @@ let putCardGetNumAceLow = {
   "8c": 8,
   "9c": 9,
   "10c": 10,
-  "Jc": 11,
-  "Qc": 12,
-  "Kc": 13,
-  "Ah": 1,
+  Jc: 11,
+  Qc: 12,
+  Kc: 13,
+  Ah: 1,
   "2h": 2,
   "3h": 3,
   "4h": 4,
@@ -307,10 +306,10 @@ let putCardGetNumAceLow = {
   "8h": 8,
   "9h": 9,
   "10h": 10,
-  "Jh": 11,
-  "Qh": 12,
-  "Kh": 13,
-  "As": 1,
+  Jh: 11,
+  Qh: 12,
+  Kh: 13,
+  As: 1,
   "2s": 2,
   "3s": 3,
   "4s": 4,
@@ -320,10 +319,10 @@ let putCardGetNumAceLow = {
   "8s": 8,
   "9s": 9,
   "10s": 10,
-  "Js": 11,
-  "Qs": 12,
-  "Ks": 13,
-  "Ad": 1,
+  Js: 11,
+  Qs: 12,
+  Ks: 13,
+  Ad: 1,
   "2d": 2,
   "3d": 3,
   "4d": 4,
@@ -333,13 +332,13 @@ let putCardGetNumAceLow = {
   "8d": 8,
   "9d": 9,
   "10d": 10,
-  "Jd": 11,
-  "Qd": 12,
-  "Kd": 13,
+  Jd: 11,
+  Qd: 12,
+  Kd: 13,
 };
 
 let putCardGetNumAceHigh = {
-  "Ac": 13,
+  Ac: 13,
   "2c": 1,
   "3c": 2,
   "4c": 3,
@@ -349,10 +348,10 @@ let putCardGetNumAceHigh = {
   "8c": 7,
   "9c": 8,
   "10c": 9,
-  "Jc": 10,
-  "Qc": 11,
-  "Kc": 12,
-  "Ah": 13,
+  Jc: 10,
+  Qc: 11,
+  Kc: 12,
+  Ah: 13,
   "2h": 1,
   "3h": 2,
   "4h": 3,
@@ -362,10 +361,10 @@ let putCardGetNumAceHigh = {
   "8h": 7,
   "9h": 8,
   "10h": 9,
-  "Jh": 10,
-  "Qh": 11,
-  "Kh": 12,
-  "As": 13,
+  Jh: 10,
+  Qh: 11,
+  Kh: 12,
+  As: 13,
   "2s": 1,
   "3s": 2,
   "4s": 3,
@@ -375,10 +374,10 @@ let putCardGetNumAceHigh = {
   "8s": 7,
   "9s": 8,
   "10s": 9,
-  "Js": 10,
-  "Qs": 11,
-  "Ks": 12,
-  "Ad": 13,
+  Js: 10,
+  Qs: 11,
+  Ks: 12,
+  Ad: 13,
   "2d": 1,
   "3d": 2,
   "4d": 3,
@@ -388,24 +387,46 @@ let putCardGetNumAceHigh = {
   "8d": 7,
   "9d": 8,
   "10d": 9,
-  "Jd": 10,
-  "Qd": 11,
-  "Kd": 12,
+  Jd: 10,
+  Qd: 11,
+  Kd: 12,
 };
 
 let putNumGetCardValueAceLow = {
-  1 : 'A', 2 : '2', 3 : '3', 4 : '4', 5 : '5', 6 : '6', 7 : '7', 8 : '8', 9 : '9', 10 : '10', 11 : 'J', 12 : 'Q', 13 : 'K'
-}
+  1: "A",
+  2: "2",
+  3: "3",
+  4: "4",
+  5: "5",
+  6: "6",
+  7: "7",
+  8: "8",
+  9: "9",
+  10: "10",
+  11: "J",
+  12: "Q",
+  13: "K",
+};
 
 let putNumGetCardValueAceHigh = {
-  13 : 'A', 1 : '2', 2 : '3', 3 : '4', 4 : '5', 5 : '6', 6 : '7', 7 : '8', 8 : '9', 9 : '10', 10 : 'J', 11 : 'Q', 12 : 'K'
-}
+  13: "A",
+  1: "2",
+  2: "3",
+  3: "4",
+  4: "5",
+  5: "6",
+  6: "7",
+  7: "8",
+  8: "9",
+  9: "10",
+  10: "J",
+  11: "Q",
+  12: "K",
+};
 
 module.exports = {
-    putCardGetNumAceHigh: putCardGetNumAceHigh,
-    putCardGetNumAceLow: putCardGetNumAceLow,
-    putNumGetCardValueAceLow: putNumGetCardValueAceLow,
-    putNumGetCardValueAceHigh: putNumGetCardValueAceHigh
-
-}
-
+  putCardGetNumAceHigh: putCardGetNumAceHigh,
+  putCardGetNumAceLow: putCardGetNumAceLow,
+  putNumGetCardValueAceLow: putNumGetCardValueAceLow,
+  putNumGetCardValueAceHigh: putNumGetCardValueAceHigh,
+};

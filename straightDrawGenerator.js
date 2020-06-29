@@ -7,7 +7,6 @@ const Utilities = require("./utilities.js");
 //TODO: Make comments more readable, comment variables aswell
 
 class flopGenerator {
-
   moveElement(index, fromArray, toArray) {
     toArray.push(fromArray[index]);
     fromArray.splice(index, 1);
@@ -108,13 +107,13 @@ class flopGenerator {
     externalArr.splice(externalArr.indexOf(hole1Converted), 1);
     externalArr.splice(externalArr.indexOf(hole2Converted), 1);
 
-    return externalArr
+    return externalArr;
   }
 
   /** Randomly picks the first 2 cards to insert into the flop array
    *  based on seperation between hole cards. At the end of this method,
    *  the flopArr will have 2 cards that are going to combine with the
-   *  hole cards to make a inside straight draw, or variations of it 
+   *  hole cards to make a inside straight draw, or variations of it
    *
    * @param {*} hole1Converted
    * @param {*} hole2Converted
@@ -220,14 +219,14 @@ class flopGenerator {
   /** Randomly picks the first 2 cards to insert into the flop array
    *  based on seperation between hole cards. At the end of this method,
    *  the flopArr will have 2 cards that are going to combine with the
-   *  hole cards to make a open straight draw, or variations of it 
-   * 
-   * @param {*} hole1Converted 
-   * @param {*} hole2Converted 
-   * @param {*} flopArr 
-   * @param {*} leftBranchArr 
-   * @param {*} internalArr 
-   * @param {*} rightBranchArr 
+   *  hole cards to make a open straight draw, or variations of it
+   *
+   * @param {*} hole1Converted
+   * @param {*} hole2Converted
+   * @param {*} flopArr
+   * @param {*} leftBranchArr
+   * @param {*} internalArr
+   * @param {*} rightBranchArr
    */
   buildOpenFlopArr(
     hole1Converted,
@@ -394,7 +393,6 @@ class flopGenerator {
     });
 
     //console.log('inside function remNumset' + remainingNumberSet);
-    
 
     // Check the relationship between flopAndHoleArr[1] and flopAndHoleArr[2], adjacent means 3 numbers in flopAndHoleArr are adjacent
     // This makes it possible to end up with a Double Gutshot Draw or a Open Straight Draw that uses only 1 hole car
@@ -527,8 +525,7 @@ class flopGenerator {
     this.populateOutermostArr(hole1Converted, hole2Converted, outermostArr);
     this.populateInternalArr(hole1Converted, hole2Converted, internalArr);
     this.populateExternalArr(hole1Converted, hole2Converted, externalArr);
-    
-   
+
     //console.log("left branch:" + leftBranchArr);
     //console.log("right branch:" + rightBranchArr);
     //console.log("internalArr:" + internalArr);
@@ -547,7 +544,6 @@ class flopGenerator {
     //console.log('internalArr:' + internalArr);
     //console.log('externalArr:' + externalArr);
 
-
     this.buildInsideFlopArr(
       hole1Converted,
       hole2Converted,
@@ -565,8 +561,10 @@ class flopGenerator {
     flopAndHoleArr.sort((a, b) => a - b);
 
     //Detects numbers that make the flop something other than an inside straight, and prevents flop straights
-    let notInsideStraightCausers = this
-      .detectNotInsideStraightAndPreventStraight(flopAndHoleArr, remainingNumberSet);
+    let notInsideStraightCausers = this.detectNotInsideStraightAndPreventStraight(
+      flopAndHoleArr,
+      remainingNumberSet
+    );
     openStraightNum = notInsideStraightCausers[0];
     doubleGutshotNum = notInsideStraightCausers[1];
     remainingNumberSet = notInsideStraightCausers[2];
@@ -575,13 +573,12 @@ class flopGenerator {
     console.log(openStraightNum);
     console.log(doubleGutshotNum);
 
-
     //Inserts random value from remainingNumberSet into flopArr
     thirdFlopNumber =
       remainingNumberSet[Math.floor(Math.random() * remainingNumberSet.length)];
     flopArr.push(thirdFlopNumber);
 
-        /*********Start of new suit assigner */
+    /*********Start of new suit assigner */
 
     //Preserve information in flopArr for completeFlopInformation methods
     let flopArrNums = flopArr;
@@ -589,50 +586,42 @@ class flopGenerator {
     //Converts the numbers back into the card values they represent
     let flopArrCards = flopArr.map((flopNum) => backConvertor[flopNum]);
 
-  //Creates and partially populates flopAndHoleCardArr
+    //Creates and partially populates flopAndHoleCardArr
     let flopAndHoleCardArr = [hole1, hole2];
     let resetVariables = false;
 
-  //Preserves information in case a reset is needed below due to flushDraw or duplicates
-  flopArr = flopArrCards;
+    //Preserves information in case a reset is needed below due to flushDraw or duplicates
+    flopArr = flopArrCards;
 
-  //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
-  do {
+    //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
+    do {
+      if (resetVariables) {
+        flopArr = flopArrCards;
+        flopAndHoleCardArr = [hole1, hole2];
+      }
 
-    if (
-      resetVariables
-    ) {
-      flopArr = flopArrCards;
-      flopAndHoleCardArr = [hole1, hole2];
-    }
+      flopArr = flopArr.map((flopCard) =>
+        flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
+      );
 
-    
+      flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
-    flopArr = flopArr.map((flopCard) =>
-      
-      flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
-    );
+      if (
+        Utilities.isFlush(flopAndHoleCardArr) ||
+        Utilities.hasDuplicates(flopAndHoleCardArr)
+      ) {
+        console.log(
+          "reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+        console.log("!!!!!!!!!!!!!!!!!!!!");
+        console.log("!!!!!!!!!!!!!!!!!!!!");
 
-    flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
-
-    if (
+        resetVariables = true;
+      }
+    } while (
       Utilities.isFlush(flopAndHoleCardArr) ||
       Utilities.hasDuplicates(flopAndHoleCardArr)
-    ) {
-      console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      
-      resetVariables = true;
-      
-    }
-
-
-    
-  } while (
-    Utilities.isFlush(flopAndHoleCardArr) ||
-    Utilities.hasDuplicates(flopAndHoleCardArr)
-  );
+    );
 
     /*********End of new suit assigner */
 
@@ -661,7 +650,6 @@ class flopGenerator {
         completeFlopInformation["holeCards"] = [hole1, hole2];
         completeFlopInformation["flopCards"] = flopArr;
         completeFlopInformation["name"] = "Double Gutshot Flush Draw";
-        
       } else if (thirdFlopNumber === openStraightNum) {
         completeFlopInformation["outs"] = 15;
         completeFlopInformation["holeCards"] = [hole1, hole2];
@@ -823,53 +811,44 @@ class flopGenerator {
     //Converts the numbers back into the card values they represent
     let flopArrCards = flopArr.map((flopNum) => backConvertor[flopNum]);
 
-  //Creates and partially populates flopAndHoleCardArr
+    //Creates and partially populates flopAndHoleCardArr
     let flopAndHoleCardArr = [hole1, hole2];
     let resetVariables = false;
 
-  //Preserves information in case a reset is needed below due to flushDraw or duplicates
-  flopArr = flopArrCards;
+    //Preserves information in case a reset is needed below due to flushDraw or duplicates
+    flopArr = flopArrCards;
 
-  //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
-  do {
+    //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
+    do {
+      if (resetVariables) {
+        flopArr = flopArrCards;
+        flopAndHoleCardArr = [hole1, hole2];
+      }
 
-    if (
-      resetVariables
-    ) {
-      flopArr = flopArrCards;
-      flopAndHoleCardArr = [hole1, hole2];
-    }
+      flopArr = flopArr.map((flopCard) =>
+        flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
+      );
 
-    
+      flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
-    flopArr = flopArr.map((flopCard) =>
-      
-      flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
-    );
+      if (
+        Utilities.isFlush(flopAndHoleCardArr) ||
+        Utilities.hasDuplicates(flopAndHoleCardArr)
+      ) {
+        console.log(
+          "reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+        console.log("!!!!!!!!!!!!!!!!!!!!");
+        console.log("!!!!!!!!!!!!!!!!!!!!");
 
-    flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
-
-    if (
+        resetVariables = true;
+      }
+    } while (
       Utilities.isFlush(flopAndHoleCardArr) ||
       Utilities.hasDuplicates(flopAndHoleCardArr)
-    ) {
-      console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      
-      resetVariables = true;
-      
-    }
-
-
-    
-  } while (
-    Utilities.isFlush(flopAndHoleCardArr) ||
-    Utilities.hasDuplicates(flopAndHoleCardArr)
-  );
+    );
 
     /*********End of new suit assigner */
-
 
     // /****Start of old suit assigner  */
 
@@ -920,133 +899,14 @@ class flopGenerator {
 
 let flopGen = new flopGenerator();
 
-
-
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
 flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c");
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "6c")
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "5c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "7c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
-flopGen.generateInsideStraight("4c", "8c");
 
 // flopGen.generateOpenStraight("4c", "6c");
 // flopGen.generateOpenStraight("4c", "6c");
@@ -1059,16 +919,14 @@ flopGen.generateInsideStraight("4c", "8c");
 // flopGen.generateOpenStraight("4c", "6c");
 // flopGen.generateOpenStraight("4c", "6c");
 
-
-
-console.log("----")
+console.log("----");
 
 //todo write a class to generate hole cards
 
-//TODO: For generate insideStraight, sometimes a straight draw 
+//TODO: For generate insideStraight, sometimes a straight draw
 //occurs. I thought this was prevented? Investigate how it's happening
-//and as a brute force solution you could just include the straight 
-//prevention mechanism you wrote in 
+//and as a brute force solution you could just include the straight
+//prevention mechanism you wrote in
 
 //TODO: Also import mechanism to prevent straight up flushes on the flop
-//from your 
+//from your

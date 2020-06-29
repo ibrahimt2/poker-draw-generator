@@ -33,7 +33,6 @@ function decideConversionScheme(hole1, hole2) {
   return [convertor, backConvertor];
 }
 
-
 function hasDuplicates(array) {
   var valuesSoFar = Object.create(null);
   for (var i = 0; i < array.length; ++i) {
@@ -69,18 +68,23 @@ function depopulateAvailableNumArrUsingZoneArr(
     let pickedZoneArrNum =
       pickedZoneArr[0][Math.floor(Math.random() * pickedZoneArr.length)]; //The necessity of the 0 here is quite interesting
 
-    if(pickedZoneArrNum === hole1Converted || pickedZoneArrNum === hole2Converted) {
+    if (
+      pickedZoneArrNum === hole1Converted ||
+      pickedZoneArrNum === hole2Converted
+    ) {
       holeZonesArr.push(pickedZoneArr);
     } else {
-      availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
+      availableNumberArr.splice(
+        availableNumberArr.indexOf(pickedZoneArrNum),
+        1
+      );
     }
-
   }
 }
 
 function looseDepopulateAvailableNumArrUsingZoneArr(
   holeZonesArr,
-  availableNumberArr,
+  availableNumberArr
 ) {
   while (holeZonesArr.length > 1) {
     let pickedZoneArr = holeZonesArr.splice(
@@ -89,8 +93,8 @@ function looseDepopulateAvailableNumArrUsingZoneArr(
     ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
     let pickedZoneArrNum =
       pickedZoneArr[0][Math.floor(Math.random() * pickedZoneArr.length)]; //The necessity of the 0 here is quite interesting
-      availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
-    }
+    availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
+  }
 }
 
 function populateNoHitsFlopInformation(
@@ -195,24 +199,21 @@ function populateZoneArr(holeZonesArr, availableNumberArr, holeConverted) {
   populateZone3(availableNumberArr, holeConverted, holeZone3Arr);
   populateZone4(availableNumberArr, holeConverted, holeZone4Arr);
 
-  holeZonesArr.push(holeZone1Arr)
-  holeZonesArr.push(holeZone2Arr)
-  holeZonesArr.push(holeZone3Arr)
-  holeZonesArr.push(holeZone4Arr)
+  holeZonesArr.push(holeZone1Arr);
+  holeZonesArr.push(holeZone2Arr);
+  holeZonesArr.push(holeZone3Arr);
+  holeZonesArr.push(holeZone4Arr);
 
-  console.log('holeZone1Arr: ' + holeZone1Arr)
-  console.log('holeZone2Arr: ' + holeZone2Arr)
-  console.log('holeZone3Arr: ' + holeZone3Arr)
-  console.log('holeZone4Arr: ' + holeZone4Arr)
-
-
-
+  console.log("holeZone1Arr: " + holeZone1Arr);
+  console.log("holeZone2Arr: " + holeZone2Arr);
+  console.log("holeZone3Arr: " + holeZone3Arr);
+  console.log("holeZone4Arr: " + holeZone4Arr);
 }
 
 function moveElement(index, fromArray, toArray) {
-    toArray.push(fromArray[index]);
-    fromArray.splice(index, 1);
-  }
+  toArray.push(fromArray[index]);
+  fromArray.splice(index, 1);
+}
 
 function generateFlushDraw(hole1, hole2) {
   let flopArr = [];
@@ -230,7 +231,6 @@ function generateFlushDraw(hole1, hole2) {
   let flushSuit;
   let holeCardsAreSuited = false;
   let nonFlushSuitsArr = ["h", "d", "s", "c"];
-
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -253,14 +253,14 @@ function generateFlushDraw(hole1, hole2) {
 
   //Check is hole cards are suited
   if (hole1Suit === hole2Suit) {
-      holeCardsAreSuited = true;
+    holeCardsAreSuited = true;
   }
 
   //Select which hole card the flush will be created with
   if (Math.random() < 0.5) {
-      flushSuit = hole1Suit;
+    flushSuit = hole1Suit;
   } else {
-      flushSuit = hole2Suit;
+    flushSuit = hole2Suit;
   }
 
   //Remove flushSuit from the nonFlushSuitsArr
@@ -275,7 +275,12 @@ function generateFlushDraw(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+  depopulateAvailableNumArrUsingZoneArr(
+    hole1ZonesArr,
+    availableNumberArr,
+    hole1Converted,
+    hole2Converted
+  );
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
@@ -283,7 +288,12 @@ function generateFlushDraw(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+  depopulateAvailableNumArrUsingZoneArr(
+    hole2ZonesArr,
+    availableNumberArr,
+    hole1Converted,
+    hole2Converted
+  );
 
   //Removes numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
@@ -292,22 +302,33 @@ function generateFlushDraw(hole1, hole2) {
   console.log(availableNumberArr);
 
   //Pick 3 numbers from availableNumberArr
-  moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
+  moveElement(
+    Math.floor(Math.random() * availableNumberArr.length),
+    availableNumberArr,
+    flopArr
+  );
 
-
-  //If hole cards are suited, then the suit of the last card won't be flopSuit, so it can have the same value as secondlast flopArrCard without risking duplication, as they're bound 
+  //If hole cards are suited, then the suit of the last card won't be flopSuit, so it can have the same value as secondlast flopArrCard without risking duplication, as they're bound
   //to have different suits
 
   //This is not the case when hole cards are not suited
-  if(holeCardsAreSuited) {
-    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
-    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+  if (holeCardsAreSuited) {
+    flopArr.push(
+      availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]
+    );
+    flopArr.push(
+      availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]
+    );
   } else {
-    moveElement(Math.floor(Math.random() * availableNumberArr.length), availableNumberArr, flopArr);
-    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
-    
+    moveElement(
+      Math.floor(Math.random() * availableNumberArr.length),
+      availableNumberArr,
+      flopArr
+    );
+    flopArr.push(
+      availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]
+    );
   }
-
 
   //Preserve information in flopArr for completeFlopInformation methods
   flopArrNums = flopArr;
@@ -315,21 +336,19 @@ function generateFlushDraw(hole1, hole2) {
   //Converts the numbers back into the card values they represent
   flopArrCards = flopArr.map((flopNum) => backConvertor[flopNum]);
 
-
-   //Creates and partially populates flopAndHoleCardArr
+  //Creates and partially populates flopAndHoleCardArr
   let flopAndHoleCardArr = [hole1, hole2];
 
-   //Preserves information in case a reset is needed below due to flushDraw or duplicates
+  //Preserves information in case a reset is needed below due to flushDraw or duplicates
   flopArr = flopArrCards;
 
-  
-   
-   
   flopArr[0] = flopArr[0].concat(flushSuit);
   flopArr[1] = flopArr[1].concat(flushSuit);
 
-  if(holeCardsAreSuited) {
-    flopArr[2] = flopArr[2].concat(nonFlushSuitsArr[Math.floor(Math.random() * nonFlushSuitsArr .length)]);
+  if (holeCardsAreSuited) {
+    flopArr[2] = flopArr[2].concat(
+      nonFlushSuitsArr[Math.floor(Math.random() * nonFlushSuitsArr.length)]
+    );
   } else {
     flopArr[2] = flopArr[2].concat(flushSuit);
   }
@@ -338,9 +357,8 @@ function generateFlushDraw(hole1, hole2) {
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
   completeFlopInformation["name"] = "Flush Draw";
-  
-  console.log(completeFlopInformation);
 
+  console.log(completeFlopInformation);
 }
 
 function generateTripsToFullhouseOrQuads(hole1, hole2) {
@@ -379,82 +397,91 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
     1
   );
 
-  console.log('tripsHole1Suits: ' + tripsHole1Suits)
-  console.log('tripsHole2Suits: ' + tripsHole2Suits)
+  console.log("tripsHole1Suits: " + tripsHole1Suits);
+  console.log("tripsHole2Suits: " + tripsHole2Suits);
 
   //If pocket pair, generate an array that has all suits not represented in the hole cards
-  if(isPocketPair) {
-      tripsHole1Hole2Suits = tripsHole1Suits.filter( ( el ) => tripsHole2Suits.includes( el ) );
+  if (isPocketPair) {
+    tripsHole1Hole2Suits = tripsHole1Suits.filter((el) =>
+      tripsHole2Suits.includes(el)
+    );
   }
 
-  if(isPocketPair) {
-      flopArr.push(hole1Converted);
-      flopArr[0] = backConvertor[flopArr[0]];
-      console.log('tripsHole1Hole2Suits: ' + tripsHole1Hole2Suits)
-      flopArr[0] = flopArr[0].concat(tripsHole1Hole2Suits[Math.floor(Math.random() * tripsHole1Hole2Suits.length)]);
+  if (isPocketPair) {
+    flopArr.push(hole1Converted);
+    flopArr[0] = backConvertor[flopArr[0]];
+    console.log("tripsHole1Hole2Suits: " + tripsHole1Hole2Suits);
+    flopArr[0] = flopArr[0].concat(
+      tripsHole1Hole2Suits[
+        Math.floor(Math.random() * tripsHole1Hole2Suits.length)
+      ]
+    );
   } else {
-      if(Math.random() < 0.5) {
-          //use first hole card to make trips
-          flopArr.push(hole1Converted);
-          flopArr.push(hole1Converted);
+    if (Math.random() < 0.5) {
+      //use first hole card to make trips
+      flopArr.push(hole1Converted);
+      flopArr.push(hole1Converted);
 
-          //Convert back into card value
-          flopArr[0] = backConvertor[flopArr[0]];
-          flopArr[1] = backConvertor[flopArr[1]];
+      //Convert back into card value
+      flopArr[0] = backConvertor[flopArr[0]];
+      flopArr[1] = backConvertor[flopArr[1]];
 
-          //Select a suit from tripsHole1Suits
-          let flopSuit1 = tripsHole1Suits[Math.floor(Math.random() * tripsHole1Suits.length)]
-          
-          //Remove selected suit from tripsHole1Suits
-          tripsHole1Suits.splice(tripsHole1Suits.indexOf(flopSuit1), 1);
-          
-          //Attach selected suit to card value
-          flopArr[0] = flopArr[0].concat(flopSuit1);
+      //Select a suit from tripsHole1Suits
+      let flopSuit1 =
+        tripsHole1Suits[Math.floor(Math.random() * tripsHole1Suits.length)];
 
-          //Select a suit from tripsHole1Suits
-          let flopSuit2 = tripsHole1Suits[Math.floor(Math.random() * tripsHole1Suits.length)]
-          
-          //Remove selected suit from tripsHole1Suits
-          tripsHole1Suits.splice(tripsHole1Suits.indexOf(flopSuit2), 1);
-          
-          //Attach selected suit to card value
-          flopArr[1] = flopArr[1].concat(flopSuit2);
+      //Remove selected suit from tripsHole1Suits
+      tripsHole1Suits.splice(tripsHole1Suits.indexOf(flopSuit1), 1);
 
-        console.log('tripsHole1Suit: ' + tripsHole1Suits)
-        console.log('flopSuit1: ' + flopSuit1)
-        console.log('flopSuit2: ' + flopSuit2)
+      //Attach selected suit to card value
+      flopArr[0] = flopArr[0].concat(flopSuit1);
 
-      } else {
-          //use second hole card to make trips
-          flopArr.push(hole2Converted);
-          flopArr.push(hole2Converted);
+      //Select a suit from tripsHole1Suits
+      let flopSuit2 =
+        tripsHole1Suits[Math.floor(Math.random() * tripsHole1Suits.length)];
 
-          //Convert back into card value
-          flopArr[0] = backConvertor[flopArr[0]];
-          flopArr[1] = backConvertor[flopArr[1]];
+      //Remove selected suit from tripsHole1Suits
+      tripsHole1Suits.splice(tripsHole1Suits.indexOf(flopSuit2), 1);
 
-          //Select a suit from tripsHole1Suits
-          let flopSuit1 = tripsHole2Suits[Math.floor(Math.random() * tripsHole2Suits.length)]
-          
-          //Remove selected suit from tripsHole1Suits
-          tripsHole2Suits.splice(tripsHole2Suits.indexOf(flopSuit1), 1);
-          
-          //Attach selected suit to card value
-          flopArr[0] = flopArr[0].concat(flopSuit1);
+      //Attach selected suit to card value
+      flopArr[1] = flopArr[1].concat(flopSuit2);
 
-          //Select a suit from tripsHole1Suits
-          let flopSuit2 = tripsHole2Suits[Math.floor(Math.random() * tripsHole2Suits.length)]
-          
-          //Remove selected suit from tripsHole1Suits
-          tripsHole2Suits.splice(tripsHole2Suits.indexOf(flopSuit2), 1);
-          
-          //Attach selected suit to card value
-          flopArr[1] = flopArr[1].concat(flopSuit2);
+      console.log("tripsHole1Suit: " + tripsHole1Suits);
+      console.log("flopSuit1: " + flopSuit1);
+      console.log("flopSuit2: " + flopSuit2);
+    } else {
+      //use second hole card to make trips
+      flopArr.push(hole2Converted);
+      flopArr.push(hole2Converted);
 
-          console.log('tripsHole2Suit:' + tripsHole2Suits)
-          console.log('flopSuit1:' + flopSuit1)
-          console.log('flopSuit2: ' + flopSuit2)
-      }
+      //Convert back into card value
+      flopArr[0] = backConvertor[flopArr[0]];
+      flopArr[1] = backConvertor[flopArr[1]];
+
+      //Select a suit from tripsHole1Suits
+      let flopSuit1 =
+        tripsHole2Suits[Math.floor(Math.random() * tripsHole2Suits.length)];
+
+      //Remove selected suit from tripsHole1Suits
+      tripsHole2Suits.splice(tripsHole2Suits.indexOf(flopSuit1), 1);
+
+      //Attach selected suit to card value
+      flopArr[0] = flopArr[0].concat(flopSuit1);
+
+      //Select a suit from tripsHole1Suits
+      let flopSuit2 =
+        tripsHole2Suits[Math.floor(Math.random() * tripsHole2Suits.length)];
+
+      //Remove selected suit from tripsHole1Suits
+      tripsHole2Suits.splice(tripsHole2Suits.indexOf(flopSuit2), 1);
+
+      //Attach selected suit to card value
+      flopArr[1] = flopArr[1].concat(flopSuit2);
+
+      console.log("tripsHole2Suit:" + tripsHole2Suits);
+      console.log("flopSuit1:" + flopSuit1);
+      console.log("flopSuit2: " + flopSuit2);
+    }
   }
 
   //Insert number from availableNumberArr into flopArr
@@ -463,8 +490,10 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   );
 
   //If pocket pair, only 1 number has been inserted so far, thus insert another number from availableNumberArr into flopArr
-  if(isPocketPair) {
-    flopArr.push(availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]);
+  if (isPocketPair) {
+    flopArr.push(
+      availableNumberArr[Math.floor(Math.random() * availableNumberArr.length)]
+    );
   }
 
   //Preserve flopArrNums incase a second attempt is needed when assigning flop suits
@@ -474,7 +503,7 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   flopArr[2] = backConvertor[flopArrNums[2]];
 
   //If pocket pair, the number at index 1 has not yet been converted into card value
-  if(isPocketPair) {
+  if (isPocketPair) {
     flopArr[1] = backConvertor[flopArrNums[1]];
   }
 
@@ -483,26 +512,29 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   flopArrNums = flopArr;
 
   do {
+    if (isPocketPair) {
+      flopArr[1] = flopArr[1].concat(
+        suits[Math.floor(Math.random() * suits.length)]
+      );
+    }
 
-    if(isPocketPair) {
-        flopArr[1] = flopArr[1].concat(suits[Math.floor(Math.random() * suits.length)]);
-    } 
-
-    flopArr[2] = flopArr[2].concat(suits[Math.floor(Math.random() * suits.length)]);
+    flopArr[2] = flopArr[2].concat(
+      suits[Math.floor(Math.random() * suits.length)]
+    );
 
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
+    if (
+      Utilities.isFlushDraw(flopAndHoleCardArr) ||
+      hasDuplicates(flopAndHoleCardArr)
+    ) {
+      flopArr[2] = backConvertor[flopArrNums[2]];
+      if (isPocketPair) {
+        flopArr[1] = backConvertor[flopArrNums[1]];
+      }
 
-    if(Utilities.isFlushDraw(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr)) {
-
-        flopArr[2] = backConvertor[flopArrNums[2]];
-        if(isPocketPair) {
-            flopArr[1] = backConvertor[flopArrNums[1]];
-        }
-
-        flopAndHoleCardArr = [hole1, hole2];
+      flopAndHoleCardArr = [hole1, hole2];
     }
-
   } while (
     Utilities.isFlushDraw(flopAndHoleCardArr) ||
     hasDuplicates(flopAndHoleCardArr)
@@ -511,10 +543,9 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   completeFlopInformation["outs"] = 7;
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
-  completeFlopInformation["name"] = "Trips to Fullhouse/Quads"
+  completeFlopInformation["name"] = "Trips to Fullhouse/Quads";
 
   console.log(completeFlopInformation);
-
 }
 
 function OnePairToTwoPairOrTrips(hole1, hole2) {
@@ -580,7 +611,12 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+  depopulateAvailableNumArrUsingZoneArr(
+    hole1ZonesArr,
+    availableNumberArr,
+    hole1Converted,
+    hole2Converted
+  );
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
@@ -588,13 +624,18 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
+  depopulateAvailableNumArrUsingZoneArr(
+    hole2ZonesArr,
+    availableNumberArr,
+    hole1Converted,
+    hole2Converted
+  );
 
   //Just remove numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
-  console.log('availableNumberArr: ' + availableNumberArr)
+  console.log("availableNumberArr: " + availableNumberArr);
 
   //Insert 2 numbers from availableNumberArr into flopArr
   flopArr.push(
@@ -617,14 +658,13 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
 
   //Assigns suits to flopCards, and redoes it if a flush draw is generated
   do {
-    
-    if(resetVariables) {
-    //   console.log('problem flopArr[1]:' + flopArr[1])
-    //   console.log('problem flopArr[2]:' + flopArr[2])
+    if (resetVariables) {
+      //   console.log('problem flopArr[1]:' + flopArr[1])
+      //   console.log('problem flopArr[2]:' + flopArr[2])
       flopArr[1] = backConvertor[flopArrNums[1]];
       flopArr[2] = backConvertor[flopArrNums[2]];
-    //   console.log('reattempt flopArr[1]:' + flopArr[1])
-    //   console.log('reattempt flopArr[2]:' + flopArr[2])
+      //   console.log('reattempt flopArr[1]:' + flopArr[1])
+      //   console.log('reattempt flopArr[2]:' + flopArr[2])
       flopAndHoleCardArr = [hole1, hole2];
       resetVariables = false;
     }
@@ -642,12 +682,11 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
       Utilities.isFlushDraw(flopAndHoleCardArr) ||
       hasDuplicates(flopAndHoleCardArr)
     ) {
-    //   console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!')
-    //   console.log('!!!!!!!!!!!!!!!!!!!!')
-    //   console.log('!!!!!!!!!!!!!!!!!!!!')
-      
+      //   console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!')
+      //   console.log('!!!!!!!!!!!!!!!!!!!!')
+      //   console.log('!!!!!!!!!!!!!!!!!!!!')
+
       resetVariables = true;
-      
     }
   } while (
     Utilities.isFlushDraw(flopAndHoleCardArr) ||
@@ -770,7 +809,7 @@ function generateNoHitsFlop(hole1, hole2) {
 
   //Implementing straight generation protection
 
-  console.log('hole1Zones');
+  console.log("hole1Zones");
   populateZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
 
   //console.log(hole1ZonesArr + hole1ZonesArr)
@@ -780,11 +819,15 @@ function generateNoHitsFlop(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
-  console.log('availableNumberArr after hole1Depop: ' + availableNumberArr);
+  depopulateAvailableNumArrUsingZoneArr(
+    hole1ZonesArr,
+    availableNumberArr,
+    hole1Converted,
+    hole2Converted
+  );
+  console.log("availableNumberArr after hole1Depop: " + availableNumberArr);
 
-
-  console.log('hole2Zones');
+  console.log("hole2Zones");
   populateZoneArr(hole2ZonesArr, availableNumberArr, hole2Converted);
 
   //Filters out zone arrays who don't have more than 1 element
@@ -792,18 +835,22 @@ function generateNoHitsFlop(hole1, hole2) {
     return zoneArray.length > 1;
   });
 
-  depopulateAvailableNumArrUsingZoneArr(hole2ZonesArr, availableNumberArr, hole1Converted, hole2Converted);
-  console.log('availableNumberArr after hole2Depop: ' + availableNumberArr);
-
+  depopulateAvailableNumArrUsingZoneArr(
+    hole2ZonesArr,
+    availableNumberArr,
+    hole1Converted,
+    hole2Converted
+  );
+  console.log("availableNumberArr after hole2Depop: " + availableNumberArr);
 
   //At this point, you can select any number from availableNumberArr without fear of causing a straight
 
   //Removes numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
-  console.log('hole1Converted: ' + hole1Converted)
-  console.log('hole2Converted: ' + hole2Converted)
-  console.log('availableNumberArr: ' + availableNumberArr);
+  console.log("hole1Converted: " + hole1Converted);
+  console.log("hole2Converted: " + hole2Converted);
+  console.log("availableNumberArr: " + availableNumberArr);
 
   //Pick 3 numbers from availableNumberArr
   flopArr.push(
@@ -831,10 +878,7 @@ function generateNoHitsFlop(hole1, hole2) {
 
   //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
   do {
-
-    if (
-      resetVariables
-    ) {
+    if (resetVariables) {
       flopArr = flopArrCards;
       flopAndHoleCardArr = [hole1, hole2];
     }
@@ -849,16 +893,12 @@ function generateNoHitsFlop(hole1, hole2) {
       Utilities.isFlushDraw(flopAndHoleCardArr) ||
       hasDuplicates(flopAndHoleCardArr)
     ) {
-      console.log('reattemping suit!!!!!!!!!!!!!!!!!!!!')
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      console.log('!!!!!!!!!!!!!!!!!!!!')
-      
+      console.log("reattemping suit!!!!!!!!!!!!!!!!!!!!");
+      console.log("!!!!!!!!!!!!!!!!!!!!");
+      console.log("!!!!!!!!!!!!!!!!!!!!");
+
       resetVariables = true;
-      
     }
-
-
-    
   } while (
     Utilities.isFlushDraw(flopAndHoleCardArr) ||
     hasDuplicates(flopAndHoleCardArr)
@@ -877,11 +917,8 @@ function generateNoHitsFlop(hole1, hole2) {
   console.log(completeFlopInformation);
 }
 
-
-
 //TODO: Implement overcard detection and handling in generateFlushDraw and wherever else it is needed
 
-
 generateFlushDraw("Ac", "Ad");
 generateFlushDraw("7c", "7d");
 generateFlushDraw("3c", "7c");
@@ -897,11 +934,11 @@ generateFlushDraw("5c", "7d");
 generateFlushDraw("3c", "7d");
 generateFlushDraw("Ac", "2d");
 
-generateTripsToFullhouseOrQuads("Ac", "Ad")
-generateTripsToFullhouseOrQuads("7c", "7d")
-generateTripsToFullhouseOrQuads("3c", "7d")
-generateTripsToFullhouseOrQuads("Ac", "2d")
-generateTripsToFullhouseOrQuads("5c", "7d")
+generateTripsToFullhouseOrQuads("Ac", "Ad");
+generateTripsToFullhouseOrQuads("7c", "7d");
+generateTripsToFullhouseOrQuads("3c", "7d");
+generateTripsToFullhouseOrQuads("Ac", "2d");
+generateTripsToFullhouseOrQuads("5c", "7d");
 
 generateTwoPairToFullhouse("5c", "7d");
 generateTwoPairToFullhouse("6c", "7d");
@@ -912,23 +949,23 @@ generateTwoPairToFullhouse("5c", "7d");
 generateTwoPairToFullhouse("6c", "7d");
 generateTwoPairToFullhouse("3c", "7d");
 
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
 
-OnePairToTwoPairOrTrips('3c', '7d')
-OnePairToTwoPairOrTrips('Ac', '2d')
-OnePairToTwoPairOrTrips('9c', 'Qd')
-OnePairToTwoPairOrTrips('5c', '7d')
-OnePairToTwoPairOrTrips('6c', '7d')
-OnePairToTwoPairOrTrips('3c', '7d')
-OnePairToTwoPairOrTrips('Ac', '2d')
-OnePairToTwoPairOrTrips('9c', 'Qd')
+OnePairToTwoPairOrTrips("3c", "7d");
+OnePairToTwoPairOrTrips("Ac", "2d");
+OnePairToTwoPairOrTrips("9c", "Qd");
+OnePairToTwoPairOrTrips("5c", "7d");
+OnePairToTwoPairOrTrips("6c", "7d");
+OnePairToTwoPairOrTrips("3c", "7d");
+OnePairToTwoPairOrTrips("Ac", "2d");
+OnePairToTwoPairOrTrips("9c", "Qd");
 
 generateNoHitsFlop("5c", "7d");
 generateNoHitsFlop("6c", "7d");
@@ -937,7 +974,6 @@ generateNoHitsFlop("9c", "8d");
 generateNoHitsFlop("10c", "9d");
 generateNoHitsFlop("10c", "Qd");
 generateNoHitsFlop("9c", "Qd");
-
 
 generateNoHitsFlop("Ac", "Kd");
 generateNoHitsFlop("Ac", "2d");
@@ -972,8 +1008,6 @@ generateNoHitsFlop("8c", "7d");
 generateNoHitsFlop("6c", "7d");
 generateNoHitsFlop("8c", "7d");
 console.log("end");
-
-
 
 //TODO find all the methods that have the same code to handle suit
 //assignment and made one method to use everywhere
