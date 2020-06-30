@@ -471,6 +471,18 @@ function generateFlushDraw(hole1, hole2) {
   return completeFlopInformation;
 }
 
+/**
+ * Summary.
+ * Populates completeFlopInformation depending
+ * on whether there are one overcards or two overcard
+ *
+ * Depending on the original hole cards
+ *
+ * @param {String} hole1
+ * @param {String} hole2
+ * @returns {completeFlopInformation}
+ */
+
 function populateFlushFlopInformation(
   hole1Converted,
   hole2Converted,
@@ -1115,82 +1127,82 @@ generateFlushDraw("7c", "7d");
 generateFlushDraw("3c", "7c");
 generateFlushDraw("Ad", "2d");
 generateFlushDraw("5c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
+generateFlushDraw("Kc", "Qc");
+generateFlushDraw("Ac", "Kc");
 
-generateTripsToFullhouseOrQuads("Ac", "Ad");
-generateTripsToFullhouseOrQuads("7c", "7d");
-generateTripsToFullhouseOrQuads("3c", "7d");
-generateTripsToFullhouseOrQuads("Ac", "2d");
-generateTripsToFullhouseOrQuads("5c", "7d");
+// generateTripsToFullhouseOrQuads("Ac", "Ad");
+// generateTripsToFullhouseOrQuads("7c", "7d");
+// generateTripsToFullhouseOrQuads("3c", "7d");
+// generateTripsToFullhouseOrQuads("Ac", "2d");
+// generateTripsToFullhouseOrQuads("5c", "7d");
 
-generateTwoPairToFullhouse("5c", "7d");
-generateTwoPairToFullhouse("6c", "7d");
-generateTwoPairToFullhouse("3c", "7d");
-generateTwoPairToFullhouse("Ac", "2d");
-generateTwoPairToFullhouse("9c", "Qd");
-generateTwoPairToFullhouse("5c", "7d");
-generateTwoPairToFullhouse("6c", "7d");
-generateTwoPairToFullhouse("3c", "7d");
+// generateTwoPairToFullhouse("5c", "7d");
+// generateTwoPairToFullhouse("6c", "7d");
+// generateTwoPairToFullhouse("3c", "7d");
+// generateTwoPairToFullhouse("Ac", "2d");
+// generateTwoPairToFullhouse("9c", "Qd");
+// generateTwoPairToFullhouse("5c", "7d");
+// generateTwoPairToFullhouse("6c", "7d");
+// generateTwoPairToFullhouse("3c", "7d");
 
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
 
-OnePairToTwoPairOrTrips("3c", "7d");
-OnePairToTwoPairOrTrips("Ac", "2d");
-OnePairToTwoPairOrTrips("9c", "Qd");
-OnePairToTwoPairOrTrips("5c", "7d");
-OnePairToTwoPairOrTrips("6c", "7d");
-OnePairToTwoPairOrTrips("3c", "7d");
-OnePairToTwoPairOrTrips("Ac", "2d");
-OnePairToTwoPairOrTrips("9c", "Qd");
+// OnePairToTwoPairOrTrips("3c", "7d");
+// OnePairToTwoPairOrTrips("Ac", "2d");
+// OnePairToTwoPairOrTrips("9c", "Qd");
+// OnePairToTwoPairOrTrips("5c", "7d");
+// OnePairToTwoPairOrTrips("6c", "7d");
+// OnePairToTwoPairOrTrips("3c", "7d");
+// OnePairToTwoPairOrTrips("Ac", "2d");
+// OnePairToTwoPairOrTrips("9c", "Qd");
 
-generateNoHitsFlop("5c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("9c", "8d");
-generateNoHitsFlop("10c", "9d");
-generateNoHitsFlop("10c", "Qd");
-generateNoHitsFlop("9c", "Qd");
+// generateNoHitsFlop("5c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("9c", "8d");
+// generateNoHitsFlop("10c", "9d");
+// generateNoHitsFlop("10c", "Qd");
+// generateNoHitsFlop("9c", "Qd");
 
-generateNoHitsFlop("Ac", "Kd");
-generateNoHitsFlop("Ac", "2d");
-generateNoHitsFlop("2c", "2d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
-generateNoHitsFlop("6c", "7d");
-generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("Ac", "Kd");
+// generateNoHitsFlop("Ac", "2d");
+// generateNoHitsFlop("2c", "2d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
+// generateNoHitsFlop("6c", "7d");
+// generateNoHitsFlop("8c", "7d");
 console.log("end");
 
 //TODO find all the methods that have the same code to handle suit
