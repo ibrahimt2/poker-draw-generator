@@ -8,6 +8,30 @@ let Convertor = require("./convertor.js");
 //Modify conversion scheme decider to make it so that
 //Having an A automatically makes it use high card scheme
 
+/**
+ * Summary.
+ * Decides between using low ace or high ace conversion scheme.
+ *
+ * Description.
+ * A can be used as both a low card, resulting in a
+ * A 2 3 4 5 straight. Or a high card, resulting in
+ * A K Q 10 9 straight. These two situations are mutually
+ * exclusive as 'straights' don't wrap around, and when converted
+ * into numbers there is no difference in the math.
+ *
+ * To avoid writing unnecesarily complex code to account
+ * for both cases, we decide a conversion scheme based
+ * on hole cards
+ *
+ * If neither hole card >= 10, ace is treated as low
+ * If both hole cards are >= 10, ace is treated as high
+ * If one card >= 10 and the other card is A, A is treated as high
+ *
+ * @param {string} hole1
+ * @param {string} hole2
+ * @returns {Object[]} [CardToNum convertor, NumToCard convertor]
+ */
+
 function decideConversionScheme(hole1, hole2) {
   let convertor = Convertor.putCardGetNumAceLow;
   let backConvertor = Convertor.putNumGetCardValueAceLow;
@@ -33,6 +57,14 @@ function decideConversionScheme(hole1, hole2) {
   return [convertor, backConvertor];
 }
 
+/**
+ * Summary.
+ * Checks for duplicate strings in an array
+ *
+ * @param {String[]} array
+ * @returns {Boolean}
+ */
+
 function hasDuplicates(array) {
   var valuesSoFar = Object.create(null);
   for (var i = 0; i < array.length; ++i) {
@@ -45,13 +77,27 @@ function hasDuplicates(array) {
   return false;
 }
 
-/** Select a zone, select a number from the zone,
- *  remove selected number from availableNumberArr
- *  unti
+/**
+ * Summary.
+ * Directly depopulates availableNumberArr until it has only
+ * 1 element overlap with each zone 1-4
+ * For explanation of zones, see {name of whitepaper}
+ *
+ * Description.
+ * Iterates through holeZonesArr, randomly splices out a
+ * zoneArray from holeZonesArr, then randomly picks a number
+ * from within chosen zoneArray.
+ *
+ *  If the number is equal to any hole card, does nothing
+ *  and puts the chosenZoneArray back into holeZonesArr.
+ *
+ *  Else splices number out of availableNumberArr
+ *
+ * Repeats loop this until all holeZonesArr is empty
  *
  *
- * @param {*} holeZonesArr
- * @param {*} availableNumberArr
+ * @param {Number[][]} holeZonesArr Array containing array containing numbers of the zones 1-4 of a hole
+ * @param {Number[]} availableNumberArr
  */
 
 function depopulateAvailableNumArrUsingZoneArr(
@@ -82,20 +128,20 @@ function depopulateAvailableNumArrUsingZoneArr(
   }
 }
 
-function looseDepopulateAvailableNumArrUsingZoneArr(
-  holeZonesArr,
-  availableNumberArr
-) {
-  while (holeZonesArr.length > 1) {
-    let pickedZoneArr = holeZonesArr.splice(
-      Math.floor(Math.random() * holeZonesArr.length),
-      1
-    ); //Apparently this returned a double nested array instead of a single array, hence the 0 below being necessary
-    let pickedZoneArrNum =
-      pickedZoneArr[0][Math.floor(Math.random() * pickedZoneArr.length)]; //The necessity of the 0 here is quite interesting
-    availableNumberArr.splice(availableNumberArr.indexOf(pickedZoneArrNum), 1);
-  }
-}
+/**
+ * Summary.
+ * Populates completeFlopInformation array with
+ * information that needs to be communicated to the
+ * client
+ *
+ * @param {Number} hole1Converted
+ * @param {Number} hole2Converted
+ * @param {String} hole1
+ * @param {String} hole2
+ * @param {Number[]} flopArr
+ * @param {Number[]} flopArrNums
+ * @param {Object} completeFlopInformation
+ */
 
 function populateNoHitsFlopInformation(
   hole1Converted,
@@ -136,6 +182,15 @@ function populateNoHitsFlopInformation(
   }
 }
 
+/**
+ * Summary.
+ * Populates Zone 1 with numbers
+ *
+ * @param {Number[]} availableNumberArr
+ * @param {Number} holeConverted
+ * @param {Number[]} holeZone1Arr
+ */
+
 function populateZone1(availableNumberArr, holeConverted, holeZone1Arr) {
   if (holeConverted - 4 > 0 && availableNumberArr.includes(holeConverted - 4)) {
     holeZone1Arr.push(holeConverted - 4);
@@ -146,6 +201,15 @@ function populateZone1(availableNumberArr, holeConverted, holeZone1Arr) {
   }
 }
 
+/**
+ * Summary.
+ * Populates Zone 2 with numbers
+ *
+ * @param {Number[]} availableNumberArr
+ * @param {Number} holeConverted
+ * @param {Number[]} holeZone1Arr
+ */
+
 function populateZone2(availableNumberArr, holeConverted, holeZone2Arr) {
   if (holeConverted - 2 > 0 && availableNumberArr.includes(holeConverted - 2)) {
     holeZone2Arr.push(holeConverted - 2);
@@ -155,6 +219,15 @@ function populateZone2(availableNumberArr, holeConverted, holeZone2Arr) {
     holeZone2Arr.push(holeConverted - 1);
   }
 }
+
+/**
+ * Summary.
+ * Populates Zone 3 with numbers
+ *
+ * @param {Number[]} availableNumberArr
+ * @param {Number} holeConverted
+ * @param {Number[]} holeZone1Arr
+ */
 
 function populateZone3(availableNumberArr, holeConverted, holeZone3Arr) {
   if (
@@ -172,6 +245,15 @@ function populateZone3(availableNumberArr, holeConverted, holeZone3Arr) {
   }
 }
 
+/**
+ * Summary.
+ * Populates Zone 4 with numbers
+ *
+ * @param {Number[]} availableNumberArr
+ * @param {Number} holeConverted
+ * @param {Number[]} holeZone1Arr
+ */
+
 function populateZone4(availableNumberArr, holeConverted, holeZone4Arr) {
   if (
     holeConverted + 3 < 14 &&
@@ -187,6 +269,15 @@ function populateZone4(availableNumberArr, holeConverted, holeZone4Arr) {
     holeZone4Arr.push(holeConverted + 4);
   }
 }
+
+/**
+ * Summary.
+ * Populates holeZonesArr with zone arrays 1-4
+ *
+ * @param {Number[][]} holeZonesArr
+ * @param {Number[]} availableNumberArr
+ * @param {Number} holeConverted
+ */
 
 function populateZoneArr(holeZonesArr, availableNumberArr, holeConverted) {
   let holeZone1Arr = [];
@@ -215,6 +306,24 @@ function moveElement(index, fromArray, toArray) {
   fromArray.splice(index, 1);
 }
 
+/**
+ * @typedef {Object} completeFlopInformation
+ * @param {Number} outs The number of outs associated with the draw
+ * @param {Array} holeCards The original hole cards
+ * @param {Array} flopArr The cards in the flop
+ * @param {String} name The specific name of the draw
+ */
+
+/**
+ * Summary.
+ * Takes in 2 cards and generates
+ * a flop that results in a flush draw
+ *
+ * @param {String} hole1
+ * @param {String} hole2
+ * @returns {completeFlopInformation}
+ */
+
 function generateFlushDraw(hole1, hole2) {
   let flopArr = [];
   let suits = ["h", "d", "s", "c"];
@@ -242,10 +351,6 @@ function generateFlushDraw(hole1, hole2) {
     hole1Converted = hole2Converted;
     hole2Converted = temp;
   }
-
-  // //Removes numbers corresponding to hole cards from available pool
-  // availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
-  // availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
   //Extract holeSuits
   hole1Suit = hole1.charAt(hole1.length - 1);
@@ -353,13 +458,61 @@ function generateFlushDraw(hole1, hole2) {
     flopArr[2] = flopArr[2].concat(flushSuit);
   }
 
-  completeFlopInformation["outs"] = 9;
-  completeFlopInformation["holeCards"] = [hole1, hole2];
-  completeFlopInformation["flopCards"] = flopArr;
-  completeFlopInformation["name"] = "Flush Draw";
-
+  populateFlushFlopInformation(
+    hole1Converted,
+    hole2Converted,
+    hole1,
+    hole2,
+    flopArr,
+    flopArrNums,
+    completeFlopInformation
+  );
   console.log(completeFlopInformation);
+  return completeFlopInformation;
 }
+
+function populateFlushFlopInformation(
+  hole1Converted,
+  hole2Converted,
+  hole1,
+  hole2,
+  flopArr,
+  flopArrNums,
+  completeFlopInformation
+) {
+  if (
+    flopArrNums.every((el) => el < hole1Converted) &&
+    flopArrNums.every((el) => el < hole2Converted)
+  ) {
+    completeFlopInformation["outs"] = 15;
+    completeFlopInformation["holeCards"] = [hole1, hole2];
+    completeFlopInformation["flopCards"] = flopArr;
+    completeFlopInformation["name"] = "Flush Draw & Two Overcards";
+  } else if (
+    flopArrNums.every((el) => el < hole1Converted) ||
+    flopArrNums.every((el) => el < hole2Converted)
+  ) {
+    completeFlopInformation["outs"] = 12;
+    completeFlopInformation["holeCards"] = [hole1, hole2];
+    completeFlopInformation["flopCards"] = flopArr;
+    completeFlopInformation["name"] = "Flush Draw & One Overcards";
+  } else {
+    completeFlopInformation["outs"] = 9;
+    completeFlopInformation["holeCards"] = [hole1, hole2];
+    completeFlopInformation["flopCards"] = flopArr;
+    completeFlopInformation["name"] = "Flush Draw";
+  }
+}
+
+/**
+ * Summary.
+ * Takes in 2 cards and generates
+ * a flop that results in 'TripsToFullhouseOrQuads'
+ *
+ * @param {String} hole1
+ * @param {String} hole2
+ * @returns {completeFlopInformation}
+ */
 
 function generateTripsToFullhouseOrQuads(hole1, hole2) {
   let flopArr = [];
@@ -548,6 +701,16 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   console.log(completeFlopInformation);
 }
 
+/**
+ * Summary.
+ * Takes in 2 cards and generates
+ * a flop that results in 'OnePairToTwoPairOrTrips'
+ *
+ * @param {String} hole1
+ * @param {String} hole2
+ * @returns {completeFlopInformation}
+ */
+
 function OnePairToTwoPairOrTrips(hole1, hole2) {
   let flopArr = [];
   let suits = ["h", "d", "s", "c"];
@@ -702,6 +865,16 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
   console.log(completeFlopInformation);
 }
 
+/**
+ * Summary.
+ * Takes in 2 cards and generates
+ * a flop that results in 'TwoPairToFullhouse'
+ *
+ * @param {String} hole1
+ * @param {String} hole2
+ * @returns {completeFlopInformation}
+ */
+
 function generateTwoPairToFullhouse(hole1, hole2) {
   let flopArr = [];
   let suits = ["h", "d", "s", "c"];
@@ -780,6 +953,20 @@ function generateTwoPairToFullhouse(hole1, hole2) {
   console.log(completeFlopInformation);
 }
 
+/**
+ * Summary.
+ * Takes in 2 cards and generates a flop that results in no hits
+ * that results in a draw of 'Pocket pair to trips' or
+ * 'Two overcards to overpair' or 'One overcard to overpair' or
+ * 'No pair to pair'
+ *
+ * Depending on the original hole cards
+ *
+ * @param {String} hole1
+ * @param {String} hole2
+ * @returns {completeFlopInformation}
+ */
+
 function generateNoHitsFlop(hole1, hole2) {
   let flopArr = [];
   let suits = ["h", "d", "s", "c"];
@@ -803,13 +990,9 @@ function generateNoHitsFlop(hole1, hole2) {
     hole2Converted = temp;
   }
 
-  // //Removes numbers corresponding to hole cards from available pool
-  // availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
-  // availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
-
   //Implementing straight generation protection
 
-  console.log("hole1Zones");
+  //console.log("hole1Zones");
   populateZoneArr(hole1ZonesArr, availableNumberArr, hole1Converted);
 
   //console.log(hole1ZonesArr + hole1ZonesArr)
@@ -825,6 +1008,7 @@ function generateNoHitsFlop(hole1, hole2) {
     hole1Converted,
     hole2Converted
   );
+
   console.log("availableNumberArr after hole1Depop: " + availableNumberArr);
 
   console.log("hole2Zones");
@@ -841,16 +1025,16 @@ function generateNoHitsFlop(hole1, hole2) {
     hole1Converted,
     hole2Converted
   );
-  console.log("availableNumberArr after hole2Depop: " + availableNumberArr);
+  //console.log("availableNumberArr after hole2Depop: " + availableNumberArr);
 
   //At this point, you can select any number from availableNumberArr without fear of causing a straight
 
   //Removes numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
-  console.log("hole1Converted: " + hole1Converted);
-  console.log("hole2Converted: " + hole2Converted);
-  console.log("availableNumberArr: " + availableNumberArr);
+  //console.log("hole1Converted: " + hole1Converted);
+  //console.log("hole2Converted: " + hole2Converted);
+  //console.log("availableNumberArr: " + availableNumberArr);
 
   //Pick 3 numbers from availableNumberArr
   flopArr.push(

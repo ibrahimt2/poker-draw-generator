@@ -12,13 +12,15 @@ class flopGenerator {
     fromArray.splice(index, 1);
   }
 
-  /** Goes through the deck and populates the outermostArr
-   *  This is the set of numbers which are exactly 3 cards below
-   *  the highest card, or exactly 3 cards above the lowest card
+  /**
+   * Summary.
+   * Goes through the deck and populates the outermostArr
+   * This is the set of numbers which are exactly 3 cards below
+   * the highest card, or exactly 3 cards above the lowest card
    *
-   * @param {*} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} outermostArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} outermostArr
    */
 
   populateOutermostArr(hole1Converted, hole2Converted, outermostArr) {
@@ -35,12 +37,14 @@ class flopGenerator {
     //console.log("Outermost Card Array: " + outermostArr)
   }
 
-  /** Goes through deck and populates the internalArr
-   *  This is the set of cards which falls in between the 2 hole cards
+  /**
+   * Summary.
+   * Goes through deck and populates the internalArr
+   * This is the set of cards which falls in between the 2 hole cards
    *
-   * @param {*} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} internalArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} internalArr
    */
 
   populateInternalArr(hole1Converted, hole2Converted, internalArr) {
@@ -51,13 +55,16 @@ class flopGenerator {
     //console.log("Internal Card Array: " + internalArr);
   }
 
-  /** Go through deck and populate the externalArr
-   *  This is set of cards that is less than 3 clicks from below the highest card,
-   *  or less than 3 clicks above the lowest card
+  /**
+   * Summary.
+   * Go through deck and populate the externalArr
+   * This is set of cards that is less than 3 cards from
+   * below the highest card, or less than 3 cards above
+   * the lowest card
    *
-   * @param {*} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} externalArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} externalArr
    */
 
   populateExternalArr(hole1Converted, hole2Converted, externalArr) {
@@ -76,14 +83,16 @@ class flopGenerator {
     //console.log("External Card Array: " + externalArr);
   }
 
-  /**  Ensures that all elements in outermostArr, internalArr and externalArr
-   *   are mutually exclusive
+  /**
+   * Summary.
+   * Ensures that all elements in outermostArr, internalArr
+   * and externalArr are mutually exclusive
    *
-   * @param {*} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} outermostArr
-   * @param {*} internalArr
-   * @param {*} externalArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} outermostArr
+   * @param {Number[]} internalArr
+   * @param {Number[]} externalArr
    */
 
   removeOverlappingElementsFromExternalArr(
@@ -110,17 +119,19 @@ class flopGenerator {
     return externalArr;
   }
 
-  /** Randomly picks the first 2 cards to insert into the flop array
-   *  based on seperation between hole cards. At the end of this method,
-   *  the flopArr will have 2 cards that are going to combine with the
-   *  hole cards to make a inside straight draw, or variations of it
+  /**
+   * Summary.
+   * Randomly picks the first 2 cards to insert into the flop array
+   * based on seperation between hole cards. At the end of this method,
+   * the flopArr will have 2 cards that are going to combine with the
+   * hole cards to make a inside straight draw, or variations of it
    *
-   * @param {*} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} outermostArr
-   * @param {*} internalArr
-   * @param {*} externalArr
-   * @param {*} flopArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} outermostArr
+   * @param {Number[]} internalArr
+   * @param {Number[]} externalArr
+   * @param {Number[]} flopArr
    */
 
   buildInsideFlopArr(
@@ -216,17 +227,19 @@ class flopGenerator {
     }
   }
 
-  /** Randomly picks the first 2 cards to insert into the flop array
-   *  based on seperation between hole cards. At the end of this method,
-   *  the flopArr will have 2 cards that are going to combine with the
-   *  hole cards to make a open straight draw, or variations of it
+  /**
+   * Solution.
+   * Randomly picks the first 2 cards to insert into the flop array
+   * based on seperation between hole cards. At the end of this method,
+   * the flopArr will have 2 cards that are going to combine with the
+   * hole cards to make a open straight draw, or variations of it
    *
-   * @param {*} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} flopArr
-   * @param {*} leftBranchArr
-   * @param {*} internalArr
-   * @param {*} rightBranchArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} flopArr
+   * @param {Number[]} leftBranchArr
+   * @param {Number[]} internalArr
+   * @param {Number[]} rightBranchArr
    */
   buildOpenFlopArr(
     hole1Converted,
@@ -300,12 +313,14 @@ class flopGenerator {
     }
   }
 
-  /**  Populates the 'left branch' of the 2 hole card set up,
-   *   in descending order (highest first)
+  /**
+   * Summary.
+   * Populates the 'left branch' of the 2 hole card set up,
+   * in descending order (highest first)
    *
-   * @param {} hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} leftBranchArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} leftBranchArr
    */
 
   populateLeftBranchArr(hole1Converted, hole2Converted, leftBranchArr) {
@@ -320,12 +335,14 @@ class flopGenerator {
     }
   }
 
-  /** Populates the 'right branch' of the 2 hole card set up,
-   *  in ascending order (lowest first)
+  /**
+   * Solution
+   * Populates the 'right branch' of the 2 hole card set up,
+   * in ascending order (lowest first)
    *
-   * @param { } hole1Converted
-   * @param {*} hole2Converted
-   * @param {*} rightBranchArr
+   * @param {Number} hole1Converted
+   * @param {Number} hole2Converted
+   * @param {Number[]} rightBranchArr
    */
 
   populateRightBranchArr(hole1Converted, hole2Converted, rightBranchArr) {
@@ -340,11 +357,13 @@ class flopGenerator {
     }
   }
 
-  /** Decides whether to use a high ace conversion scheme (A = 13)
-   *  Or a low ace conversion scheme (A = 1)
+  /**
+   * Solution.
+   * Decides whether to use a high ace conversion scheme (A = 13)
+   * Or a low ace conversion scheme (A = 1)
    *
-   * @param {*} hole1
-   * @param {*} hole2
+   * @param {Number} hole1
+   * @param {Number} hole2
    */
 
   decideConversionScheme(hole1, hole2) {
@@ -372,12 +391,14 @@ class flopGenerator {
     return [convertor, backConvertor];
   }
 
-  /** Detects and deals with particular numbers that, if
-   *  selected, will cause the flop to not be an inside straight.
-   *  Modifies remainingNumberSet
+  /**
+   * Solution.
+   * Detects and deals with particular numbers that, if
+   * selected, will cause the flop to not be an inside straight.
+   * Modifies remainingNumberSet
    *
-   * @param {*} flopAndHoleArr
-   * @param {*} remainingNumberSet
+   * @param {Number[]} flopAndHoleArr
+   * @param {Number[]} remainingNumberSet
    */
 
   detectNotInsideStraightAndPreventStraight(
@@ -446,38 +467,27 @@ class flopGenerator {
     return [openStraightNum, doubleGutshotNum, remainingNumberSet];
   }
 
-  detectFlushDraw(flopAndHoleCardArr) {
-    let suitArray = [];
-    var count = {};
-    let isFlushDraw = false;
+  /**
+   * @typedef {Object} completeFlopInformation
+   * @param {Number} outs The number of outs associated with the draw
+   * @param {Array} holeCards The original hole cards
+   * @param {Array} flopArr The cards in the flop
+   * @param {String} name The specific name of the draw
+   */
 
-    //Extracts just the suit values from each card
-    flopAndHoleCardArr.forEach((card) => {
-      suitArray.push(card[card.length - 1]);
-    });
+  /**
+   * Summary.
+   * Takes in two hole cards and generates
+   * an inside straight draw most of the time
+   * but it's something else, it is detected and
+   * accounts for in by changing information in
+   * completeFlopInformation
+   *
+   * @param {String} hole1
+   * @param {String} hole2
+   * @returns {completeFlopInformation}
+   */
 
-    //console.log(suitArray)
-
-    suitArray.forEach(function (i) {
-      count[i] = (count[i] || 0) + 1;
-    });
-    //console.log(count);
-
-    //Decides if the cards are a flush draw
-    if (
-      count["d"] >= 4 ||
-      count["h"] >= 4 ||
-      count["s"] >= 4 ||
-      count["c"] >= 4
-    ) {
-      isFlushDraw = true;
-      //console.log("set flush draw to true")
-    }
-
-    return isFlushDraw;
-  }
-
-  //Assumes 2 different cards, within 3 cards of eachother
   generateInsideStraight(hole1, hole2) {
     let completeFlopInformation = {};
     let suits = ["h", "d", "s", "c"];
@@ -641,7 +651,7 @@ class flopGenerator {
 
     // /** End of old suit assigner */
 
-    let isFlushDraw = this.detectFlushDraw(flopAndHoleCardArr);
+    let isFlushDraw = Utilities.isFlushDraw(flopAndHoleCardArr);
 
     //Populates completeFlopInformation with information to be displayed
     if (isFlushDraw) {
@@ -684,7 +694,21 @@ class flopGenerator {
     //console.log("Flop set: " + flopArr);
     //console.log("Outs: 4");
     console.log(completeFlopInformation);
+    return completeFlopInformation;
   }
+
+  /**
+   * Summary.
+   * Takes in two hole cards and generates
+   * an open straight draw most of the time
+   * but it's something else, it is detected and
+   * accounts for in by changing information in
+   * completeFlopInformation
+   *
+   * @param {String} hole1
+   * @param {String} hole2
+   * @returns {completeFlopInformation}
+   */
 
   generateOpenStraight(hole1, hole2) {
     let completeFlopInformation = {};
@@ -698,11 +722,6 @@ class flopGenerator {
     let internalArr = [];
     let rightBranchArr = [];
     let flopArr = [];
-    let doubleGutshotNum;
-    let openStraightNum;
-    let thirdFlopNumber;
-    let leftBranchIsUncut = true;
-    let rightBranchIsUncut = true;
     let isCutIntoInsideStraight = false;
 
     //Decides conversion scheme
@@ -714,11 +733,6 @@ class flopGenerator {
     hole1Converted = convertor[hole1];
     hole2Converted = convertor[hole2];
 
-    //console.log(convertor[hole1]);
-
-    //console.log(hole1)
-    //console.log(hole2)
-
     //Ensures hole1Converted < hole2Converted
     if (hole1Converted > hole2Converted) {
       let temp = hole1Converted;
@@ -726,18 +740,7 @@ class flopGenerator {
       hole2Converted = temp;
     }
 
-    //Detects if any branches are uncut
-    if (hole2Converted < 5) {
-      leftBranchIsUncut = false;
-    }
-
-    if (hole1Converted > 9) {
-      rightBranchIsUncut = false;
-    }
-
     //Error messages
-    //console.log(hole1Converted)
-    //console.log(hole2Converted)
     if (hole1Converted === hole2Converted) {
       console.log("Error: This function is not designed for pocket pairs");
       return;
@@ -754,9 +757,6 @@ class flopGenerator {
     this.populateLeftBranchArr(hole1Converted, hole2Converted, leftBranchArr);
     this.populateRightBranchArr(hole1Converted, hole2Converted, rightBranchArr);
 
-    //TODO Build up openFlopArray
-    //Enter if hole cards seperated by 2 cards
-
     this.buildOpenFlopArr(
       hole1Converted,
       hole2Converted,
@@ -766,23 +766,24 @@ class flopGenerator {
       rightBranchArr
     );
 
-    //Makes an array out of hole and flop cards, sort in ascending order
+    //Makes an array out of hole and flop cards
     let flopAndHoleArr = [hole1Converted, hole2Converted];
     flopAndHoleArr = flopAndHoleArr.concat(flopArr);
+
+    //Necessary to make straight prevention logic
     flopAndHoleArr.sort((a, b) => a - b);
 
-    //Checks to see if generated open straight it at the edge of numberline
-    //in which case it is actually an inside straight
+    //Checks to see if generated open straight it at the edge of numberline in which case it is actually an inside straight
     if (flopAndHoleArr.includes(1) || flopAndHoleArr.includes(13)) {
       isCutIntoInsideStraight = true;
     }
 
-    //Ensure no overlap
+    //Ensures no overlap
     remainingNumberSet = remainingNumberSet.filter(function (val) {
       return flopAndHoleArr.indexOf(val) == -1;
     });
 
-    //Remove numbers that might cause outright straight upon flop
+    //Removes numbers that might cause outright straight upon flop
     remainingNumberSet.splice(
       remainingNumberSet.indexOf(flopAndHoleArr[0] - 1),
       1
@@ -798,12 +799,7 @@ class flopGenerator {
       remainingNumberSet[Math.floor(Math.random() * remainingNumberSet.length)]
     );
 
-    // //Converts the numbers back into the card values they represent
-    // console.log(flopArr);
-    // flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
-    // console.log(flopArr);
-
-    /*********Start of new suit assigner */
+    /* Start of new suit assigner */
 
     //Preserve information in flopArr for completeFlopInformation methods
     let flopArrNums = flopArr;
@@ -818,7 +814,7 @@ class flopGenerator {
     //Preserves information in case a reset is needed below due to flushDraw or duplicates
     flopArr = flopArrCards;
 
-    //Assigns suits to flopCards, and redoes it if a flush draw is generated or there are duplicate cards
+    //Assigns suits to flopCards, and redoes it if a flush is generated or there are duplicate cards
     do {
       if (resetVariables) {
         flopArr = flopArrCards;
@@ -838,9 +834,6 @@ class flopGenerator {
         console.log(
           "reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         );
-        console.log("!!!!!!!!!!!!!!!!!!!!");
-        console.log("!!!!!!!!!!!!!!!!!!!!");
-
         resetVariables = true;
       }
     } while (
@@ -848,22 +841,7 @@ class flopGenerator {
       Utilities.hasDuplicates(flopAndHoleCardArr)
     );
 
-    /*********End of new suit assigner */
-
-    // /****Start of old suit assigner  */
-
-    // //Attaches randomly selected suit values to the flop cards
-    // flopArr = flopArr.map((flopCard) =>
-    //   flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
-    // );
-
-    // //Creates array of the flop cards and the hole cards
-    // let flopAndHoleCardArr = [hole1, hole2];
-    // flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
-
-    // /****End of old suit assigner  */
-
-    let isFlushDraw = this.detectFlushDraw(flopAndHoleCardArr);
+    let isFlushDraw = Utilities.isFlushDraw(flopAndHoleCardArr);
 
     //TODO: Insert overcard detection, and account for it below
 
@@ -908,16 +886,16 @@ flopGen.generateInsideStraight("4c", "6c");
 flopGen.generateInsideStraight("4c", "6c");
 flopGen.generateInsideStraight("4c", "6c");
 
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
-// flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
+flopGen.generateOpenStraight("4c", "6c");
 
 console.log("----");
 
