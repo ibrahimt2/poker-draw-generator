@@ -537,10 +537,6 @@ class flopGenerator {
     this.populateInternalArr(hole1Converted, hole2Converted, internalArr);
     this.populateExternalArr(hole1Converted, hole2Converted, externalArr);
 
-    //console.log("left branch:" + leftBranchArr);
-    //console.log("right branch:" + rightBranchArr);
-    //console.log("internalArr:" + internalArr);
-
     externalArr = this.removeOverlappingElementsFromExternalArr(
       hole1Converted,
       hole2Converted,
@@ -548,12 +544,6 @@ class flopGenerator {
       internalArr,
       externalArr
     );
-
-    //console.log(hole1Converted)
-    //console.log(hole2Converted)
-    //console.log('outermostArr:' + outermostArr);
-    //console.log('internalArr:' + internalArr);
-    //console.log('externalArr:' + externalArr);
 
     this.buildInsideFlopArr(
       hole1Converted,
@@ -576,6 +566,7 @@ class flopGenerator {
       flopAndHoleArr,
       remainingNumberSet
     );
+
     openStraightNum = notInsideStraightCausers[0];
     doubleGutshotNum = notInsideStraightCausers[1];
     remainingNumberSet = notInsideStraightCausers[2];
@@ -589,7 +580,7 @@ class flopGenerator {
       remainingNumberSet[Math.floor(Math.random() * remainingNumberSet.length)];
     flopArr.push(thirdFlopNumber);
 
-    /*********Start of new suit assigner */
+    /*Start of new suit assigner */
 
     //Preserve information in flopArr for completeFlopInformation methods
     let flopArrNums = flopArr;
@@ -634,45 +625,41 @@ class flopGenerator {
       Utilities.hasDuplicates(flopAndHoleCardArr)
     );
 
-    /*********End of new suit assigner */
-
-    // /** Start of old suit assigner */
-
-    // //Converts the numbers back into the card values they represent
-    // flopArr = flopArr.map((flopNum) => backConvertor[flopNum]);
-
-    // //Attaches randomly selected suit values to the flop cards
-    // flopArr = flopArr.map((flopCard) =>
-    //   flopCard.concat(suits[Math.floor(Math.random() * suits.length)])
-    // );
-
-    // //Creates array of the flop cards and the hole cards
-    // let flopAndHoleCardArr = [hole1, hole2];
-    // flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
-
-    // /** End of old suit assigner */
-
     let isFlushDraw = Utilities.isFlushDraw(flopAndHoleCardArr);
 
-    let hasTwoOvercards = flopArrNums.every((el) => el < hole1Converted) &&
-    flopArrNums.every((el) => el < hole2Converted);
+    let hasTwoOvercards =
+      flopArrNums.every((el) => el < hole1Converted) &&
+      flopArrNums.every((el) => el < hole2Converted);
 
-    let hasOneOvercard = flopArrNums.every((el) => el < hole1Converted) ||
-    flopArrNums.every((el) => el < hole2Converted);
-    
+    let hasOneOvercard =
+      flopArrNums.every((el) => el < hole1Converted) ||
+      flopArrNums.every((el) => el < hole2Converted);
+
+    //Handles special case of a single Ace in the hole1, hole2
+    if (
+      JSON.stringify(convertor) ===
+      JSON.stringify(Convertor.putCardGetNumAceLow)
+    ) {
+      if (hole1.startsWith("A") || hole2.startsWith("A")) {
+        hasOneOvercard = true;
+      }
+    }
+
     //Populates completeFlopInformation with information to be displayed
     if (isFlushDraw) {
       if (thirdFlopNumber === doubleGutshotNum) {
-        if(hasTwoOvercards) {
+        if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 21;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Double Gutshot Flush Draw With 2 Overcards";
+          completeFlopInformation["name"] =
+            "Double Gutshot Flush Draw With 2 Overcards";
         } else if (hasOneOvercard) {
           completeFlopInformation["outs"] = 18;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Double Gutshot Flush Draw With 1 Overcard";
+          completeFlopInformation["name"] =
+            "Double Gutshot Flush Draw With 1 Overcard";
         } else {
           completeFlopInformation["outs"] = 15;
           completeFlopInformation["holeCards"] = [hole1, hole2];
@@ -680,16 +667,18 @@ class flopGenerator {
           completeFlopInformation["name"] = "Double Gutshot Flush Draw";
         }
       } else if (thirdFlopNumber === openStraightNum) {
-        if(hasTwoOvercards) {
+        if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 21;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Open Straight Flush Draw With 2 Overcards";
+          completeFlopInformation["name"] =
+            "Open Straight Flush Draw With 2 Overcards";
         } else if (hasOneOvercard) {
           completeFlopInformation["outs"] = 18;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Open Straight Flush Draw With 1 Overcard";
+          completeFlopInformation["name"] =
+            "Open Straight Flush Draw With 1 Overcard";
         } else {
           completeFlopInformation["outs"] = 15;
           completeFlopInformation["holeCards"] = [hole1, hole2];
@@ -697,16 +686,18 @@ class flopGenerator {
           completeFlopInformation["name"] = "Open Straight Flush Draw";
         }
       } else {
-        if(hasTwoOvercards) {
+        if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 18;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Inside Straight Flush Draw With 2 Overcards";
+          completeFlopInformation["name"] =
+            "Inside Straight Flush Draw With 2 Overcards";
         } else if (hasOneOvercard) {
           completeFlopInformation["outs"] = 15; //Iffy, please check
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Inside Straight Flush Draw With 1 Overcard";
+          completeFlopInformation["name"] =
+            "Inside Straight Flush Draw With 1 Overcard";
         } else {
           completeFlopInformation["outs"] = 13;
           completeFlopInformation["holeCards"] = [hole1, hole2];
@@ -716,16 +707,18 @@ class flopGenerator {
       }
     } else {
       if (thirdFlopNumber === doubleGutshotNum) {
-        if(hasTwoOvercards) {
+        if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 14;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Double Gutshot Draw With 2 Overcards";
-        } else if(hasOneOvercard) {
+          completeFlopInformation["name"] =
+            "Double Gutshot Draw With 2 Overcards";
+        } else if (hasOneOvercard) {
           completeFlopInformation["outs"] = 11;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Double Gutshot Draw With 1 Overcard";
+          completeFlopInformation["name"] =
+            "Double Gutshot Draw With 1 Overcard";
         } else {
           completeFlopInformation["outs"] = 8;
           completeFlopInformation["holeCards"] = [hole1, hole2];
@@ -733,16 +726,18 @@ class flopGenerator {
           completeFlopInformation["name"] = "Double Gutshot Draw";
         }
       } else if (thirdFlopNumber === openStraightNum) {
-        if(hasTwoOvercards) {
+        if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 14;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Open Straight Draw With 2 Overcards";
-        } else if(hasOneOvercard) {
+          completeFlopInformation["name"] =
+            "Open Straight Draw With 2 Overcards";
+        } else if (hasOneOvercard) {
           completeFlopInformation["outs"] = 11;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Open Straight Draw With 1 Overcard";
+          completeFlopInformation["name"] =
+            "Open Straight Draw With 1 Overcard";
         } else {
           completeFlopInformation["outs"] = 8;
           completeFlopInformation["holeCards"] = [hole1, hole2];
@@ -750,28 +745,27 @@ class flopGenerator {
           completeFlopInformation["name"] = "Open Straight Draw";
         }
       } else {
-        if(hasTwoOvercards) {
+        if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 10;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Inside Straight Draw With 2 Overcards";
-        } else if(hasOneOvercard) {
+          completeFlopInformation["name"] =
+            "Inside Straight Draw With 2 Overcards";
+        } else if (hasOneOvercard) {
           completeFlopInformation["outs"] = 7;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
-          completeFlopInformation["name"] = "Inside Straight Draw With 1 Overcards";
+          completeFlopInformation["name"] =
+            "Inside Straight Draw With 1 Overcards";
         } else {
           completeFlopInformation["outs"] = 4;
           completeFlopInformation["holeCards"] = [hole1, hole2];
           completeFlopInformation["flopCards"] = flopArr;
           completeFlopInformation["name"] = "Inside Straight Draw";
-        }  
+        }
       }
     }
 
-    //console.log("Hole cards: " + hole1 + " " + hole2);
-    //console.log("Flop set: " + flopArr);
-    //console.log("Outs: 4");
     console.log(completeFlopInformation);
     return completeFlopInformation;
   }
@@ -972,6 +966,11 @@ flopGen.generateInsideStraight("Ac", "Kc");
 flopGen.generateInsideStraight("Ac", "Qc");
 flopGen.generateInsideStraight("Ac", "Jc");
 flopGen.generateInsideStraight("Ac", "Ad");
+
+flopGen.generateInsideStraight("4c", "Ac");
+flopGen.generateInsideStraight("4c", "Ac");
+flopGen.generateInsideStraight("4c", "Ac");
+flopGen.generateInsideStraight("4c", "Ac");
 
 // flopGen.generateOpenStraight("4c", "6c");
 // flopGen.generateOpenStraight("4c", "6c");
