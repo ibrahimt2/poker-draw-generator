@@ -22,13 +22,19 @@ let ReductiveDrawGen = require("./reductiveDrawGenerator");
  */
 
 function generateFlopScenario() {
-  const INSIDE_STRAIGHT_FREQ = 1000;
-  const OPEN_STRAIGHT_FREQ = 1000;
+  const INSIDE_STRAIGHT_FREQ = 0;
+  const OPEN_STRAIGHT_FREQ = 0;
   const FLUSH_DRAW_FREQ =1;
   const NO_HITS_FREQ = 0;
   const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 0;
-  const TWO_PAIR_TO_FULLHOSE_FREQ = 0;
+  const TWO_PAIR_TO_FULLHOSE_FREQ = 1;
   const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 0;
+
+  //Error messages
+  if(NO_HITS_FREQ === 0 && TRIPS_TO_FULLHOUSE_QUADS_FREQ === 0 && FLUSH_DRAW_FREQ === 0) {
+    console.log('Error: Ensure atleast one of NO_HITS_FREQ, TRIPS_TO_FULLHOUSE_QUADS_FREQ OR FLUSH_DRAW_FREQ > 0');
+    return;
+  }
 
   //simple assignment results in array being passed by ref
   //we want to pass by value cos we need fresh deck each time
@@ -91,21 +97,31 @@ function generateFlopScenario() {
     ReductiveDrawGen.generateNoHitsFlop,
     NO_HITS_FREQ
   );
-  populateDrawFunctionArray(
-    drawFunctionArray,
-    ReductiveDrawGen.generateOnePairToTwoPairOrTrips,
-    ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ
-  );
+
+  if(hole1Converted !== hole2Converted) {
+    populateDrawFunctionArray(
+      drawFunctionArray,
+      ReductiveDrawGen.generateOnePairToTwoPairOrTrips,
+      ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ
+    );
+  }
+
+  
   populateDrawFunctionArray(
     drawFunctionArray,
     ReductiveDrawGen.generateTripsToFullhouseOrQuads,
     TRIPS_TO_FULLHOUSE_QUADS_FREQ
   );
-  populateDrawFunctionArray(
-    drawFunctionArray,
-    ReductiveDrawGen.generateTwoPairToFullhouse,
-    TWO_PAIR_TO_FULLHOSE_FREQ
-  );
+
+  if(hole1Converted !== hole2Converted) {
+    populateDrawFunctionArray(
+      drawFunctionArray,
+      ReductiveDrawGen.generateTwoPairToFullhouse,
+      TWO_PAIR_TO_FULLHOSE_FREQ
+    );
+  }
+
+  
 
   let chosenFunction =
     drawFunctionArray[Math.floor(Math.random() * drawFunctionArray.length)];
