@@ -295,10 +295,10 @@ function populateZoneArr(holeZonesArr, availableNumberArr, holeConverted) {
   holeZonesArr.push(holeZone3Arr);
   holeZonesArr.push(holeZone4Arr);
 
-  console.log("holeZone1Arr: " + holeZone1Arr);
-  console.log("holeZone2Arr: " + holeZone2Arr);
-  console.log("holeZone3Arr: " + holeZone3Arr);
-  console.log("holeZone4Arr: " + holeZone4Arr);
+  //console.log("holeZone1Arr: " + holeZone1Arr);
+  //console.log("holeZone2Arr: " + holeZone2Arr);
+  //console.log("holeZone3Arr: " + holeZone3Arr);
+  //console.log("holeZone4Arr: " + holeZone4Arr);
 }
 
 function moveElement(index, fromArray, toArray) {
@@ -340,6 +340,8 @@ function generateFlushDraw(hole1, hole2) {
   let flushSuit;
   let holeCardsAreSuited = false;
   let nonFlushSuitsArr = ["h", "d", "s", "c"];
+
+  console.log('generateFlushDraw fired...')
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -540,6 +542,8 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   let tripsHole1Hole2Suits;
   let outsArr;
 
+  console.log('generateTripsToFullhouseOrQuads fired...')
+
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
   hole2Converted = convertor[hole2];
@@ -739,6 +743,9 @@ function generateOnePairToTwoPairOrTrips(hole1, hole2) {
   let completeFlopInformation = {};
   let flopAndHoleCardArr;
   let flopArrNums;
+
+
+  console.log('generateOnePairToTwoPairOrTrips fired...')
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -1127,20 +1134,20 @@ module.exports = {
   generateOnePairToTwoPairOrTrips: generateOnePairToTwoPairOrTrips
 }
 
-generateFlushDraw("Ac", "Ad");
-generateFlushDraw("7c", "7d");
-generateFlushDraw("3c", "7c");
-generateFlushDraw("Ad", "2d");
-generateFlushDraw("5c", "7d");
-generateFlushDraw("3c", "7d");
-generateFlushDraw("Ac", "2d");
-generateFlushDraw("Ac", "Ad");
-generateFlushDraw("7c", "7d");
-generateFlushDraw("3c", "7c");
-generateFlushDraw("Ad", "2d");
-generateFlushDraw("5c", "7d");
-generateFlushDraw("Kc", "Qc");
-generateFlushDraw("Ac", "Kc");
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7c");
+// generateFlushDraw("Ad", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("3c", "7d");
+// generateFlushDraw("Ac", "2d");
+// generateFlushDraw("Ac", "Ad");
+// generateFlushDraw("7c", "7d");
+// generateFlushDraw("3c", "7c");
+// generateFlushDraw("Ad", "2d");
+// generateFlushDraw("5c", "7d");
+// generateFlushDraw("Kc", "Qc");
+// generateFlushDraw("Ac", "Kc");
 
 // generateTripsToFullhouseOrQuads("Ac", "Ad");
 // generateTripsToFullhouseOrQuads("7c", "7d");
@@ -1219,3 +1226,4 @@ console.log("end");
 
 //TODO find all the methods that have the same code to handle suit
 //assignment and made one method to use everywhere
+generateTripsToFullhouseOrQuads('Ac', '4c');

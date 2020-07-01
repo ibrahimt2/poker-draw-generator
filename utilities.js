@@ -1,3 +1,5 @@
+let Convertor = require('./convertor');
+
 function decideConversionScheme(hole1, hole2) {
   let convertor = Convertor.putCardGetNumAceLow;
   let backConvertor = Convertor.putNumGetCardValueAceLow;
