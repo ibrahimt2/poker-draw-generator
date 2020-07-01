@@ -1076,4 +1076,4 @@ console.log("----");
 
 //TODO Introduce the capability to list all the outs in a given situation remaining in the deck
 
-
+//TODO replace all calls to inhouse decideConversionScheme() with the one in utilities.js
