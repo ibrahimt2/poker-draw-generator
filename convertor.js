@@ -1,7 +1,7 @@
-/*
 
-// An array into which you can input put deck-of-cards HTML5 numbers and get the associated cards
-export let putHTMLNumberGetStrCard = [
+
+// An array into which you can input put position numbers of a card 1-52 and get the associated cards
+let putPosNumGetCard = [
   "Ac",
   "2c",
   "3c",
@@ -55,6 +55,8 @@ export let putHTMLNumberGetStrCard = [
   "Qd",
   "Kd",
 ];
+
+/*
 
 // An array into which you can input cards and get the associated deck-of-cards HTML5 numbers
 export let putStrCardGetHTMLNumber = {
@@ -429,4 +431,5 @@ module.exports = {
   putCardGetNumAceLow: putCardGetNumAceLow,
   putNumGetCardValueAceLow: putNumGetCardValueAceLow,
   putNumGetCardValueAceHigh: putNumGetCardValueAceHigh,
+  putPosNumGetCard: putPosNumGetCard
 };

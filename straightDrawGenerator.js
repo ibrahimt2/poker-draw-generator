@@ -227,7 +227,7 @@ function buildInsideFlopArr(
   }
 
   /**
-   * Solution.
+   * Summary.
    * Randomly picks the first 2 cards to insert into the flop array
    * based on seperation between hole cards. At the end of this method,
    * the flopArr will have 2 cards that are going to combine with the
@@ -765,7 +765,7 @@ function generateInsideStraight(hole1, hole2) {
       }
     }
 
-    console.log(completeFlopInformation);
+    //console.log(completeFlopInformation);
     return completeFlopInformation;
   }
 
@@ -1015,10 +1015,15 @@ function generateOpenStraight(hole1, hole2) {
       }
     }
 
-    console.log(completeFlopInformation);
+    //console.log(completeFlopInformation);
     return completeFlopInformation;
   }
 
+
+  module.exports = {
+    generateInsideStraight: generateInsideStraight,
+    generateOpenStraight: generateOpenStraight
+  }
 
 
 

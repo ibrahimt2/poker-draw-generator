@@ -467,7 +467,8 @@ function generateFlushDraw(hole1, hole2) {
     flopArrNums,
     completeFlopInformation
   );
-  console.log(completeFlopInformation);
+
+  //console.log(completeFlopInformation);
   return completeFlopInformation;
 }
 
@@ -711,7 +712,8 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   completeFlopInformation["flopCards"] = flopArr;
   completeFlopInformation["name"] = "Trips to Fullhouse/Quads";
 
-  console.log(completeFlopInformation);
+  //console.log(completeFlopInformation);
+  return completeFlopInformation;
 }
 
 /**
@@ -724,7 +726,7 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
  * @returns {completeFlopInformation}
  */
 
-function OnePairToTwoPairOrTrips(hole1, hole2) {
+function generateOnePairToTwoPairOrTrips(hole1, hole2) {
   let flopArr = [];
   let suits = ["h", "d", "s", "c"];
   let onePairHole1Suits = ["h", "d", "s", "c"];
@@ -875,7 +877,8 @@ function OnePairToTwoPairOrTrips(hole1, hole2) {
   completeFlopInformation["flopCards"] = flopArr;
   completeFlopInformation["name"] = "One Pair to Two Pair or Trips";
 
-  console.log(completeFlopInformation);
+  //console.log(completeFlopInformation);
+  return completeFlopInformation;
 }
 
 /**
@@ -963,7 +966,8 @@ function generateTwoPairToFullhouse(hole1, hole2) {
   completeFlopInformation["flopCards"] = flopArr;
   completeFlopInformation["name"] = "Two pair to Fullhouse";
 
-  console.log(completeFlopInformation);
+  //console.log(completeFlopInformation);
+  return completeFlopInformation;
 }
 
 /**
@@ -1111,7 +1115,16 @@ function generateNoHitsFlop(hole1, hole2) {
     completeFlopInformation
   );
 
-  console.log(completeFlopInformation);
+  //console.log(completeFlopInformation);
+  return completeFlopInformation;
+}
+
+module.exports = {
+  generateFlushDraw: generateFlushDraw,
+  generateNoHitsFlop: generateNoHitsFlop,
+  generateTripsToFullhouseOrQuads: generateTripsToFullhouseOrQuads,
+  generateTwoPairToFullhouse: generateTwoPairToFullhouse,
+  generateOnePairToTwoPairOrTrips: generateOnePairToTwoPairOrTrips
 }
 
 generateFlushDraw("Ac", "Ad");
