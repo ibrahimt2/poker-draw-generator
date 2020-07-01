@@ -537,6 +537,7 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   let completeFlopInformation = {};
   let isPocketPair = false;
   let tripsHole1Hole2Suits;
+  let outsArr;
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -1112,8 +1113,6 @@ function generateNoHitsFlop(hole1, hole2) {
 
   console.log(completeFlopInformation);
 }
-
-//TODO: Implement overcard detection and handling in generateFlushDraw and wherever else it is needed
 
 generateFlushDraw("Ac", "Ad");
 generateFlushDraw("7c", "7d");
