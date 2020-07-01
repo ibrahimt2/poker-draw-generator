@@ -30,12 +30,12 @@ function generateFlopScenario() {
   const TWO_PAIR_TO_FULLHOSE_FREQ = 0;
   const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 0;
 
-  //simple assignment results in object being passed by ref
-  //we want to pass by value cos we need new deck each time
-  let cardDeck = Object.assign({}, Convertor.putPosNumGetCard);
+  //simple assignment results in array being passed by ref
+  //we want to pass by value cos we need fresh deck each time
+  let cardDeckArr = Array.from(Convertor.putPosNumGetCard);
 
-  let hole1 = cardDeck.splice(Math.floor(Math.random() * cardDeck.length), 1);
-  let hole2 = cardDeck.splice(Math.floor(Math.random() * cardDeck.length), 1);
+  let hole1 = cardDeckArr.splice(Math.floor(Math.random() * cardDeckArr.length), 1);
+  let hole2 = cardDeckArr.splice(Math.floor(Math.random() * cardDeckArr.length), 1);
 
   //Splicing returns a String[], but extracts the String within the String[]
   hole1 = hole1[0];
@@ -110,12 +110,12 @@ function generateFlopScenario() {
   let chosenFunction =
     drawFunctionArray[Math.floor(Math.random() * drawFunctionArray.length)];
     console.log(typeof chosenFunction);
-    console.log(cardDeck)
+    console.log(cardDeckArr)
     console.log(hole1 + " " + hole2)
     let flopInformation = chosenFunction(hole1, hole2);
   console.log(flopInformation);
   //refresh card deck
-  cardDeck = Convertor.putPosNumGetCard;
+  cardDeckArr = Convertor.putPosNumGetCard;
   return flopInformation;
 }
 
