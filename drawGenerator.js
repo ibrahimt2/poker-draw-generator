@@ -22,13 +22,13 @@ let ReductiveDrawGen = require("./reductiveDrawGenerator");
  */
 
 function generateFlopScenario() {
-  const INSIDE_STRAIGHT_FREQ = 4;
-  const OPEN_STRAIGHT_FREQ = 4;
-  const FLUSH_DRAW_FREQ = 1;
-  const NO_HITS_FREQ = 10;
-  const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 1;
-  const TWO_PAIR_TO_FULLHOSE_FREQ = 1;
-  const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 1;
+  const INSIDE_STRAIGHT_FREQ = 1000;
+  const OPEN_STRAIGHT_FREQ = 1000;
+  const FLUSH_DRAW_FREQ =1;
+  const NO_HITS_FREQ = 0;
+  const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 0;
+  const TWO_PAIR_TO_FULLHOSE_FREQ = 0;
+  const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 0;
 
   let cardDeck = Convertor.putPosNumGetCard;
 
@@ -59,7 +59,7 @@ function generateFlopScenario() {
 
   if (
     hole1Converted !== hole2Converted &&
-    hole2Converted - hole1Converted > 4
+    !(hole2Converted - hole1Converted > 4)
   ) {
     populateDrawFunctionArray(
       drawFunctionArray,
@@ -70,7 +70,7 @@ function generateFlopScenario() {
 
   if (
     hole1Converted !== hole2Converted &&
-    hole2Converted - hole1Converted > 3
+    !(hole2Converted - hole1Converted > 3)
   ) {
     populateDrawFunctionArray(
       drawFunctionArray,
@@ -107,7 +107,8 @@ function generateFlopScenario() {
 
   let chosenFunction =
     drawFunctionArray[Math.floor(Math.random() * drawFunctionArray.length)];
-  let flopInformation = chosenFunction(hole1, hole2);
+    console.log(typeof chosenFunction);
+    let flopInformation = chosenFunction(hole1, hole2);
   console.log(flopInformation);
   return flopInformation;
 }
@@ -151,3 +152,41 @@ generateFlopScenario();
 generateFlopScenario();
 generateFlopScenario();
 generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+
