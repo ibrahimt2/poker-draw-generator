@@ -1,6 +1,6 @@
+let Utilities = require("./utilities");
 let Convertor = require("./convertor");
 let StrDrawGen = require("./straightDrawGenerator");
-let Utilities = require("./utilities");
 let ReductiveDrawGen = require("./reductiveDrawGenerator");
 
 /**
@@ -22,10 +22,12 @@ let ReductiveDrawGen = require("./reductiveDrawGenerator");
  */
 
 function generateFlopScenario() {
+
+  //console.log(Utilities)
   const INSIDE_STRAIGHT_FREQ = 3;
   const OPEN_STRAIGHT_FREQ = 3;
-  const FLUSH_DRAW_FREQ = 1;
-  const NO_HITS_FREQ = 7;
+  const FLUSH_DRAW_FREQ = 4;
+  const NO_HITS_FREQ = 4;
   const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 1;
   const TWO_PAIR_TO_FULLHOSE_FREQ = 1;
   const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 1;
@@ -159,3 +161,9 @@ function populateDrawFunctionArray(
 module.exports = {
   generateFlopScenario: generateFlopScenario
 }
+
+generateFlopScenario();
+generateFlopScenario()
+generateFlopScenario()
+generateFlopScenario()
+generateFlopScenario()

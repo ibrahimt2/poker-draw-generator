@@ -1,6 +1,5 @@
-let Utilities = require("./utilities.js");
-let Convertor = require("./convertor.js");
-const { getRemainingCardsOfSameValue } = require("./utilities.js");
+const Convertor = require("./convertor.js");
+const Utilities = require("./utilities.js");
 
 //Having an Ace in the input might fuck things up using a
 //Low ace scheme, as A = 1 will be low, so the second
@@ -1318,6 +1317,9 @@ function generateNoHitsFlop(hole1, hole2) {
 
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
+
+    
+
     if (
       Utilities.isFlushDraw(flopAndHoleCardArr) ||
       hasDuplicates(flopAndHoleCardArr)
@@ -1331,8 +1333,9 @@ function generateNoHitsFlop(hole1, hole2) {
   } while (
     Utilities.isFlushDraw(flopAndHoleCardArr) ||
     hasDuplicates(flopAndHoleCardArr)
-  );
+  )
 
+  console.log(typeof Utilities.isFlushDraw);
   console.log(flopAndHoleCardArr + "flopAndHoleArr");
   console.log(hole1 + "hole1");
   console.log(hole2 + "hole2");

@@ -1,6 +1,6 @@
 const Convertor = require("./convertor.js");
 const Utilities = require("./utilities.js");
-const { isFlushDraw, getRemainingCardsOfSameValue } = require("./utilities.js");
+
 
 //TODO: Convert methods to use the methods utilities.js to reduce
 //Code repitition
@@ -1635,11 +1635,11 @@ module.exports = {
 // generateInsideStraight("4c", "6c");
 // generateInsideStraight("Ac", "6c");
 
-console.log(generateOpenStraight("4c", "6c"));
-console.log(generateOpenStraight("Ac", "Kc"));
-console.log(generateOpenStraight("Ac", "2c"));
-console.log(generateOpenStraight("Qc", "Kc"));
-console.log(generateOpenStraight("4c", "6c"));
+// console.log(generateOpenStraight("4c", "6c"));
+// console.log(generateOpenStraight("Ac", "Kc"));
+// console.log(generateOpenStraight("Ac", "2c"));
+// console.log(generateOpenStraight("Qc", "Kc"));
+// console.log(generateOpenStraight("4c", "6c"));
 
 // generateOpenStraight("Ac", "Jd");
 // generateOpenStraight("Ac", "Kc");

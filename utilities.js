@@ -1,5 +1,4 @@
 let Convertor = require('./convertor');
-const { generateFlushDraw } = require('./reductiveDrawGenerator');
 
 function decideConversionScheme(hole1, hole2) {
   let convertor = Convertor.putCardGetNumAceLow;
@@ -231,9 +230,9 @@ function removeDuplicates(inputArr) {
 }
 
 module.exports = {
+  isFlushDraw: isFlushDraw,
   removeDuplicates: removeDuplicates,
   decideConversionScheme: decideConversionScheme,
-  isFlushDraw: isFlushDraw,
   isFlush: isFlush,
   hasDuplicates: hasDuplicates,
   getRemainingCardsOfSameSuit: getRemainingCardsOfSameSuit,
@@ -248,5 +247,5 @@ module.exports = {
 // getRemainingCardsOfSameValue('Ad', ['Ac', 'Ad', '2c', '5c']);
 // getRemainingCardsOfSameValue('10c', ['10d', 'Ad', '2c', '5c']);
 // getRemainingCardsOfSameValue('10', ['10c', 'Ac', 'Ad', '2c', '5c']);
-
-console.log(getFlushDrawSuit(['Ah', '3h', '5h', '6c', '2h']));
+// 
+// console.log(getFlushDrawSuit(['Ah', '3h', '5h', '6c', '2h']));
