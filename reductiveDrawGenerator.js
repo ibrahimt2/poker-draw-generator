@@ -86,13 +86,13 @@ function populateFlushOutsArr(
 
 /**
  * Summary.
- * Populates the outsArr of the 
+ * Populates the outsArr of the
  * TripsToFullhouseOrPair Scenario
- * @param {*} hole1 
- * @param {*} hole2 
- * @param {*} flopArr 
- * @param {*} flopAndHoleCardArr 
- * @param {*} outsArr 
+ * @param {*} hole1
+ * @param {*} hole2
+ * @param {*} flopArr
+ * @param {*} flopAndHoleCardArr
+ * @param {*} outsArr
  */
 
 function populateTripsToFullhouseOrPairOutsArr(
@@ -118,7 +118,12 @@ function populateTripsToFullhouseOrPairOutsArr(
   );
 }
 
-function populateOnePairToTwoPairOrTripsOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr) {
+function populateOnePairToTwoPairOrTripsOutsArr(
+  hole1,
+  hole2,
+  flopAndHoleCardArr,
+  outsArr
+) {
   outsArr.push.apply(
     outsArr,
     Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
@@ -130,7 +135,12 @@ function populateOnePairToTwoPairOrTripsOutsArr(hole1, hole2, flopAndHoleCardArr
   );
 }
 
-function populateTwoPairToFullhouseOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr) {
+function populateTwoPairToFullhouseOutsArr(
+  hole1,
+  hole2,
+  flopAndHoleCardArr,
+  outsArr
+) {
   outsArr.push.apply(
     outsArr,
     Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
@@ -140,6 +150,60 @@ function populateTwoPairToFullhouseOutsArr(hole1, hole2, flopAndHoleCardArr, out
     outsArr,
     Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
   );
+}
+
+function populateNoHitsOutsArr(
+  hole1Converted,
+  hole2Converted,
+  hole1,
+  hole2,
+  outsArr,
+  flopArrNums,
+  flopAndHoleCardArr
+) {
+  //Populate completeFlopInformation with information about the flop
+  if (hole1Converted === hole2Converted) {
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+    );
+  } else if (
+    flopArrNums.every((el) => el < hole1Converted) &&
+    flopArrNums.every((el) => el < hole2Converted)
+  ) {
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+    );
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+    );
+  } else if (
+    flopArrNums.every((el) => el < hole1Converted) ||
+    flopArrNums.every((el) => el < hole2Converted)
+  ) {
+    if (hole1Converted > hole2Converted) {
+      outsArr.push.apply(
+        outsArr,
+        Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+      );
+    } else {
+      outsArr.push.apply(
+        outsArr,
+        Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+      );
+    }
+  } else {
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+    );
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+    );
+  }
 }
 
 function decideConversionScheme(hole1, hole2) {
@@ -260,8 +324,12 @@ function populateNoHitsFlopInformation(
   hole2,
   flopArr,
   flopArrNums,
+  outArr,
   completeFlopInformation
 ) {
+
+  completeFlopInformation["outCards"] = outArr;
+
   //Populate completeFlopInformation with information about the flop
   if (hole1Converted === hole2Converted) {
     completeFlopInformation["outs"] = 2;
@@ -842,9 +910,15 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
     hasDuplicates(flopAndHoleCardArr)
   );
 
-  populateTripsToFullhouseOrPairOutsArr(hole1, hole2, flopArr, flopAndHoleCardArr, outsArr);
+  populateTripsToFullhouseOrPairOutsArr(
+    hole1,
+    hole2,
+    flopArr,
+    flopAndHoleCardArr,
+    outsArr
+  );
 
-  completeFlopInformation["outsCards"] = outsArr
+  completeFlopInformation["outsCards"] = outsArr;
   completeFlopInformation["outs"] = 7;
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
@@ -1012,7 +1086,12 @@ function generateOnePairToTwoPairOrTrips(hole1, hole2) {
     hasDuplicates(flopAndHoleCardArr)
   );
 
-  populateOnePairToTwoPairOrTripsOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr);
+  populateOnePairToTwoPairOrTripsOutsArr(
+    hole1,
+    hole2,
+    flopAndHoleCardArr,
+    outsArr
+  );
 
   //Populate completeFlopInformation with information about the flop
   completeFlopInformation["outCards"] = outsArr;
@@ -1143,6 +1222,7 @@ function generateNoHitsFlop(hole1, hole2) {
   let completeFlopInformation = {};
   let flopArrNums;
   let flopArrCards;
+  let outsArr = [];
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -1253,6 +1333,20 @@ function generateNoHitsFlop(hole1, hole2) {
     hasDuplicates(flopAndHoleCardArr)
   );
 
+  console.log(flopAndHoleCardArr + "flopAndHoleArr");
+  console.log(hole1 + "hole1");
+  console.log(hole2 + "hole2");
+
+  populateNoHitsOutsArr(
+    hole1Converted,
+    hole2Converted,
+    hole1,
+    hole2,
+    outsArr,
+    flopArrNums,
+    flopAndHoleCardArr
+  );
+
   populateNoHitsFlopInformation(
     hole1Converted,
     hole2Converted,
@@ -1260,6 +1354,7 @@ function generateNoHitsFlop(hole1, hole2) {
     hole2,
     flopArr,
     flopArrNums,
+    outsArr,
     completeFlopInformation
   );
 
@@ -1332,7 +1427,11 @@ module.exports = {
 // generateNoHitsFlop("10c", "Qd");
 // generateNoHitsFlop("9c", "Qd");
 
-// generateNoHitsFlop("Ac", "Kd");
+console.log(generateNoHitsFlop("Ac", "Kd"));
+console.log(generateNoHitsFlop("Ac", "2d"));
+console.log(generateNoHitsFlop("8c", "8d"));
+console.log(generateNoHitsFlop("6c", "7d"));
+
 // generateNoHitsFlop("Ac", "2d");
 // generateNoHitsFlop("2c", "2d");
 // generateNoHitsFlop("8c", "7d");

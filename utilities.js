@@ -142,7 +142,7 @@ function getRemainingCardsOfSameSuit(suit, inputCardArr) {
   let remainingCardsOfSameSuit = []
 
   cardsOfGivenSuit = Array.from(cardsOfGivenSuit, card => (card + suit))
-  //console.log(cardsOfGivenSuit);
+  console.log(cardsOfGivenSuit);
 
   remainingCardsOfSameSuit = cardsOfGivenSuit.filter(card => {
     return !inputCardArr.includes(card);
