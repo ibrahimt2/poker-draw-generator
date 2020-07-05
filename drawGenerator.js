@@ -22,13 +22,13 @@ let ReductiveDrawGen = require("./reductiveDrawGenerator");
  */
 
 function generateFlopScenario() {
-  const INSIDE_STRAIGHT_FREQ = 0;
-  const OPEN_STRAIGHT_FREQ = 0;
-  const FLUSH_DRAW_FREQ =1;
-  const NO_HITS_FREQ = 0;
-  const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 0;
+  const INSIDE_STRAIGHT_FREQ = 3;
+  const OPEN_STRAIGHT_FREQ = 3;
+  const FLUSH_DRAW_FREQ = 1;
+  const NO_HITS_FREQ = 7;
+  const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 1;
   const TWO_PAIR_TO_FULLHOSE_FREQ = 1;
-  const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 0;
+  const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 1;
 
   //Error messages
   if(NO_HITS_FREQ === 0 && TRIPS_TO_FULLHOUSE_QUADS_FREQ === 0 && FLUSH_DRAW_FREQ === 0) {

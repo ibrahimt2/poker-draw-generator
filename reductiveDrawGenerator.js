@@ -1,5 +1,6 @@
 let Utilities = require("./utilities.js");
 let Convertor = require("./convertor.js");
+const { getRemainingCardsOfSameValue } = require("./utilities.js");
 
 //Having an Ace in the input might fuck things up using a
 //Low ace scheme, as A = 1 will be low, so the second
@@ -31,6 +32,40 @@ let Convertor = require("./convertor.js");
  * @param {string} hole2
  * @returns {Object[]} [CardToNum convertor, NumToCard convertor]
  */
+
+/**
+ * 
+ */
+
+function populateFlushOutsArr(
+  hole1Converted,
+  hole2Converted,
+  hole1,
+  hole2,
+  flopAndHoleCardArr,
+  flushSuit,
+  flopArrNums,
+  outsArr
+) {
+  outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameSuit(flushSuit, flopAndHoleCardArr));
+  if (
+    flopArrNums.every((el) => el < hole1Converted) &&
+    flopArrNums.every((el) => el < hole2Converted)
+  ) {
+    outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr));
+    outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr));
+  } else if (
+    flopArrNums.every((el) => el < hole1Converted) ||
+    flopArrNums.every((el) => el < hole2Converted)
+  ) {
+    if(hole1Converted > hole2Converted) {
+      outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr));
+    } else {
+      outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr));
+    }
+  } else {
+  }
+}
 
 function decideConversionScheme(hole1, hole2) {
   let convertor = Convertor.putCardGetNumAceLow;
@@ -326,6 +361,7 @@ function moveElement(index, fromArray, toArray) {
 
 function generateFlushDraw(hole1, hole2) {
   let flopArr = [];
+  let outsArr = [];
   let suits = ["h", "d", "s", "c"];
   let availableNumberArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   let convertor = Convertor.putCardGetNumAceHigh;
@@ -406,7 +442,7 @@ function generateFlushDraw(hole1, hole2) {
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
 
-  console.log(availableNumberArr);
+  //console.log(availableNumberArr);
 
   //Pick 3 numbers from availableNumberArr
   moveElement(
@@ -460,12 +496,21 @@ function generateFlushDraw(hole1, hole2) {
     flopArr[2] = flopArr[2].concat(flushSuit);
   }
 
+  //Insert flopArr cards into flopAndHoleCardArr
+  flopAndHoleCardArr.push.apply(flopAndHoleCardArr, flopArr);
+
+  //console.log(flopAndHoleCardArr + "flopAndHoleArr")
+
+  populateFlushOutsArr(hole1Converted, hole2Converted, hole1, hole2, flopAndHoleCardArr, flushSuit, flopArrNums, outsArr);
+
+  //console.log('Outs:' + outsArr)
   populateFlushFlopInformation(
     hole1Converted,
     hole2Converted,
     hole1,
     hole2,
     flopArr,
+    outsArr,
     flopArrNums,
     completeFlopInformation
   );
@@ -492,9 +537,11 @@ function populateFlushFlopInformation(
   hole1,
   hole2,
   flopArr,
+  outsArr,
   flopArrNums,
   completeFlopInformation
 ) {
+  completeFlopInformation["outCards"] = outsArr;
   if (
     flopArrNums.every((el) => el < hole1Converted) &&
     flopArrNums.every((el) => el < hole2Converted)
@@ -1134,8 +1181,8 @@ module.exports = {
   generateOnePairToTwoPairOrTrips: generateOnePairToTwoPairOrTrips
 }
 
-// generateFlushDraw("Ac", "Ad");
-// generateFlushDraw("7c", "7d");
+console.log(generateFlushDraw("Ac", "Ad"));
+console.log(generateFlushDraw("7c", "7d"));
 // generateFlushDraw("3c", "7c");
 // generateFlushDraw("Ad", "2d");
 // generateFlushDraw("5c", "7d");
@@ -1146,8 +1193,8 @@ module.exports = {
 // generateFlushDraw("3c", "7c");
 // generateFlushDraw("Ad", "2d");
 // generateFlushDraw("5c", "7d");
-// generateFlushDraw("Kc", "Qc");
-// generateFlushDraw("Ac", "Kc");
+console.log(generateFlushDraw("Kc", "2c"));
+console.log(generateFlushDraw("Ac", "Kc"));
 
 // generateTripsToFullhouseOrQuads("Ac", "Ad");
 // generateTripsToFullhouseOrQuads("7c", "7d");

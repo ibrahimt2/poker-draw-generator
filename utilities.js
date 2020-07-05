@@ -99,9 +99,111 @@ function hasDuplicates(array) {
   return false;
 }
 
+/**
+ * Summary.
+ * Takes an array of cards and returns
+ * an array of suits that are not present
+ * within the cards of this array
+ * 
+ * @param {*} cardArray 
+ */
+
+function getSuitsNotInCardArray(cardArray) {
+  let suits = ['h', 's', 'c', 'd'];
+  let inputCardSuitsArr = [];
+  //console.log(cardArray)
+  
+  cardArray.forEach(card => {
+    //console.log(card);
+    inputCardSuitsArr.push(card.charAt(card.length - 1));
+    //console.log(inputCardSuitsArr)
+  })
+
+  suits = suits.filter(cardSuit => {
+    return !inputCardSuitsArr.includes(cardSuit);
+  })
+
+  //console.log(suits);
+  return suits
+}
+
+/**
+ * Summary.
+ * Takes an array of cards and a suit,
+ * and returns the cards of given suit
+ * not included in the input card array
+ * 
+ * @param {} suit 
+ * @param {*} inputCardArr 
+ */
+
+function getRemainingCardsOfSameSuit(suit, inputCardArr) {
+  let cardsOfGivenSuit = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  let remainingCardsOfSameSuit = []
+
+  cardsOfGivenSuit = Array.from(cardsOfGivenSuit, card => (card + suit))
+  //console.log(cardsOfGivenSuit);
+
+  remainingCardsOfSameSuit = cardsOfGivenSuit.filter(card => {
+    return !inputCardArr.includes(card);
+  })
+
+  return remainingCardsOfSameSuit;
+}
+
+/**
+ * Sumamry.
+ * Takes a card value and an array of
+ * cards and returns the other cards left 
+ * in the deck of the same value which are
+ * not included in the input array
+ * 
+ * @param {} cardValue 
+ * @param {*} inputCardArr 
+ */
+
+function getRemainingCardsOfSameValue(cardValue, inputCardArr) {
+
+  //Takes care of stripping out suit value if entered, but works 
+  //with just value aswell
+
+  if(cardValue.length === 3) {
+    //'10d' or similar
+    //console.log(cardValue + 'before3')
+    cardValue = cardValue.charAt(0) + cardValue.charAt(1);
+    //console.log(cardValue + 'after')
+  } else if(cardValue.length === 2 && cardValue !== '10') {
+    //'2c' or similar
+    //console.log(cardValue + 'before2')
+    cardValue = cardValue.charAt(0)
+    //console.log(cardValue + 'after')
+  }
+
+
+  let cardsOfSameValueArr = [cardValue + 's', cardValue + 'd',cardValue + 'h',cardValue + 'c'];
+  let remainingCardsOfSameValue = []
+
+  remainingCardsOfSameValue = cardsOfSameValueArr.filter(card => {
+    return !inputCardArr.includes(card);
+  })
+
+  //console.log(remainingCardsOfSameValue);
+  return remainingCardsOfSameValue;
+}
+
 module.exports = {
   decideConversionScheme: decideConversionScheme,
   isFlushDraw: isFlushDraw,
   isFlush: isFlush,
   hasDuplicates: hasDuplicates,
+  getRemainingCardsOfSameSuit: getRemainingCardsOfSameSuit,
+  getRemainingCardsOfSameValue: getRemainingCardsOfSameValue,
 };
+
+
+//getSuitsNotInCardArray(['Ac', '6c', '6d']);
+//getRemainingCardsOfSameSuit('c',['Ac', '3c', '4c', '5d']);
+getRemainingCardsOfSameValue('A', ['Ac', 'Ad', '2c', '5c']);
+getRemainingCardsOfSameValue('Ad', ['Ac', 'Ad', '2c', '5c']);
+getRemainingCardsOfSameValue('10c', ['10d', 'Ad', '2c', '5c']);
+getRemainingCardsOfSameValue('10', ['10c', 'Ac', 'Ad', '2c', '5c']);
