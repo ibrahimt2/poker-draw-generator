@@ -1,4 +1,5 @@
 let Convertor = require('./convertor');
+const { generateFlushDraw } = require('./reductiveDrawGenerator');
 
 function decideConversionScheme(hole1, hole2) {
   let convertor = Convertor.putCardGetNumAceLow;
@@ -151,6 +152,34 @@ function getRemainingCardsOfSameSuit(suit, inputCardArr) {
   return remainingCardsOfSameSuit;
 }
 
+function getFlushDrawSuit(flopAndHoleCardArr) {
+  let suitArray = [];
+  var count = {};
+
+  //Extracts just the suit values from each card
+  flopAndHoleCardArr.forEach((card) => {
+    suitArray.push(card[card.length - 1]);
+  });
+
+  //console.log(suitArray)
+
+  suitArray.forEach(function (i) {
+    count[i] = (count[i] || 0) + 1;
+  });
+  //console.log(count);
+
+  //Decides if the cards are a flush draw
+  if (count["d"] >= 4) {
+    return "d"
+  } else if (count["s"] >= 4) {
+    return "s"
+  } else if (count["c"] >= 4) {
+    return "c"
+  } else if (count["h"] >= 4) {
+    return "h"
+  }
+}
+
 /**
  * Sumamry.
  * Takes a card value and an array of
@@ -191,19 +220,33 @@ function getRemainingCardsOfSameValue(cardValue, inputCardArr) {
   return remainingCardsOfSameValue;
 }
 
+function removeDuplicates(inputArr) {
+  let unique = {};
+  inputArr.forEach(function(i) {
+    if(!unique[i]) {
+      unique[i] = true;
+    }
+  });
+  return Object.keys(unique);
+}
+
 module.exports = {
+  removeDuplicates: removeDuplicates,
   decideConversionScheme: decideConversionScheme,
   isFlushDraw: isFlushDraw,
   isFlush: isFlush,
   hasDuplicates: hasDuplicates,
   getRemainingCardsOfSameSuit: getRemainingCardsOfSameSuit,
   getRemainingCardsOfSameValue: getRemainingCardsOfSameValue,
+  getFlushDrawSuit: getFlushDrawSuit
 };
 
 
 //getSuitsNotInCardArray(['Ac', '6c', '6d']);
 //getRemainingCardsOfSameSuit('c',['Ac', '3c', '4c', '5d']);
-getRemainingCardsOfSameValue('A', ['Ac', 'Ad', '2c', '5c']);
-getRemainingCardsOfSameValue('Ad', ['Ac', 'Ad', '2c', '5c']);
-getRemainingCardsOfSameValue('10c', ['10d', 'Ad', '2c', '5c']);
-getRemainingCardsOfSameValue('10', ['10c', 'Ac', 'Ad', '2c', '5c']);
+// getRemainingCardsOfSameValue('A', ['Ac', 'Ad', '2c', '5c']);
+// getRemainingCardsOfSameValue('Ad', ['Ac', 'Ad', '2c', '5c']);
+// getRemainingCardsOfSameValue('10c', ['10d', 'Ad', '2c', '5c']);
+// getRemainingCardsOfSameValue('10', ['10c', 'Ac', 'Ad', '2c', '5c']);
+
+console.log(getFlushDrawSuit(['Ah', '3h', '5h', '6c', '2h']));
