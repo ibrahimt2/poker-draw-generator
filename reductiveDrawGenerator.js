@@ -34,7 +34,9 @@ const { getRemainingCardsOfSameValue } = require("./utilities.js");
  */
 
 /**
- * 
+ * Summary.
+ * Populates flush draw outs array
+ *
  */
 
 function populateFlushOutsArr(
@@ -47,24 +49,97 @@ function populateFlushOutsArr(
   flopArrNums,
   outsArr
 ) {
-  outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameSuit(flushSuit, flopAndHoleCardArr));
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameSuit(flushSuit, flopAndHoleCardArr)
+  );
   if (
     flopArrNums.every((el) => el < hole1Converted) &&
     flopArrNums.every((el) => el < hole2Converted)
   ) {
-    outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr));
-    outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr));
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+    );
+    outsArr.push.apply(
+      outsArr,
+      Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+    );
   } else if (
     flopArrNums.every((el) => el < hole1Converted) ||
     flopArrNums.every((el) => el < hole2Converted)
   ) {
-    if(hole1Converted > hole2Converted) {
-      outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr));
+    if (hole1Converted > hole2Converted) {
+      outsArr.push.apply(
+        outsArr,
+        Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+      );
     } else {
-      outsArr.push.apply(outsArr, Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr));
+      outsArr.push.apply(
+        outsArr,
+        Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+      );
     }
   } else {
   }
+}
+
+/**
+ * Summary.
+ * Populates the outsArr of the 
+ * TripsToFullhouseOrPair Scenario
+ * @param {*} hole1 
+ * @param {*} hole2 
+ * @param {*} flopArr 
+ * @param {*} flopAndHoleCardArr 
+ * @param {*} outsArr 
+ */
+
+function populateTripsToFullhouseOrPairOutsArr(
+  hole1,
+  hole2,
+  flopArr,
+  flopAndHoleCardArr,
+  outsArr
+) {
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+  );
+
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+  );
+
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(flopArr[2], flopAndHoleCardArr)
+  );
+}
+
+function populateOnePairToTwoPairOrTripsOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr) {
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+  );
+
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+  );
+}
+
+function populateTwoPairToFullhouseOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr) {
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+  );
+
+  outsArr.push.apply(
+    outsArr,
+    Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+  );
 }
 
 function decideConversionScheme(hole1, hole2) {
@@ -377,7 +452,7 @@ function generateFlushDraw(hole1, hole2) {
   let holeCardsAreSuited = false;
   let nonFlushSuitsArr = ["h", "d", "s", "c"];
 
-  console.log('generateFlushDraw fired...')
+  console.log("generateFlushDraw fired...");
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -501,7 +576,16 @@ function generateFlushDraw(hole1, hole2) {
 
   //console.log(flopAndHoleCardArr + "flopAndHoleArr")
 
-  populateFlushOutsArr(hole1Converted, hole2Converted, hole1, hole2, flopAndHoleCardArr, flushSuit, flopArrNums, outsArr);
+  populateFlushOutsArr(
+    hole1Converted,
+    hole2Converted,
+    hole1,
+    hole2,
+    flopAndHoleCardArr,
+    flushSuit,
+    flopArrNums,
+    outsArr
+  );
 
   //console.log('Outs:' + outsArr)
   populateFlushFlopInformation(
@@ -587,9 +671,9 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
   let completeFlopInformation = {};
   let isPocketPair = false;
   let tripsHole1Hole2Suits;
-  let outsArr;
+  let outsArr = [];
 
-  console.log('generateTripsToFullhouseOrQuads fired...')
+  console.log("generateTripsToFullhouseOrQuads fired...");
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -758,6 +842,9 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
     hasDuplicates(flopAndHoleCardArr)
   );
 
+  populateTripsToFullhouseOrPairOutsArr(hole1, hole2, flopArr, flopAndHoleCardArr, outsArr);
+
+  completeFlopInformation["outsCards"] = outsArr
   completeFlopInformation["outs"] = 7;
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
@@ -790,9 +877,9 @@ function generateOnePairToTwoPairOrTrips(hole1, hole2) {
   let completeFlopInformation = {};
   let flopAndHoleCardArr;
   let flopArrNums;
+  let outsArr = [];
 
-
-  console.log('generateOnePairToTwoPairOrTrips fired...')
+  console.log("generateOnePairToTwoPairOrTrips fired...");
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -925,7 +1012,10 @@ function generateOnePairToTwoPairOrTrips(hole1, hole2) {
     hasDuplicates(flopAndHoleCardArr)
   );
 
+  populateOnePairToTwoPairOrTripsOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr);
+
   //Populate completeFlopInformation with information about the flop
+  completeFlopInformation["outCards"] = outsArr;
   completeFlopInformation["outs"] = 5;
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
@@ -954,6 +1044,7 @@ function generateTwoPairToFullhouse(hole1, hole2) {
   let convertor = Convertor.putCardGetNumAceHigh;
   let backConvertor = Convertor.putNumGetCardValueAceHigh;
   let completeFlopInformation = {};
+  let outsArr = [];
 
   //Converts cards using decided conversion scheme
   hole1Converted = convertor[hole1];
@@ -1014,7 +1105,10 @@ function generateTwoPairToFullhouse(hole1, hole2) {
   );
   flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
+  populateTwoPairToFullhouseOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr);
+
   //Populate completeFlopInformation with information about the flop
+  completeFlopInformation["outCards"] = outsArr;
   completeFlopInformation["outs"] = 4;
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
@@ -1174,15 +1268,16 @@ function generateNoHitsFlop(hole1, hole2) {
 }
 
 module.exports = {
+  generateTwoPairToFullhouse: generateTwoPairToFullhouse,
   generateFlushDraw: generateFlushDraw,
   generateNoHitsFlop: generateNoHitsFlop,
   generateTripsToFullhouseOrQuads: generateTripsToFullhouseOrQuads,
   generateTwoPairToFullhouse: generateTwoPairToFullhouse,
-  generateOnePairToTwoPairOrTrips: generateOnePairToTwoPairOrTrips
-}
+  generateOnePairToTwoPairOrTrips: generateOnePairToTwoPairOrTrips,
+};
 
-console.log(generateFlushDraw("Ac", "Ad"));
-console.log(generateFlushDraw("7c", "7d"));
+// console.log(generateFlushDraw("Ac", "Ad"));
+// console.log(generateFlushDraw("7c", "7d"));
 // generateFlushDraw("3c", "7c");
 // generateFlushDraw("Ad", "2d");
 // generateFlushDraw("5c", "7d");
@@ -1193,26 +1288,26 @@ console.log(generateFlushDraw("7c", "7d"));
 // generateFlushDraw("3c", "7c");
 // generateFlushDraw("Ad", "2d");
 // generateFlushDraw("5c", "7d");
-console.log(generateFlushDraw("Kc", "2c"));
-console.log(generateFlushDraw("Ac", "Kc"));
+// console.log(generateFlushDraw("Kc", "2c"));
+// console.log(generateFlushDraw("Ac", "Kc"));
 
-// generateTripsToFullhouseOrQuads("Ac", "Ad");
+// console.log(generateTripsToFullhouseOrQuads("Ac", "Ad"));
 // generateTripsToFullhouseOrQuads("7c", "7d");
-// generateTripsToFullhouseOrQuads("3c", "7d");
-// generateTripsToFullhouseOrQuads("Ac", "2d");
-// generateTripsToFullhouseOrQuads("5c", "7d");
+// console.log(generateTripsToFullhouseOrQuads("3c", "7d"))
+// console.log(generateTripsToFullhouseOrQuads("Ac", "2d"));
+// console.log(generateTripsToFullhouseOrQuads("5c", "7d"));
 
 // generateTwoPairToFullhouse("5c", "7d");
 // generateTwoPairToFullhouse("6c", "7d");
 // generateTwoPairToFullhouse("3c", "7d");
 // generateTwoPairToFullhouse("Ac", "2d");
 // generateTwoPairToFullhouse("9c", "Qd");
-// generateTwoPairToFullhouse("5c", "7d");
-// generateTwoPairToFullhouse("6c", "7d");
-// generateTwoPairToFullhouse("3c", "7d");
+// console.log(generateTwoPairToFullhouse("5c", "7d"));
+// console.log(generateTwoPairToFullhouse("6c", "7d"));
+// console.log(generateTwoPairToFullhouse("3c", "3d"));
 
-// OnePairToTwoPairOrTrips("6c", "7d");
-// OnePairToTwoPairOrTrips("6c", "7d");
+// console.log(generateOnePairToTwoPairOrTrips("6c", "7d"));
+// console.log(generateOnePairToTwoPairOrTrips("6c", "7d"));
 // OnePairToTwoPairOrTrips("6c", "7d");
 // OnePairToTwoPairOrTrips("6c", "7d");
 // OnePairToTwoPairOrTrips("6c", "7d");
