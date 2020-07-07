@@ -1,6 +1,6 @@
 # poker-draw-generator
 
-##Description
+## Description
 
 Novel, pure javascript algorithms that randomly generate variations of specific types of [poker draws](https://en.wikipedia.org/wiki/Draw_(poker)).
 
