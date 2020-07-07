@@ -5,6 +5,8 @@ Poker Draw Generator is a Javascript library that allows you to randomly generat
 
 The algorithms are designed to allow the greatest variation possible whilst limiting generated hands to specific types of draws or there variations. This is to mimic the great number of variation observed in real poker games.
 
+[A brief description of the theory behind the most mathematically interesting of these algorithms](https://drive.google.com/file/d/10G1ZALTM9XKD2JFWhi0d2VVbKApme3-k/view?usp=sharing)
+
 Currently, the following scenarios can be generated
 
 1. One Pair To Two Pair Or Trips
