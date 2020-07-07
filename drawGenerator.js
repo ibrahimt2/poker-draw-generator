@@ -1,14 +1,16 @@
-const {decideConversionScheme} = require("./utilities");
-const {putPosNumGetCard} = require("./convertor");
-const {generateFlushDraw} = require('./generateFlushDraw');
-const {generateInsideStraight} = require('./generateInsideStraight')
-const {generateOpenStraight} = require('./generateOpenStraight')
-const {generateNoHitsFlop} = require('./generateNoHits')
-const {generateOnePairToTwoPairOrTrips} = require('./generateOnePairToTwoPairOrTrips')
-const {generateTripsToFullhouseOrQuads} = require('./generateTripsToFullhouseOrQuads')
-const {generateTwoPairToFullhouse} = require('./generateTwoPairToFullhouse')
-
-
+const { decideConversionScheme } = require("./utilities");
+const { putPosNumGetCard } = require("./convertor");
+const { generateFlushDraw } = require("./generateFlushDraw");
+const { generateInsideStraight } = require("./generateInsideStraight");
+const { generateOpenStraight } = require("./generateOpenStraight");
+const { generateNoHitsFlop } = require("./generateNoHits");
+const {
+  generateOnePairToTwoPairOrTrips,
+} = require("./generateOnePairToTwoPairOrTrips");
+const {
+  generateTripsToFullhouseOrQuads,
+} = require("./generateTripsToFullhouseOrQuads");
+const { generateTwoPairToFullhouse } = require("./generateTwoPairToFullhouse");
 
 /**
  * @typedef {Object} completeFlopInformation
@@ -29,7 +31,6 @@ const {generateTwoPairToFullhouse} = require('./generateTwoPairToFullhouse')
  */
 
 function generateFlopScenario() {
-
   //console.log(Utilities)
   const INSIDE_STRAIGHT_FREQ = 3;
   const OPEN_STRAIGHT_FREQ = 3;
@@ -40,8 +41,14 @@ function generateFlopScenario() {
   const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 1;
 
   //Error messages
-  if(NO_HITS_FREQ === 0 && TRIPS_TO_FULLHOUSE_QUADS_FREQ === 0 && FLUSH_DRAW_FREQ === 0) {
-    console.log('Error: Ensure atleast one of NO_HITS_FREQ, TRIPS_TO_FULLHOUSE_QUADS_FREQ OR FLUSH_DRAW_FREQ > 0');
+  if (
+    NO_HITS_FREQ === 0 &&
+    TRIPS_TO_FULLHOUSE_QUADS_FREQ === 0 &&
+    FLUSH_DRAW_FREQ === 0
+  ) {
+    console.log(
+      "Error: Ensure atleast one of NO_HITS_FREQ, TRIPS_TO_FULLHOUSE_QUADS_FREQ OR FLUSH_DRAW_FREQ > 0"
+    );
     return;
   }
 
@@ -49,8 +56,14 @@ function generateFlopScenario() {
   //we want to pass by value cos we need fresh deck each time
   let cardDeckArr = Array.from(putPosNumGetCard);
 
-  let hole1 = cardDeckArr.splice(Math.floor(Math.random() * cardDeckArr.length), 1);
-  let hole2 = cardDeckArr.splice(Math.floor(Math.random() * cardDeckArr.length), 1);
+  let hole1 = cardDeckArr.splice(
+    Math.floor(Math.random() * cardDeckArr.length),
+    1
+  );
+  let hole2 = cardDeckArr.splice(
+    Math.floor(Math.random() * cardDeckArr.length),
+    1
+  );
 
   //Splicing returns a String[], but extracts the String within the String[]
   hole1 = hole1[0];
@@ -107,7 +120,7 @@ function generateFlopScenario() {
     NO_HITS_FREQ
   );
 
-  if(hole1Converted !== hole2Converted) {
+  if (hole1Converted !== hole2Converted) {
     populateDrawFunctionArray(
       drawFunctionArray,
       generateOnePairToTwoPairOrTrips,
@@ -115,14 +128,13 @@ function generateFlopScenario() {
     );
   }
 
-  
   populateDrawFunctionArray(
     drawFunctionArray,
     generateTripsToFullhouseOrQuads,
     TRIPS_TO_FULLHOUSE_QUADS_FREQ
   );
 
-  if(hole1Converted !== hole2Converted) {
+  if (hole1Converted !== hole2Converted) {
     populateDrawFunctionArray(
       drawFunctionArray,
       generateTwoPairToFullhouse,
@@ -130,14 +142,12 @@ function generateFlopScenario() {
     );
   }
 
-  
-
   let chosenFunction =
     drawFunctionArray[Math.floor(Math.random() * drawFunctionArray.length)];
-    //console.log(typeof chosenFunction);
-    //console.log(cardDeckArr)
-    //console.log(hole1 + " " + hole2)
-    let flopInformation = chosenFunction(hole1, hole2);
+  //console.log(typeof chosenFunction);
+  //console.log(cardDeckArr)
+  //console.log(hole1 + " " + hole2)
+  let flopInformation = chosenFunction(hole1, hole2);
   console.log(flopInformation);
   //refresh card deck
   cardDeckArr = putPosNumGetCard;
@@ -166,22 +176,21 @@ function populateDrawFunctionArray(
 }
 
 module.exports = {
-  generateFlopScenario: generateFlopScenario
-}
+  generateFlopScenario: generateFlopScenario,
+};
 
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-generateFlopScenario()
-
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();
+generateFlopScenario();

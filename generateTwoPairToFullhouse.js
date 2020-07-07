@@ -12,6 +12,7 @@ const {
   isFlushDraw,
   hasDuplicates,
   getRemainingCardsOfSameValue,
+  removeDuplicates,
 } = require("./utilities");
 
 /**
@@ -96,6 +97,8 @@ function generateTwoPairToFullhouse(hole1, hole2) {
 
   populateTwoPairToFullhouseOutsArr(hole1, hole2, flopAndHoleCardArr, outsArr);
 
+  outsArr = removeDuplicates(outsArr);
+
   //Populate completeFlopInformation with information about the flop
   completeFlopInformation["outCards"] = outsArr;
   completeFlopInformation["outs"] = 4;
@@ -125,8 +128,8 @@ function populateTwoPairToFullhouseOutsArr(
 }
 
 module.exports = {
-    generateTwoPairToFullhouse: generateTwoPairToFullhouse
-}
+  generateTwoPairToFullhouse: generateTwoPairToFullhouse,
+};
 
 console.log(generateTwoPairToFullhouse("5c", "7d"));
 console.log(generateTwoPairToFullhouse("6c", "7d"));

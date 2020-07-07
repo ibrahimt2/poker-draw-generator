@@ -9,6 +9,7 @@ const {
 } = require("./convertor.js");
 
 const {
+  removeDuplicates,
   isFlushDraw,
   hasDuplicates,
   getRemainingCardsOfSameValue,
@@ -87,7 +88,7 @@ function generateNoHitsFlop(hole1, hole2) {
     hole1Converted,
     hole2Converted
   );
- 
+
   //Removes numbers corresponding to hole cards from available pool
   availableNumberArr.splice(availableNumberArr.indexOf(hole1Converted), 1);
   availableNumberArr.splice(availableNumberArr.indexOf(hole2Converted), 1);
@@ -130,7 +131,7 @@ function generateNoHitsFlop(hole1, hole2) {
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
     if (isFlushDraw(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr)) {
-    //   console.log("reattemping suit");
+      //   console.log("reattemping suit");
       resetVariables = true;
     }
   } while (
@@ -152,6 +153,8 @@ function generateNoHitsFlop(hole1, hole2) {
     flopArrNums,
     flopAndHoleCardArr
   );
+
+  outsArr = removeDuplicates(outsArr);
 
   populateNoHitsFlopInformation(
     hole1Converted,
@@ -279,8 +282,8 @@ function populateNoHitsOutsArr(
 }
 
 module.exports = {
-    generateNoHitsFlop: generateNoHitsFlop
-}
+  generateNoHitsFlop: generateNoHitsFlop,
+};
 
 console.log(generateNoHitsFlop("Ac", "Kd"));
 console.log(generateNoHitsFlop("Ac", "2d"));

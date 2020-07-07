@@ -1,5 +1,3 @@
-
-
 // An array into which you can input put position numbers of a card 1-52 and get the associated cards
 let putPosNumGetCard = [
   "Ac",
@@ -431,5 +429,5 @@ module.exports = {
   putCardGetNumAceLow: putCardGetNumAceLow,
   putNumGetCardValueAceLow: putNumGetCardValueAceLow,
   putNumGetCardValueAceHigh: putNumGetCardValueAceHigh,
-  putPosNumGetCard: putPosNumGetCard
+  putPosNumGetCard: putPosNumGetCard,
 };

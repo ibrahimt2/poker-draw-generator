@@ -1,30 +1,28 @@
 const {
-    putCardGetNumAceHigh,
-    putCardGetNumAceLow,
-    putNumGetCardValueAceHigh,
-  } = require("./convertor.js");
-  
-  const {
-    populateZoneArr,
-    depopulateAvailableNumArrUsingZoneArr,
-  } = require("./straightPrevention");
+  putCardGetNumAceHigh,
+  putCardGetNumAceLow,
+  putNumGetCardValueAceHigh,
+} = require("./convertor.js");
 
-  const {
-      populateInternalArr
-  } = require("./straightDrawUtils")
-  
-  const {
-    getFlushDrawSuit,
-    isFlush,
-    isFlushDraw,
-    hasDuplicates,
-    getRemainingCardsOfSameValue,
-    getRemainingCardsOfSameSuit,
-    removeDuplicates,
-    moveElement,
-    decideConversionScheme
-  } = require("./utilities");
-  
+const {
+  populateZoneArr,
+  depopulateAvailableNumArrUsingZoneArr,
+} = require("./straightPrevention");
+
+const { populateInternalArr } = require("./straightDrawUtils");
+
+const {
+  getFlushDrawSuit,
+  isFlush,
+  isFlushDraw,
+  hasDuplicates,
+  getRemainingCardsOfSameValue,
+  getRemainingCardsOfSameSuit,
+  removeDuplicates,
+  moveElement,
+  decideConversionScheme,
+} = require("./utilities");
+
 /**
  * @typedef {Object} completeFlopInformation
  * @param {Number} outs The number of outs associated with the draw
@@ -94,11 +92,7 @@ function generateInsideStraight(hole1, hole2) {
   }
 
   populateOutermostArr(hole1Converted, hole2Converted, outermostArr);
-  populateInternalArr(
-    hole1Converted,
-    hole2Converted,
-    internalArr
-  );
+  populateInternalArr(hole1Converted, hole2Converted, internalArr);
   populateExternalArr(hole1Converted, hole2Converted, externalArr);
 
   externalArr = removeOverlappingElementsFromExternalArr(
@@ -180,22 +174,14 @@ function generateInsideStraight(hole1, hole2) {
 
     flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
 
-    if (
-      isFlush(flopAndHoleCardArr) ||
-      hasDuplicates(flopAndHoleCardArr)
-    ) {
-      console.log(
-        "reattemping suit!"
-      );
+    if (isFlush(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr)) {
+      console.log("reattemping suit!");
 
       resetVariables = true;
     }
-  } while (
-    isFlush(flopAndHoleCardArr) ||
-    hasDuplicates(flopAndHoleCardArr)
-  );
+  } while (isFlush(flopAndHoleCardArr) || hasDuplicates(flopAndHoleCardArr));
 
-//   let isFlushDraw = isFlushDraw(flopAndHoleCardArr);
+  //   let isFlushDraw = isFlushDraw(flopAndHoleCardArr);
 
   let hasTwoOvercards =
     flopArrNums.every((el) => el < hole1Converted) &&
@@ -206,9 +192,7 @@ function generateInsideStraight(hole1, hole2) {
     flopArrNums.every((el) => el < hole2Converted);
 
   //Handles special case of a single Ace in the hole1, hole2
-  if (
-    JSON.stringify(convertor) === JSON.stringify(putCardGetNumAceLow)
-  ) {
+  if (JSON.stringify(convertor) === JSON.stringify(putCardGetNumAceLow)) {
     if (hole1.startsWith("A") || hole2.startsWith("A")) {
       hasOneOvercard = true;
     }
