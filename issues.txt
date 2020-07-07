@@ -1,0 +1,22 @@
+twoPairToFullhouse: has the same card in both hole
+and flop 
+
+ensure all cards' outArrays are filtered to prevent 
+double appearance of cars in outsArr
+
+generateInsideStraight = {
+
+WRONG OUTPUT
+    {
+  outCards: [
+    '5s', '5d', '5h',
+    '5c', '4s', '4d',
+    '4h', '6s', '6d',
+    '6h'
+  ],
+  outs: 14,
+  holeCards: [ '4c', '6c' ],
+  flopCards: [ '2d', '3s', 'As' ],
+  name: 'Open Straight Draw With 2 Overcards'
+    }
+}

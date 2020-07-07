@@ -1,6 +1,29 @@
-const Convertor = require("./convertor.js");
-const Utilities = require("./utilities.js");
-const StraightDrawUtils = require("./straightDrawUtils.js");
+const {
+    putCardGetNumAceHigh,
+    putCardGetNumAceLow,
+    putNumGetCardValueAceHigh,
+  } = require("./convertor.js");
+  
+  const {
+    populateZoneArr,
+    depopulateAvailableNumArrUsingZoneArr,
+  } = require("./straightPrevention");
+
+  const {
+      populateInternalArr
+  } = require("./straightDrawUtils")
+  
+  const {
+    getFlushDrawSuit,
+    isFlush,
+    isFlushDraw,
+    hasDuplicates,
+    getRemainingCardsOfSameValue,
+    getRemainingCardsOfSameSuit,
+    removeDuplicates,
+    moveElement,
+    decideConversionScheme
+  } = require("./utilities");
 
 /**
  * Summary.
@@ -25,23 +48,23 @@ function buildOpenFlopArr(
     rightBranchArr
   ) {
     if (hole2Converted - hole1Converted === 3) {
-      console.log("Cards seperation: 2");
+      //console.log("Cards seperation: 2");
       //Inserts element from internalArr into flopArr
-      Utilities.moveElement(
+      moveElement(
         Math.floor(Math.random() * internalArr.length),
         internalArr,
         flopArr
       );
   
       //Inserts element from internalArr into flopArr
-      Utilities.moveElement(
+      moveElement(
         Math.floor(Math.random() * internalArr.length),
         internalArr,
         flopArr
       );
     } else if (hole2Converted - hole1Converted === 2) {
       //Inserts element from internalArr into flopArr
-      Utilities.moveElement(
+      moveElement(
         Math.floor(Math.random() * internalArr.length),
         internalArr,
         flopArr
@@ -143,7 +166,6 @@ function populateOpenStraightOurArr(
     backConvertor,
     flopAndHoleArr,
     flopAndHoleCardArr,
-    isFlushDraw,
     isCutIntoInsideStraight,
     hasOneOvercard,
     hasTwoOvercards,
@@ -154,7 +176,7 @@ function populateOpenStraightOurArr(
       if(flopAndHoleArr[0] - 1 >= 1) {
         outsArr.push.apply(
           outsArr,
-          Utilities.getRemainingCardsOfSameValue(backConvertor[flopAndHoleArr[0] - 1], flopAndHoleCardArr)
+          getRemainingCardsOfSameValue(backConvertor[flopAndHoleArr[0] - 1], flopAndHoleCardArr)
         );
       }
     
@@ -162,16 +184,16 @@ function populateOpenStraightOurArr(
       if(flopAndHoleArr[3] + 1 <= 13) {
         outsArr.push.apply(
           outsArr,
-          Utilities.getRemainingCardsOfSameValue(backConvertor[flopAndHoleArr[3] + 1], flopAndHoleCardArr)
+          getRemainingCardsOfSameValue(backConvertor[flopAndHoleArr[3] + 1], flopAndHoleCardArr)
         );
       }
   
-    if (isFlushDraw) {
+    if (isFlushDraw(flopAndHoleCardArr)) {
       //Get the flush causing outs
       outsArr.push.apply(
         outsArr,
-        Utilities.getRemainingCardsOfSameSuit(
-          Utilities.getFlushDrawSuit(flopAndHoleCardArr),
+        getRemainingCardsOfSameSuit(
+          getFlushDrawSuit(flopAndHoleCardArr),
           flopAndHoleCardArr
         )
       );
@@ -180,26 +202,26 @@ function populateOpenStraightOurArr(
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
           );
   
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
           );
         } else if (hasOneOvercard) {
           if (convertor[hole1] > convertor[hole2]) {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
             );
           } else {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
             );
           }
         } else {
@@ -209,26 +231,26 @@ function populateOpenStraightOurArr(
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
           );
   
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
           );
         } else if (hasOneOvercard) {
           if (convertor[hole1] > convertor[hole2]) {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
             );
           } else {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
             );
           }
         } else {
@@ -241,26 +263,26 @@ function populateOpenStraightOurArr(
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
           );
   
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
           );
         } else if (hasOneOvercard) {
           if (convertor[hole1] > convertor[hole2]) {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
             );
           } else {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
             );
           }
         } else {
@@ -271,26 +293,26 @@ function populateOpenStraightOurArr(
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
           );
   
           //Outs from overcards
           outsArr.push.apply(
             outsArr,
-            Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+            getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
           );
         } else if (hasOneOvercard) {
           if (convertor[hole1] > convertor[hole2]) {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole1, flopAndHoleCardArr)
             );
           } else {
             //Outs from overcards
             outsArr.push.apply(
               outsArr,
-              Utilities.getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
+              getRemainingCardsOfSameValue(hole2, flopAndHoleCardArr)
             );
           }
         } else {
@@ -316,7 +338,7 @@ function generateOpenStraight(hole1, hole2) {
     let outArr = [];
   
     //Decides conversion scheme
-    let conversionArray = Utilities.decideConversionScheme(hole1, hole2);
+    let conversionArray = decideConversionScheme(hole1, hole2);
     convertor = conversionArray[0];
     backConvertor = conversionArray[1];
   
@@ -344,7 +366,7 @@ function generateOpenStraight(hole1, hole2) {
       return;
     }
   
-    StraightDrawUtils.populateInternalArr(hole1Converted, hole2Converted, internalArr);
+    populateInternalArr(hole1Converted, hole2Converted, internalArr);
     populateLeftBranchArr(hole1Converted, hole2Converted, leftBranchArr);
     populateRightBranchArr(hole1Converted, hole2Converted, rightBranchArr);
   
@@ -419,21 +441,21 @@ function generateOpenStraight(hole1, hole2) {
       flopAndHoleCardArr = flopAndHoleCardArr.concat(flopArr);
   
       if (
-        Utilities.isFlush(flopAndHoleCardArr) ||
-        Utilities.hasDuplicates(flopAndHoleCardArr)
+        isFlush(flopAndHoleCardArr) ||
+        hasDuplicates(flopAndHoleCardArr)
       ) {
         console.log(
-          "reattemping suit!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+          "reattemping suit"
         );
         resetVariables = true;
       }
     } while (
-      Utilities.isFlush(flopAndHoleCardArr) ||
-      Utilities.hasDuplicates(flopAndHoleCardArr)
+      isFlush(flopAndHoleCardArr) ||
+      hasDuplicates(flopAndHoleCardArr)
     );
   
     //Prepwork to populate completeFlopInformation
-    let isFlushDraw = Utilities.isFlushDraw(flopAndHoleCardArr);
+    // let isFlushDraw = isFlushDraw(flopAndHoleCardArr);
   
     let hasTwoOvercards =
       flopArrNums.every((el) => el < hole1Converted) &&
@@ -445,15 +467,15 @@ function generateOpenStraight(hole1, hole2) {
   
     //Handles special case of a single Ace in the hole1, hole2
     if (
-      JSON.stringify(convertor) === JSON.stringify(Convertor.putCardGetNumAceLow)
+      JSON.stringify(convertor) === JSON.stringify(putCardGetNumAceLow)
     ) {
       if (hole1.startsWith("A") || hole2.startsWith("A")) {
         hasOneOvercard = true;
       }
     }
   
-    console.log("flopAndHoleArr: " + flopAndHoleArr);
-    console.log("flopAndHoleCardArr: " + flopAndHoleCardArr);
+    //console.log("flopAndHoleArr: " + flopAndHoleArr);
+    //console.log("flopAndHoleCardArr: " + flopAndHoleCardArr);
     //console.log('flopAndHoleArrNums: ' + flopAndHoleArrNums)
     // populateOpenStraightOutArr
   
@@ -464,14 +486,13 @@ function generateOpenStraight(hole1, hole2) {
       backConvertor,
       flopAndHoleArr,
       flopAndHoleCardArr,
-      isFlushDraw,
       isCutIntoInsideStraight,
       hasOneOvercard,
       hasTwoOvercards,
       outArr
     );
   
-    outArr = Utilities.removeDuplicates(outArr);
+    outArr = removeDuplicates(outArr);
   
     //console.log(outArr + " :OUTSARR");
   
@@ -479,7 +500,7 @@ function generateOpenStraight(hole1, hole2) {
   
     completeFlopInformation["outCards"] = outArr;
   
-    if (isFlushDraw) {
+    if (isFlushDraw(flopAndHoleCardArr)) {
       if (isCutIntoInsideStraight) {
         if (hasTwoOvercards) {
           completeFlopInformation["outs"] = 18;
