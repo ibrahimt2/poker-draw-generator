@@ -32,5 +32,26 @@ Currently, the following scenarios can be generated
 8. One Overcard To Overpair
 9. No pair to pair
 
+## Installation
+poker-draw-generator has yet to be published as an npm package, stay tuned for updates
+
+## Usage
+
+Each 'generate' method generates a draw and returns an object containing information about the generated draw in the format given below.
+
+```
+{
+  outCards: [ '8s', '8h' ],
+  outs: 2,
+  holeCards: [ '8c', '8d' ],
+  flopCards: [ '3h', '3s', 'Kh' ],
+  name: 'Pocket pair to trips'
+}
+```
+
+
+## License 
+[CC BY-NC-SA 2.0](https://creativecommons.org/licenses/by-nc-sa/2.0) with an option to pay for a commercial license.
+
 
 
