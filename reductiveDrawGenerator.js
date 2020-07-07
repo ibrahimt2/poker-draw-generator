@@ -1,5 +1,6 @@
 const Convertor = require("./convertor.js");
 const Utilities = require("./utilities.js");
+const { removeDuplicates } = require("./utilities.js");
 
 //Having an Ace in the input might fuck things up using a
 //Low ace scheme, as A = 1 will be low, so the second
@@ -654,6 +655,8 @@ function generateFlushDraw(hole1, hole2) {
     outsArr
   );
 
+  outsArr = Utilities.removeDuplicates(outsArr)
+
   //console.log('Outs:' + outsArr)
   populateFlushFlopInformation(
     hole1Converted,
@@ -917,7 +920,7 @@ function generateTripsToFullhouseOrQuads(hole1, hole2) {
     outsArr
   );
 
-  completeFlopInformation["outsCards"] = outsArr;
+  completeFlopInformation["outCards"] = outsArr;
   completeFlopInformation["outs"] = 7;
   completeFlopInformation["holeCards"] = [hole1, hole2];
   completeFlopInformation["flopCards"] = flopArr;
@@ -1471,3 +1474,6 @@ module.exports = {
 //TODO find all the methods that have the same code to handle suit
 //assignment and made one method to use everywhere
 // generateTripsToFullhouseOrQuads('Ac', '4c');
+
+//TODO: fix bug in twopair to fullhouse that causes same card
+//in flop and hole cards

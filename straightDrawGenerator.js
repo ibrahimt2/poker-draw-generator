@@ -86,7 +86,8 @@ function populateExternalArr(hole1Converted, hole2Converted, externalArr) {
 /**
  * Summary.
  * Ensures that all elements in outermostArr, internalArr
- * and externalArr are mutually exclusive
+ * and externalArr are mutually exclusive and also removes hole
+ * cards from external array
  *
  * @param {Number} hole1Converted
  * @param {Number} hole2Converted
@@ -1187,7 +1188,7 @@ function generateInsideStraight(hole1, hole2) {
 
   //Populates completeFlopInformation with information to be displayed
 
-  completeFlopInformation["outNumber"] = outArr;
+  completeFlopInformation["outCards"] = outArr;
 
   if (isFlushDraw) {
     if (thirdFlopNumber === doubleGutshotNum) {
@@ -1500,7 +1501,7 @@ function generateOpenStraight(hole1, hole2) {
 
   //Populating completeFlopInformation
 
-  completeFlopInformation["outsArr"] = outArr;
+  completeFlopInformation["outCards"] = outArr;
 
   if (isFlushDraw) {
     if (isCutIntoInsideStraight) {

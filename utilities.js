@@ -229,7 +229,13 @@ function removeDuplicates(inputArr) {
   return Object.keys(unique);
 }
 
+function moveElement(index, fromArray, toArray) {
+  toArray.push(fromArray[index]);
+  fromArray.splice(index, 1);
+}
+
 module.exports = {
+  moveElement: moveElement,
   isFlushDraw: isFlushDraw,
   removeDuplicates: removeDuplicates,
   decideConversionScheme: decideConversionScheme,
