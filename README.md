@@ -83,7 +83,7 @@ Generates no hits of any kind on the flop. Generates pocket pair to trips, two o
 8. generateFlopScenario(insideStraightFreq, openStraightFreq, flushDrawFreq, noHitsFreq, tripsToFullhouseOrQuadsFreq, twoPairToFullhouseFreq, onePairToTwoPairOrTripsFreq)
 	
 ```
-Randomly runs one of the given 7 algorithms, with probability depending on the frequencies provided. 
+Randomly runs one of the given 7 algorithms with randomly selected cards, with probability depending on the frequencies provided. 
 
 Each generate method returns an object with the following format
 
