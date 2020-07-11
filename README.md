@@ -54,23 +54,37 @@ npm install poker-draw-generator
 ## Usage
 There are 8 generate methods, each taking 2 string inputs, [card rank][card suit], with possible cards ranks of A, K, Q, J, 10, 9, 8, 7, 6, 5, 4, 3, 2 and possible card suits of a, d, c, s.
 
-
+```
 1. generateOnePairToTwoPairOrTrips(hole1, hole2)
-
+```
+```
 2. generateTwoPairToFullhouse(hole1, hole2)
-
+```
+```
 3. generateOpenStraightDraw(hole1, hole2) 
-	Generates open straight draws variations, including open straight draws at the corners of the card rank line, which are 	technically considered inside straight draws. hole1 and hole2 must be within 3 cards of each other.
+```
+Generates open straight draws variations, including open straight draws at the corners of the card rank line, which are 	technically considered inside straight draws. hole1 and hole2 must be within 3 cards of each other.
+```
 4. generateInsideStraightDraw(hole1, hole2)
-	Generates inside straight draw variations, and occasionally double gutshot draws and open straight draws. hole1 and hole2 must be within 3 cards of each other.
+```
+Generates inside straight draw variations, and occasionally double gutshot draws and open straight draws. hole1 and hole2 must be within 3 cards of each other.
+
+```
 5. generateFlushDraw(hole1, hole2)
+```
+```
 6. generateNoHitsDraw(hole1, hole2)
-	Ensures that there are no hits of any kind on the flop. Generates pocket pair to trips, two overcards to overpair, one overcard to overpair and no pair to pair. 
+```
+Generates no hits of any kind on the flop. Generates pocket pair to trips, two overcards to overpair, one overcard to overpair and no pair to pair. 
+```
 7. generateTripsToFullhouse(hole1, hole2)
+```
+```
 8. generateFlopScenario(insideStraightFreq, openStraightFreq, flushDrawFreq, noHitsFreq, tripsToFullhouseOrQuadsFreq, twoPairToFullhouseFreq, onePairToTwoPairOrTripsFreq)
 	Randomly runs one of the given 7 algorithms, with probability depending on the frequencies provided. 
-
+```
 Each generate method returns an object with the following format
+
 
 ```
 {
@@ -83,7 +97,7 @@ Each generate method returns an object with the following format
 ```
 The outs property is redundant and inaccurate. Instead use outCards.length. With time, the returned object will be modified to remove it.
 
-##Sample Usage
+## Sample Usage
 
 ```
 let draw = generateFlushDraw('As', '4d')
