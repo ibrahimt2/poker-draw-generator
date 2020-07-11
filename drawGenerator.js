@@ -30,21 +30,15 @@ const { generateTwoPairToFullhouse } = require("./generateTwoPairToFullhouse");
  * @returns {completeFlopInformation}
  */
 
-function generateFlopScenario() {
+function generateFlopScenario(insideStraightFreq, openStraightFreq, flushDrawFreq, noHitsFreq, tripsToFullhouseOrQuadsFreq, twoPairToFullhouseFreq, onePairToTwoPairOrTripsFreq) {
   //console.log(Utilities)
-  const INSIDE_STRAIGHT_FREQ = 3;
-  const OPEN_STRAIGHT_FREQ = 3;
-  const FLUSH_DRAW_FREQ = 4;
-  const NO_HITS_FREQ = 4;
-  const TRIPS_TO_FULLHOUSE_QUADS_FREQ = 1;
-  const TWO_PAIR_TO_FULLHOSE_FREQ = 1;
-  const ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ = 1;
+
 
   //Error messages
   if (
-    NO_HITS_FREQ === 0 &&
-    TRIPS_TO_FULLHOUSE_QUADS_FREQ === 0 &&
-    FLUSH_DRAW_FREQ === 0
+    noHitsFreq === 0 &&
+    tripsToFullhouseOrQuadsFreq === 0 &&
+    flushDrawFreq === 0
   ) {
     console.log(
       "Error: Ensure atleast one of NO_HITS_FREQ, TRIPS_TO_FULLHOUSE_QUADS_FREQ OR FLUSH_DRAW_FREQ > 0"
@@ -94,7 +88,7 @@ function generateFlopScenario() {
     populateDrawFunctionArray(
       drawFunctionArray,
       generateInsideStraight,
-      INSIDE_STRAIGHT_FREQ
+      insideStraightFreq
     );
   }
 
@@ -105,40 +99,40 @@ function generateFlopScenario() {
     populateDrawFunctionArray(
       drawFunctionArray,
       generateOpenStraight,
-      OPEN_STRAIGHT_FREQ
+      openStraightFreq
     );
   }
 
   populateDrawFunctionArray(
     drawFunctionArray,
     generateFlushDraw,
-    FLUSH_DRAW_FREQ
+    flushDrawFreq
   );
   populateDrawFunctionArray(
     drawFunctionArray,
     generateNoHitsFlop,
-    NO_HITS_FREQ
+    noHitsFreq
   );
 
   if (hole1Converted !== hole2Converted) {
     populateDrawFunctionArray(
       drawFunctionArray,
       generateOnePairToTwoPairOrTrips,
-      ONE_PAIR_TO_TWO_PAIR_OR_TRIPS_FREQ
+      onePairToTwoPairOrTripsFreq
     );
   }
 
   populateDrawFunctionArray(
     drawFunctionArray,
     generateTripsToFullhouseOrQuads,
-    TRIPS_TO_FULLHOUSE_QUADS_FREQ
+    tripsToFullhouseOrQuadsFreq
   );
 
   if (hole1Converted !== hole2Converted) {
     populateDrawFunctionArray(
       drawFunctionArray,
       generateTwoPairToFullhouse,
-      TWO_PAIR_TO_FULLHOSE_FREQ
+      twoPairToFullhouseFreq
     );
   }
 
@@ -148,7 +142,7 @@ function generateFlopScenario() {
   //console.log(cardDeckArr)
   //console.log(hole1 + " " + hole2)
   let flopInformation = chosenFunction(hole1, hole2);
-  console.log(flopInformation);
+  //console.log(flopInformation);
   //refresh card deck
   cardDeckArr = putPosNumGetCard;
   return flopInformation;
@@ -179,18 +173,11 @@ module.exports = {
   generateFlopScenario: generateFlopScenario,
 };
 
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
-generateFlopScenario();
+
+console.log(generateFlopScenario(0, 0, 1, 0, 0, 0, 0));
+console.log(generateFlopScenario(100, 0, 1, 0, 0, 0, 0));
+console.log(generateFlopScenario(0, 100, 1, 0, 0, 0, 0));
+console.log(generateFlopScenario(0, 0, 1, 100, 0, 0, 0));
+console.log(generateFlopScenario(0, 0, 1, 0, 100, 0, 0));
+console.log(generateFlopScenario(0, 0, 1, 0, 0, 100, 0));
+console.log(generateFlopScenario(0, 0, 1, 0, 0, 0, 100));

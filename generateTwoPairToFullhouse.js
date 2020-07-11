@@ -131,6 +131,4 @@ module.exports = {
   generateTwoPairToFullhouse: generateTwoPairToFullhouse,
 };
 
-console.log(generateTwoPairToFullhouse("5c", "7d"));
-console.log(generateTwoPairToFullhouse("6c", "7d"));
-console.log(generateTwoPairToFullhouse("3c", "3d"));
+

@@ -577,9 +577,3 @@ function generateOpenStraight(hole1, hole2) {
 module.exports = {
   generateOpenStraight: generateOpenStraight,
 };
-
-console.log(generateOpenStraight("4c", "6c"));
-console.log(generateOpenStraight("Ac", "Kc"));
-console.log(generateOpenStraight("Ac", "2c"));
-console.log(generateOpenStraight("Qc", "Kc"));
-console.log(generateOpenStraight("4c", "6c"));

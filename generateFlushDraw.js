@@ -297,6 +297,3 @@ function populateFlushOutsArr(
 module.exports = {
   generateFlushDraw: generateFlushDraw,
 };
-
-console.log(generateFlushDraw("Kc", "2c"));
-console.log(generateFlushDraw("Ac", "Kc"));

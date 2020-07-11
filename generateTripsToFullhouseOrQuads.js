@@ -262,6 +262,3 @@ module.exports = {
   generateTripsToFullhouseOrQuads: generateTripsToFullhouseOrQuads,
 };
 
-console.log(generateTripsToFullhouseOrQuads("3c", "7d"));
-console.log(generateTripsToFullhouseOrQuads("Ac", "2d"));
-console.log(generateTripsToFullhouseOrQuads("5c", "7d"));

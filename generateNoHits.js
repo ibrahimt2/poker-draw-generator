@@ -285,7 +285,3 @@ module.exports = {
   generateNoHitsFlop: generateNoHitsFlop,
 };
 
-console.log(generateNoHitsFlop("Ac", "Kd"));
-console.log(generateNoHitsFlop("Ac", "2d"));
-console.log(generateNoHitsFlop("8c", "8d"));
-console.log(generateNoHitsFlop("6c", "7d"));

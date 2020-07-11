@@ -983,18 +983,4 @@ module.exports = {
   generateInsideStraight: generateInsideStraight,
 };
 
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
-console.log(generateInsideStraight("4c", "6c"));
+

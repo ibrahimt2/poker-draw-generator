@@ -210,6 +210,3 @@ function populateOnePairToTwoPairOrTripsOutsArr(
 module.exports = {
   generateOnePairToTwoPairOrTrips: generateOnePairToTwoPairOrTrips,
 };
-
-console.log(generateOnePairToTwoPairOrTrips("6c", "7d"));
-console.log(generateOnePairToTwoPairOrTrips("6c", "7d"));
