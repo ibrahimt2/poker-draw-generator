@@ -1,15 +1,10 @@
 {
   "name": "poker-draw-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Poker Draw Generator is a Javascript library that allows you to randomly generate variations of specific types of [poker draws](https://en.wikipedia.org/wiki/Draw_(poker)).",
   "main": "drawGenerator.js",
   "dependencies": {
-    "bootstrap": "^4.5.0",
-    "deck-of-cards": "^0.1.8",
-    "pokersolver": "^2.1.3",
-    "react": "^16.13.1",
-    "react-bootstrap": "^1.0.1",
-    "react-router-dom": "^5.2.0"
+    "deck-of-cards": "^0.1.8"
   },
   "devDependencies": {},
   "scripts": {
@@ -20,7 +15,7 @@
     "url": "git+https://github.com/ibrahimt2/PokerOutApp.git"
   },
   "author": "Ibrahim T. Miraj",
-  "license": "ISC",
+  "license": "CC-BY-NC-SA-4.0",
   "bugs": {
     "url": "https://github.com/ibrahimt2/PokerOutApp/issues"
   },
