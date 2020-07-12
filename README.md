@@ -1,7 +1,7 @@
 # poker-draw-generator
 Poker Draw Generator is a Javascript library that allows you to randomly generate variations of specific types of [poker draws](https://en.wikipedia.org/wiki/Draw_(poker)). 
 
-![npm](https://img.shields.io/npm/v/poker-draw-generator) ![npm]https://img.shields.io/npm/dw/poker-draw-generator ![npm]https://img.shields.io/npm/l/poker-draw-generator
+![npm](https://img.shields.io/npm/v/poker-draw-generator) ![npm](https://img.shields.io/npm/dw/poker-draw-generator) ![npm](https://img.shields.io/npm/l/poker-draw-generator)
 
 ## Description
 
